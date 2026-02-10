@@ -1,0 +1,66 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.env.*
+.venv/
+
+# ==========================
+# Django
+# ==========================
+*.log
+local_settings.py
+db.sqlite3
+
+# Django static & media
+staticfiles/
+media/
+
+# ==========================
+# Environment variables
+# ==========================
+.env
+.env.*
+
+# ==========================
+# PostgreSQL
+# ==========================
+*.pgdump
+*.dump
+
+# ==========================
+# Gunicorn
+# ==========================
+gunicorn.pid
+
+# ==========================
+# IDEs / Editors
+# ==========================
+.vscode/
+.idea/
+*.swp
+
+# ==========================
+# OS files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Tests / Coverage
+# ==========================
+.coverage
+htmlcov/
+
+# ==========================
+# Migrations (opcional)
+# ==========================
+# Si el profe quiere ver migraciones, COMENTA estas líneas
+**/migrations/__pycache__/
+**/migrations/*.pyc
