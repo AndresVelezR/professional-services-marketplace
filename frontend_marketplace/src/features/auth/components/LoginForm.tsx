@@ -1,6 +1,8 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import {
   RiBriefcaseLine,
   RiGoogleFill,
@@ -10,18 +12,38 @@ import {
 } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldLabel } from "@/components/ui/field"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group"
+import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 export function LoginForm() {
+  const { login } = useAuth()
+  const router = useRouter()
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError("")
+    setLoading(true)
+    try {
+      await login({ email, password })
+      router.push("/dashboard")
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Credenciales inválidas")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
       <div className="flex w-full max-w-md flex-col items-center gap-8">
@@ -43,7 +65,13 @@ export function LoginForm() {
         {/* Form Card */}
         <Card className="w-full">
           <CardContent className="flex flex-col gap-6">
-            <form className="flex flex-col gap-5">
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+              {error && (
+                <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {error}
+                </p>
+              )}
+
               {/* Email */}
               <Field>
                 <FieldLabel htmlFor="login-email">Email</FieldLabel>
@@ -55,6 +83,9 @@ export function LoginForm() {
                     id="login-email"
                     type="email"
                     placeholder="ejemplo@correo.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </InputGroup>
               </Field>
@@ -78,6 +109,9 @@ export function LoginForm() {
                     id="login-password"
                     type="password"
                     placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                 </InputGroup>
               </Field>
@@ -94,8 +128,13 @@ export function LoginForm() {
               </label>
 
               {/* Submit */}
-              <Button type="submit" size="lg" className="w-full h-11 text-base font-semibold">
-                Ingresar
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full h-11 text-base font-semibold"
+                disabled={loading}
+              >
+                {loading ? "Ingresando..." : "Ingresar"}
               </Button>
             </form>
 
@@ -110,11 +149,11 @@ export function LoginForm() {
 
             {/* Social Login */}
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" size="lg" className="h-11">
+              <Button variant="outline" size="lg" className="h-11" disabled>
                 <RiGoogleFill className="size-5" />
                 Google
               </Button>
-              <Button variant="outline" size="lg" className="h-11">
+              <Button variant="outline" size="lg" className="h-11" disabled>
                 <RiLinkedinFill className="size-5" />
                 LinkedIn
               </Button>
@@ -125,10 +164,7 @@ export function LoginForm() {
         {/* Register link */}
         <p className="text-sm text-muted-foreground">
           ¿No tienes cuenta?{" "}
-          <Link
-            href="/signup"
-            className="font-semibold text-primary hover:underline"
-          >
+          <Link href="/signup" className="font-semibold text-primary hover:underline">
             Regístrate
           </Link>
         </p>
