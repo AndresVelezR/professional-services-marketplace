@@ -65,3 +65,4 @@ htmlcov/
 **/migrations/__pycache__/
 **/migrations/*.pyc
 /backend_marketplace/usuarios/migrations
+/backend_marketplace/publicaciones/migrations
