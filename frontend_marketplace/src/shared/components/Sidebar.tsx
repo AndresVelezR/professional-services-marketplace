@@ -12,6 +12,7 @@ import {
 } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: RiDashboardLine },
@@ -23,6 +24,11 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname()
+  const { perfil, logout } = useAuth()
+
+  const initials = perfil
+    ? `${perfil.first_name?.[0] ?? ""}${perfil.last_name?.[0] ?? ""}`.toUpperCase()
+    : ""
 
   return (
     <aside className="flex h-screen w-56 flex-col bg-[#1f2937] text-white">
@@ -62,13 +68,23 @@ export function Sidebar() {
       <div className="border-t border-white/10 px-4 py-4">
         <div className="flex items-center gap-3">
           <div className="flex size-9 items-center justify-center rounded-full bg-blue-500 text-sm font-semibold text-white">
-            AJ
+            {initials}
           </div>
-          <div>
-            <p className="text-sm font-medium text-white">Alex Johnson</p>
-            <p className="text-xs text-blue-200/60">Plan Premium</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-white truncate">
+              {perfil?.nombre_completo}
+            </p>
+            <p className="text-xs text-blue-200/60 capitalize">
+              {perfil?.tipo_usuario}
+            </p>
           </div>
         </div>
+        <button
+          onClick={logout}
+          className="mt-3 w-full rounded-lg px-3 py-2 text-left text-sm text-blue-200/70 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          Cerrar sesión
+        </button>
       </div>
     </aside>
   )
