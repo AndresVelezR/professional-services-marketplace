@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 export interface ServiceCardProps {
+  id: string
   title: string
   category: string
   price: number
@@ -19,6 +20,7 @@ export interface ServiceCardProps {
 }
 
 export function ServiceCard({
+  id,
   title,
   category,
   price,
@@ -90,7 +92,7 @@ export function ServiceCard({
           </p>
         </div>
         <Button asChild size="sm" className="text-xs font-bold">
-          <Link href="/services/1">Ver más</Link>
+          <Link href={`/services/${id}`}>Ver más</Link>
         </Button>
       </div>
     </div>

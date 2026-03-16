@@ -1,10 +1,15 @@
 "use client"
 
+import { useState } from "react"
 import { RiMoneyDollarCircleLine, RiStarFill, RiTimeLine } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+
+interface ServiceFiltersProps {
+  onFilterChange?: (filters: { precio_min?: number; precio_max?: number }) => void
+}
 
 function FilterSection({
   icon: Icon,
@@ -30,14 +35,18 @@ function FilterCheckbox({
   id,
   label,
   suffix,
+  checked,
+  onCheckedChange,
 }: {
   id: string
   label: string
   suffix?: React.ReactNode
+  checked?: boolean
+  onCheckedChange?: (checked: boolean) => void
 }) {
   return (
     <div className="group flex items-center gap-3">
-      <Checkbox id={id} />
+      <Checkbox id={id} checked={checked} onCheckedChange={onCheckedChange} />
       <Label
         htmlFor={id}
         className="cursor-pointer text-sm font-normal text-muted-foreground transition-colors group-hover:text-primary"
@@ -49,13 +58,44 @@ function FilterCheckbox({
   )
 }
 
-export function ServiceFilters() {
+const PRICE_RANGES = [
+  { id: "price-0-50", label: "$0 - $50", min: 0, max: 50 },
+  { id: "price-50-100", label: "$50 - $100", min: 50, max: 100 },
+  { id: "price-100", label: "$100+", min: 100, max: undefined },
+] as const
+
+export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
+  const [selectedPrice, setSelectedPrice] = useState<string | null>(null)
+
+  function handlePriceChange(rangeId: string, checked: boolean) {
+    const next = checked ? rangeId : null
+    setSelectedPrice(next)
+
+    if (!onFilterChange) return
+
+    if (!next) {
+      onFilterChange({ precio_min: undefined, precio_max: undefined })
+      return
+    }
+
+    const range = PRICE_RANGES.find((r) => r.id === next)
+    if (range) {
+      onFilterChange({ precio_min: range.min, precio_max: range.max })
+    }
+  }
+
   return (
     <div className="sticky top-24 space-y-6 rounded-lg border border-border bg-card p-6 shadow-sm">
       <FilterSection icon={RiMoneyDollarCircleLine} title="Rango de Precio">
-        <FilterCheckbox id="price-0-50" label="$0 - $50" />
-        <FilterCheckbox id="price-50-100" label="$50 - $100" />
-        <FilterCheckbox id="price-100" label="$100+" />
+        {PRICE_RANGES.map((range) => (
+          <FilterCheckbox
+            key={range.id}
+            id={range.id}
+            label={range.label}
+            checked={selectedPrice === range.id}
+            onCheckedChange={(checked) => handlePriceChange(range.id, checked)}
+          />
+        ))}
       </FilterSection>
 
       <div className="border-t border-border pt-6">
