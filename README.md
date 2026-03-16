@@ -1,15 +1,18 @@
 # Professional Services Marketplace
 
-## Description
+Plataforma web para el intercambio de servicios profesionales y freelance. Proyecto académico con enfoque en arquitectura de software, diseño limpio y buenas prácticas.
 
 This project consists of a web-based platform oriented toward the exchange of professional and freelance services.
 It is being developed as an academic exercise with a strong focus on **software architecture**, **clean design**, and the correct application of **MVC/MVT principles** using the **Django framework**.
 
-The main objective is to design and implement a scalable and well-structured system that models real-world service marketplaces while applying best practices in web development and backend architecture.
+- **Backend:** Django 6 + Django REST Framework + SQLite
+- **Frontend:** Next.js 16 + TypeScript + Tailwind CSS + shadcn/ui
+- **Auth:** JWT (SimpleJWT)
+- **Package Manager:** uv (backend), bun (frontend)
 
----
+## Requisitos
 
-## Team
+- Docker y Docker Compose
 
 - **Andrés Vélez Rendón**
 - **Tomás Ramírez**
