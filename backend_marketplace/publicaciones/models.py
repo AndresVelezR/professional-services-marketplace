@@ -59,3 +59,25 @@ class Publicacion(models.Model):
 
     def __str__(self):
         return self.titulo
+
+
+def imagen_upload_path(instance, filename):
+    return f'publicaciones/{instance.publicacion_id}/{filename}'
+
+
+class ImagenPublicacion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    publicacion = models.ForeignKey(
+        Publicacion, on_delete=models.CASCADE, related_name='imagenes'
+    )
+    imagen = models.ImageField(upload_to=imagen_upload_path)
+    orden = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Imagen de Publicación'
+        verbose_name_plural = 'Imágenes de Publicación'
+        ordering = ['orden']
+
+    def __str__(self):
+        return f'Imagen {self.orden} de {self.publicacion.titulo}'

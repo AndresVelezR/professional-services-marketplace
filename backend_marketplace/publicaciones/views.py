@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
 from .models import Publicacion
@@ -24,6 +25,7 @@ class EsCreadorOSoloLectura(permissions.BasePermission):
 
 
 class PublicacionListCreateView(generics.ListCreateAPIView):
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
     pagination_class = PublicacionPagination
 
     def get_permissions(self):
@@ -37,7 +39,7 @@ class PublicacionListCreateView(generics.ListCreateAPIView):
         return PublicacionListSerializer
 
     def get_queryset(self):
-        qs = Publicacion.objects.activas().select_related('creador__perfil')
+        qs = Publicacion.objects.activas().select_related('creador__perfil').prefetch_related('imagenes')
 
         q = self.request.query_params.get('q')
         if q:
@@ -63,7 +65,7 @@ class PublicacionListCreateView(generics.ListCreateAPIView):
 
 
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Publicacion.objects.select_related('creador__perfil')
+    queryset = Publicacion.objects.select_related('creador__perfil').prefetch_related('imagenes')
     lookup_field = 'id'
 
     def get_permissions(self):
