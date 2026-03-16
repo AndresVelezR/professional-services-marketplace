@@ -14,6 +14,8 @@ It is being developed as an academic exercise with a strong focus on **software 
 
 - Docker y Docker Compose
 
+## Integrantes
+
 - **Andrés Vélez Rendón**
 - **Tomás Ramírez**
 - **Felipe Gómez**
