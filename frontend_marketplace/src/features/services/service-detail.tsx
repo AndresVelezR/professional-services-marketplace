@@ -1,10 +1,9 @@
 "use client"
 
-import { RiArrowLeftLine, RiLoader4Line } from "@remixicon/react"
+import { RiLoader4Line } from "@remixicon/react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { toServiceDetailProps } from "./adapters"
 import { FreelancerProfileCard } from "./components/FreelancerProfileCard"
 import { ServiceDescription } from "./components/ServiceDescription"
@@ -44,42 +43,23 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
 
   return (
     <div>
-      {/* Back button */}
-      <Link href="/services">
-        <Button variant="ghost" size="sm" className="mb-4 -ml-2">
-          <RiArrowLeftLine className="size-4" />
-          Volver a servicios
-        </Button>
-      </Link>
-
       {/* Two-column layout */}
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Left column */}
         <div className="flex-[3] space-y-8">
-          <ServiceGallery category={s.category} />
+          <ServiceGallery category={s.category} images={s.images} />
+
+          <ServiceDescription
+            description={s.description}
+            includes={s.includes}
+          />
 
           <FreelancerProfileCard
             name={s.freelancer.name}
             initials={s.freelancer.initials}
             title={s.freelancer.title}
-            rating={s.rating}
-            reviews={s.reviews}
-            isOnline={s.freelancer.isOnline}
-            isTopRated={s.freelancer.isTopRated}
-            completedJobs={s.freelancer.completedJobs}
-            responseRate={s.freelancer.responseRate}
-            responseTime={s.freelancer.responseTime}
+            bio={s.freelancer.bio}
           />
-
-          {s.description && (
-            <ServiceDescription
-              about={[s.description]}
-              process={[]}
-              experience={s.freelancer.bio}
-            />
-          )}
-
-          <Separator />
         </div>
 
         {/* Right column - sticky pricing */}
@@ -87,21 +67,10 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
           <ServicePricingCard
             title={data.titulo}
             author={s.freelancer.name}
-            rating={s.rating}
-            reviews={s.reviews}
             price={s.price}
             includes={s.includes}
             deliveryTime={s.deliveryTime}
           />
-
-          {/* Info tip */}
-          <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <p className="text-xs leading-relaxed text-blue-700">
-              <span className="font-semibold">Consejo:</span> Revisa el perfil
-              del freelancer y sus reseñas antes de contratar. Comunica
-              claramente tus necesidades para obtener el mejor resultado.
-            </p>
-          </div>
         </div>
       </div>
     </div>

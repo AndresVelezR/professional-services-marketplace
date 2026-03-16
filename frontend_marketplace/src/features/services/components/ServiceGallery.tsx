@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { RiImageLine } from "@remixicon/react"
 
 interface ServiceGalleryProps {
   category: string
@@ -7,52 +8,50 @@ interface ServiceGalleryProps {
 
 export function ServiceGallery({ category, images }: ServiceGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const thumbnailCount = 4
+
+  const hasImages = images && images.length > 0
 
   return (
     <div className="space-y-3">
       {/* Hero image */}
       <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-muted">
-        {images?.[selectedIndex] ? (
+        {hasImages ? (
           <img
             src={images[selectedIndex]}
             alt={`${category} - imagen ${selectedIndex + 1}`}
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/20">
-            <span className="text-7xl font-bold">{category[0]}</span>
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-primary/5 text-primary/30">
+            <RiImageLine className="size-12" />
+            <span className="text-sm font-medium">{category}</span>
           </div>
         )}
       </div>
 
-      {/* Thumbnails */}
-      <div className="grid grid-cols-4 gap-3">
-        {Array.from({ length: thumbnailCount }).map((_, i) => (
-          <button
-            key={`thumb-${category}-${i}`}
-            type="button"
-            onClick={() => setSelectedIndex(i)}
-            className={`aspect-[4/3] overflow-hidden rounded-md bg-muted transition-all ${
-              selectedIndex === i
-                ? "ring-2 ring-primary ring-offset-2"
-                : "opacity-70 hover:opacity-100"
-            }`}
-          >
-            {images?.[i] ? (
+      {/* Thumbnails - only show if multiple images */}
+      {hasImages && images.length > 1 && (
+        <div className="flex gap-3">
+          {images.map((img, i) => (
+            <button
+              key={img}
+              type="button"
+              onClick={() => setSelectedIndex(i)}
+              className={`aspect-[4/3] w-20 overflow-hidden rounded-md bg-muted transition-all ${
+                selectedIndex === i
+                  ? "ring-2 ring-primary ring-offset-2"
+                  : "opacity-70 hover:opacity-100"
+              }`}
+            >
               <img
-                src={images[i]}
+                src={img}
                 alt={`Thumbnail ${i + 1}`}
                 className="h-full w-full object-cover"
               />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/15">
-                <span className="text-lg font-bold">{category[0]}</span>
-              </div>
-            )}
-          </button>
-        ))}
-      </div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

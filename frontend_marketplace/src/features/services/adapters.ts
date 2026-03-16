@@ -37,21 +37,15 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     title: detail.titulo,
     category: categoriaLabel(detail.categoria),
     price: parseFloat(detail.precio),
-    rating: 0,
-    reviews: 0,
     deliveryTime: detail.tiempo_entrega,
     includes: detail.incluye,
     description: detail.descripcion,
+    images: detail.imagenes.map((img) => img.url),
     freelancer: {
       name: detail.creador.nombre_completo,
       initials: detail.creador.iniciales,
       title: detail.creador.tipo_usuario === "freelancer" ? "Freelancer" : "Profesional",
       bio: detail.creador.bio,
-      isOnline: false,
-      isTopRated: false,
-      completedJobs: 0,
-      responseRate: "N/A",
-      responseTime: "N/A",
     },
   }
 }

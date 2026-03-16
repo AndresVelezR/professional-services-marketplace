@@ -2,7 +2,6 @@ import {
   RiCheckLine,
   RiHeartLine,
   RiShieldCheckLine,
-  RiStarFill,
   RiTimeLine,
 } from "@remixicon/react"
 
@@ -13,8 +12,6 @@ import { Separator } from "@/components/ui/separator"
 interface ServicePricingCardProps {
   title: string
   author: string
-  rating: number
-  reviews: number
   price: number
   includes: string[]
   deliveryTime: string
@@ -23,8 +20,6 @@ interface ServicePricingCardProps {
 export function ServicePricingCard({
   title,
   author,
-  rating,
-  reviews,
   price,
   includes,
   deliveryTime,
@@ -36,15 +31,6 @@ export function ServicePricingCard({
         <div className="mb-1">
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
           <p className="text-sm text-muted-foreground">por {author}</p>
-          <div className="mt-1 flex items-center gap-1">
-            <RiStarFill className="size-3.5 text-yellow-400" />
-            <span className="text-sm font-semibold text-foreground">
-              {rating}
-            </span>
-            <span className="text-xs text-muted-foreground">
-              ({reviews} reseñas)
-            </span>
-          </div>
         </div>
 
         <Separator className="my-4" />
@@ -55,19 +41,21 @@ export function ServicePricingCard({
         </div>
 
         {/* Includes */}
-        <div className="mb-4">
-          <p className="mb-2 text-sm font-semibold text-foreground">
-            ¿Qué incluye?
-          </p>
-          <ul className="space-y-2">
-            {includes.map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <RiCheckLine className="mt-0.5 size-4 shrink-0 text-green-500" />
-                <span className="text-sm text-muted-foreground">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {includes.length > 0 && (
+          <div className="mb-4">
+            <p className="mb-2 text-sm font-semibold text-foreground">
+              ¿Qué incluye?
+            </p>
+            <ul className="space-y-2">
+              {includes.map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <RiCheckLine className="mt-0.5 size-4 shrink-0 text-green-500" />
+                  <span className="text-sm text-muted-foreground">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Delivery time */}
         <div className="mb-4 flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
