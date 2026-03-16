@@ -38,6 +38,19 @@ class Usuario(AbstractUser):
         return self.email
 
 
+class Habilidad(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = 'Habilidad'
+        verbose_name_plural = 'Habilidades'
+        ordering = ['nombre']
+
+    def __str__(self):
+        return self.nombre
+
+
 class Perfil(models.Model):
     class TipoUsuario(models.TextChoices):
         FREELANCER = 'freelancer', 'Freelancer'
@@ -56,6 +69,10 @@ class Perfil(models.Model):
         choices=TipoUsuario.choices,
         default=TipoUsuario.CLIENTE,
     )
+    foto_perfil = models.ImageField(upload_to='perfiles/', blank=True, null=True)
+    habilidades = models.ManyToManyField(
+        'Habilidad', blank=True, related_name='perfiles'
+    )
 
     class Meta:
         verbose_name = 'Perfil'
@@ -72,3 +89,24 @@ class Perfil(models.Model):
         for campo, valor in datos.items():
             setattr(self, campo, valor)
         self.save()
+
+
+class Experiencia(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    perfil = models.ForeignKey(
+        Perfil, on_delete=models.CASCADE, related_name='experiencias'
+    )
+    empresa = models.CharField(max_length=200)
+    cargo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField(null=True, blank=True)
+    ubicacion = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        verbose_name = 'Experiencia'
+        verbose_name_plural = 'Experiencias'
+        ordering = ['-fecha_inicio']
+
+    def __str__(self):
+        return f'{self.cargo} en {self.empresa}'
