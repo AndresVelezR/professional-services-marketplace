@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
+  RiAddCircleLine,
   RiDashboardLine,
   RiSearchLine,
   RiFileList3Line,
@@ -17,6 +18,7 @@ import { useAuth } from "@/infrastructure/auth/AuthContext"
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: RiDashboardLine },
   { name: "Buscar", href: "/services", icon: RiSearchLine },
+  { name: "Publicar", href: "/services/new", icon: RiAddCircleLine },
   { name: "Contratos", href: "/contracts", icon: RiFileList3Line },
   { name: "Mensajes", href: "/messages", icon: RiMessage3Line },
   { name: "Perfil", href: "/profile", icon: RiUserLine },
