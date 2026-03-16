@@ -11,6 +11,7 @@ interface AuthState {
   isLoading: boolean
   login: (payload: LoginPayload) => Promise<void>
   logout: () => void
+  refreshPerfil: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthState | null>(null)
@@ -50,8 +51,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setPerfil(null)
   }, [])
 
+  const refreshPerfil = useCallback(async () => {
+    if (!token) return
+    const data = await getPerfil(token)
+    setPerfil(data)
+  }, [token])
+
   return (
-    <AuthContext.Provider value={{ token, perfil, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ token, perfil, isLoading, login, logout, refreshPerfil }}>
       {children}
     </AuthContext.Provider>
   )

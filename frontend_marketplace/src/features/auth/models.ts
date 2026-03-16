@@ -9,6 +9,7 @@ export interface Perfil {
   bio: string
   url_portafolio: string
   tipo_usuario: TipoUsuario
+  foto_perfil_url: string | null
 }
 
 export interface LoginPayload {
