@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from .models import Perfil, Usuario
+from .models import Experiencia, Habilidad, Perfil, Usuario
 
 
 class RegistroSerializer(serializers.Serializer):
@@ -32,20 +32,67 @@ class RegistroSerializer(serializers.Serializer):
         return usuario
 
 
+class HabilidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Habilidad
+        fields = ['id', 'nombre']
+
+
+class ExperienciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experiencia
+        fields = [
+            'id', 'empresa', 'cargo', 'descripcion',
+            'fecha_inicio', 'fecha_fin', 'ubicacion',
+        ]
+
+
 class PerfilSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='usuario.email', read_only=True)
     first_name = serializers.CharField(source='usuario.first_name')
     last_name = serializers.CharField(source='usuario.last_name')
     nombre_completo = serializers.CharField(read_only=True)
+    foto_perfil_url = serializers.SerializerMethodField()
+    habilidades = HabilidadSerializer(many=True, read_only=True)
+    habilidad_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Habilidad.objects.all(),
+        source='habilidades',
+        write_only=True,
+        required=False,
+    )
+    experiencias = ExperienciaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Perfil
-        fields = ['email', 'first_name', 'last_name', 'nombre_completo', 'telefono', 'bio', 'url_portafolio', 'tipo_usuario']
+        fields = [
+            'email', 'first_name', 'last_name', 'nombre_completo',
+            'telefono', 'bio', 'url_portafolio', 'tipo_usuario',
+            'foto_perfil', 'foto_perfil_url',
+            'habilidades', 'habilidad_ids', 'experiencias',
+        ]
+        extra_kwargs = {
+            'foto_perfil': {'write_only': True, 'required': False},
+        }
+
+    def get_foto_perfil_url(self, obj):
+        request = self.context.get('request')
+        if request and obj.foto_perfil:
+            return request.build_absolute_uri(obj.foto_perfil.url)
+        return None
 
     def update(self, instance, validated_data):
         usuario_data = validated_data.pop('usuario', {})
+        habilidades = validated_data.pop('habilidades', None)
+
         if usuario_data:
             for attr, value in usuario_data.items():
                 setattr(instance.usuario, attr, value)
             instance.usuario.save()
-        return super().update(instance, validated_data)
+
+        instance = super().update(instance, validated_data)
+
+        if habilidades is not None:
+            instance.habilidades.set(habilidades)
+
+        return instance

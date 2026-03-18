@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ./backend_marketplace
+      dockerfile: Dockerfile
+    container_name: marketplace-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend_marketplace:/app
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - marketplace
+
+  frontend:
+    build:
+      context: ./frontend_marketplace
+      dockerfile: Dockerfile
+    container_name: marketplace-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend_marketplace:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - marketplace
+
+networks:
+  marketplace:
+    driver: bridge

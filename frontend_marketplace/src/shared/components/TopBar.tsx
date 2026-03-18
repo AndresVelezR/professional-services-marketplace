@@ -6,11 +6,16 @@ import {
 } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 export function TopBar() {
+  const { perfil } = useAuth()
+
   return (
     <header className="flex items-center justify-between border-b border-border bg-white px-8 py-3">
-      <h1 className="text-lg font-bold text-foreground">Hola, Alex 👋</h1>
+      <h1 className="text-lg font-bold text-foreground">
+        Hola, {perfil?.first_name ?? ""} 👋
+      </h1>
 
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="relative">

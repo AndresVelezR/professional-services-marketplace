@@ -58,10 +58,4 @@ Thumbs.db
 .coverage
 htmlcov/
 
-# ==========================
-# Migrations (opcional)
-# ==========================
-# Si el profe quiere ver migraciones, COMENTA estas líneas
-**/migrations/__pycache__/
-**/migrations/*.pyc
-/backend_marketplace/usuarios/migrations
+

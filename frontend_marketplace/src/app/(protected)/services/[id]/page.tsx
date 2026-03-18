@@ -1,5 +1,10 @@
 import { ServiceDetail } from "@/features/services/service-detail"
 
-export default function ServiceDetailPage() {
-  return <ServiceDetail />
+export default async function ServiceDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  return <ServiceDetail id={id} />
 }
