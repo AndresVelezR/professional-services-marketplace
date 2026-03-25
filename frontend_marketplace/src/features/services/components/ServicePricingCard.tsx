@@ -15,6 +15,7 @@ interface ServicePricingCardProps {
   price: number
   includes: string[]
   deliveryTime: string
+  onContratar?: () => void
 }
 
 export function ServicePricingCard({
@@ -23,6 +24,7 @@ export function ServicePricingCard({
   price,
   includes,
   deliveryTime,
+  onContratar,
 }: ServicePricingCardProps) {
   return (
     <Card>
@@ -70,7 +72,7 @@ export function ServicePricingCard({
 
         {/* CTAs */}
         <div className="space-y-2">
-          <Button className="w-full font-semibold">Contratar Ahora</Button>
+          <Button className="w-full font-semibold" onClick={onContratar}>Contratar Ahora</Button>
           <Button variant="outline" className="w-full">
             <RiHeartLine className="size-4" />
             Agregar a Favoritos
