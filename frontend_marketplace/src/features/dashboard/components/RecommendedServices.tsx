@@ -1,58 +1,77 @@
-import { RiStarFill } from "@remixicon/react"
+"use client"
+
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { RiLoader4Line } from "@remixicon/react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { getPublicaciones } from "@/features/services/services/publicacionService"
+import type { PublicacionListItem } from "@/features/services/models"
 
-const CATEGORIES = [
-  { label: "DISEÑO", color: "bg-blue-600" },
-  { label: "MARKETING", color: "bg-green-600" },
-  { label: "DESARROLLO", color: "bg-red-500" },
-  { label: "NEGOCIOS", color: "bg-orange-500" },
-] as const
-
-interface RecommendedService {
-  category: number
-  freelancer: string
-  initials: string
-  title: string
-  rating: number
-  price: number
+const CATEGORIA_COLORS: Record<string, string> = {
+  diseno: "bg-blue-600",
+  marketing: "bg-green-600",
+  desarrollo: "bg-red-500",
+  negocios: "bg-orange-500",
+  escritura: "bg-purple-600",
+  video: "bg-pink-600",
 }
 
-interface RecommendedServicesProps {
-  services: readonly RecommendedService[]
+function categoryColor(categoria: string) {
+  return CATEGORIA_COLORS[categoria.toLowerCase()] ?? "bg-gray-500"
 }
 
-export function RecommendedServices({ services }: RecommendedServicesProps) {
+export function RecommendedServices() {
+  const [services, setServices] = useState<PublicacionListItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    getPublicaciones({ page: 1 })
+      .then((res) => setServices(res.results.slice(0, 4)))
+      .catch(() => {})
+      .finally(() => setIsLoading(false))
+  }, [])
+
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">
-          Servicios Recomendados
-        </h2>
-        <Link
-          href="/services"
-          className="text-sm font-medium text-primary hover:underline"
-        >
+        <h2 className="text-lg font-bold text-foreground">Servicios Recomendados</h2>
+        <Link href="/services" className="text-sm font-medium text-primary hover:underline">
           Ver todos
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {services.map((s) => {
-          const cat = CATEGORIES[s.category]
-          return (
+      {isLoading && (
+        <div className="flex justify-center py-8">
+          <RiLoader4Line className="size-6 animate-spin text-muted-foreground" />
+        </div>
+      )}
+
+      {!isLoading && services.length === 0 && (
+        <p className="text-sm text-muted-foreground">No hay servicios disponibles.</p>
+      )}
+
+      {!isLoading && services.length > 0 && (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((s) => (
             <div
-              key={s.title}
+              key={s.id}
               className="overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="relative h-36 bg-muted">
+                {s.imagenes[0] ? (
+                  <img
+                    src={s.imagenes[0].url}
+                    alt={s.titulo}
+                    className="h-full w-full object-cover"
+                  />
+                ) : null}
                 <Badge
-                  className={`absolute left-3 top-3 ${cat.color} border-0 text-[11px] font-bold uppercase tracking-wide text-white`}
+                  className={`absolute left-3 top-3 ${categoryColor(s.categoria)} border-0 text-[11px] font-bold uppercase tracking-wide text-white`}
                 >
-                  {cat.label}
+                  {s.categoria}
                 </Badge>
               </div>
 
@@ -60,36 +79,29 @@ export function RecommendedServices({ services }: RecommendedServicesProps) {
                 <div className="mb-2 flex items-center gap-2">
                   <Avatar className="size-7">
                     <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
-                      {s.initials}
+                      {s.creador.iniciales}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm text-muted-foreground">
-                    {s.freelancer}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{s.creador.nombre_completo}</span>
                 </div>
 
-                <h3 className="mb-3 text-sm font-semibold leading-tight text-foreground">
-                  {s.title}
+                <h3 className="mb-3 text-sm font-semibold leading-tight text-foreground line-clamp-2">
+                  {s.titulo}
                 </h3>
 
                 <div className="mb-4 flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-1 font-medium text-foreground">
-                    <RiStarFill className="size-4 text-yellow-400" />
-                    {s.rating}
-                  </span>
-                  <span className="text-muted-foreground">
-                    Desde ${s.price}
-                  </span>
+                  <span className="text-muted-foreground">Desde ${s.precio}</span>
+                  <span className="text-xs text-muted-foreground">{s.tiempo_entrega}</span>
                 </div>
 
                 <Button asChild className="w-full" size="sm">
-                  <Link href="/services/1">Contratar</Link>
+                  <Link href={`/services/${s.id}`}>Ver servicio</Link>
                 </Button>
               </div>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
