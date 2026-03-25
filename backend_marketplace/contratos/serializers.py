@@ -14,12 +14,14 @@ class PropuestaCreateSerializer(serializers.ModelSerializer):
 
 class PropuestaListSerializer(serializers.ModelSerializer):
     cliente = CreadorResumenSerializer()
+    publicacion_titulo = serializers.CharField(source='publicacion.titulo', read_only=True)
+    publicacion_id = serializers.UUIDField(source='publicacion.id', read_only=True)
 
     class Meta:
         model = Propuesta
         fields = [
-            'id', 'cliente', 'mensaje', 'precio_propuesto',
-            'fecha_limite', 'estado', 'created_at',
+            'id', 'publicacion_id', 'publicacion_titulo', 'cliente',
+            'mensaje', 'precio_propuesto', 'fecha_limite', 'estado', 'created_at',
         ]
 
 

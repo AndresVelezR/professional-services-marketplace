@@ -147,6 +147,17 @@ class PropuestaDetailView(APIView):
         return Response(serializer.data)
 
 
+class MisPropuestasRecibidas(generics.ListAPIView):
+    serializer_class = PropuestaListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Propuesta.objects.filter(
+            publicacion__creador=self.request.user,
+            estado=Propuesta.Estado.PENDIENTE,
+        ).select_related('cliente', 'cliente__perfil', 'publicacion')
+
+
 class MisContratosList(generics.ListAPIView):
     serializer_class = ContratoListSerializer
     permission_classes = [IsAuthenticated]
