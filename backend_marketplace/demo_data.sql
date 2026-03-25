@@ -1,276 +1,368 @@
-BEGIN TRANSACTION;
-CREATE TABLE "auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(150) NOT NULL UNIQUE);
-CREATE TABLE "auth_group_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED);
-CREATE TABLE "auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "codename" varchar(100) NOT NULL, "name" varchar(255) NOT NULL);
-INSERT INTO "auth_permission" VALUES(1,1,'add_logentry','Can add log entry');
-INSERT INTO "auth_permission" VALUES(2,1,'change_logentry','Can change log entry');
-INSERT INTO "auth_permission" VALUES(3,1,'delete_logentry','Can delete log entry');
-INSERT INTO "auth_permission" VALUES(4,1,'view_logentry','Can view log entry');
-INSERT INTO "auth_permission" VALUES(5,3,'add_permission','Can add permission');
-INSERT INTO "auth_permission" VALUES(6,3,'change_permission','Can change permission');
-INSERT INTO "auth_permission" VALUES(7,3,'delete_permission','Can delete permission');
-INSERT INTO "auth_permission" VALUES(8,3,'view_permission','Can view permission');
-INSERT INTO "auth_permission" VALUES(9,2,'add_group','Can add group');
-INSERT INTO "auth_permission" VALUES(10,2,'change_group','Can change group');
-INSERT INTO "auth_permission" VALUES(11,2,'delete_group','Can delete group');
-INSERT INTO "auth_permission" VALUES(12,2,'view_group','Can view group');
-INSERT INTO "auth_permission" VALUES(13,4,'add_contenttype','Can add content type');
-INSERT INTO "auth_permission" VALUES(14,4,'change_contenttype','Can change content type');
-INSERT INTO "auth_permission" VALUES(15,4,'delete_contenttype','Can delete content type');
-INSERT INTO "auth_permission" VALUES(16,4,'view_contenttype','Can view content type');
-INSERT INTO "auth_permission" VALUES(17,5,'add_session','Can add session');
-INSERT INTO "auth_permission" VALUES(18,5,'change_session','Can change session');
-INSERT INTO "auth_permission" VALUES(19,5,'delete_session','Can delete session');
-INSERT INTO "auth_permission" VALUES(20,5,'view_session','Can view session');
-INSERT INTO "auth_permission" VALUES(21,7,'add_habilidad','Can add Habilidad');
-INSERT INTO "auth_permission" VALUES(22,7,'change_habilidad','Can change Habilidad');
-INSERT INTO "auth_permission" VALUES(23,7,'delete_habilidad','Can delete Habilidad');
-INSERT INTO "auth_permission" VALUES(24,7,'view_habilidad','Can view Habilidad');
-INSERT INTO "auth_permission" VALUES(25,9,'add_usuario','Can add Usuario');
-INSERT INTO "auth_permission" VALUES(26,9,'change_usuario','Can change Usuario');
-INSERT INTO "auth_permission" VALUES(27,9,'delete_usuario','Can delete Usuario');
-INSERT INTO "auth_permission" VALUES(28,9,'view_usuario','Can view Usuario');
-INSERT INTO "auth_permission" VALUES(29,8,'add_perfil','Can add Perfil');
-INSERT INTO "auth_permission" VALUES(30,8,'change_perfil','Can change Perfil');
-INSERT INTO "auth_permission" VALUES(31,8,'delete_perfil','Can delete Perfil');
-INSERT INTO "auth_permission" VALUES(32,8,'view_perfil','Can view Perfil');
-INSERT INTO "auth_permission" VALUES(33,6,'add_experiencia','Can add Experiencia');
-INSERT INTO "auth_permission" VALUES(34,6,'change_experiencia','Can change Experiencia');
-INSERT INTO "auth_permission" VALUES(35,6,'delete_experiencia','Can delete Experiencia');
-INSERT INTO "auth_permission" VALUES(36,6,'view_experiencia','Can view Experiencia');
-INSERT INTO "auth_permission" VALUES(37,11,'add_publicacion','Can add Publicación');
-INSERT INTO "auth_permission" VALUES(38,11,'change_publicacion','Can change Publicación');
-INSERT INTO "auth_permission" VALUES(39,11,'delete_publicacion','Can delete Publicación');
-INSERT INTO "auth_permission" VALUES(40,11,'view_publicacion','Can view Publicación');
-INSERT INTO "auth_permission" VALUES(41,10,'add_imagenpublicacion','Can add Imagen de Publicación');
-INSERT INTO "auth_permission" VALUES(42,10,'change_imagenpublicacion','Can change Imagen de Publicación');
-INSERT INTO "auth_permission" VALUES(43,10,'delete_imagenpublicacion','Can delete Imagen de Publicación');
-INSERT INTO "auth_permission" VALUES(44,10,'view_imagenpublicacion','Can view Imagen de Publicación');
-CREATE TABLE "django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL CHECK ("action_flag" >= 0), "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" char(32) NOT NULL REFERENCES "usuarios_usuario" ("id") DEFERRABLE INITIALLY DEFERRED, "action_time" datetime NOT NULL);
-CREATE TABLE "django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL);
-INSERT INTO "django_content_type" VALUES(1,'admin','logentry');
-INSERT INTO "django_content_type" VALUES(2,'auth','group');
-INSERT INTO "django_content_type" VALUES(3,'auth','permission');
-INSERT INTO "django_content_type" VALUES(4,'contenttypes','contenttype');
-INSERT INTO "django_content_type" VALUES(5,'sessions','session');
-INSERT INTO "django_content_type" VALUES(6,'usuarios','experiencia');
-INSERT INTO "django_content_type" VALUES(7,'usuarios','habilidad');
-INSERT INTO "django_content_type" VALUES(8,'usuarios','perfil');
-INSERT INTO "django_content_type" VALUES(9,'usuarios','usuario');
-INSERT INTO "django_content_type" VALUES(10,'publicaciones','imagenpublicacion');
-INSERT INTO "django_content_type" VALUES(11,'publicaciones','publicacion');
-CREATE TABLE "django_migrations" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app" varchar(255) NOT NULL, "name" varchar(255) NOT NULL, "applied" datetime NOT NULL);
-INSERT INTO "django_migrations" VALUES(1,'contenttypes','0001_initial','2026-03-18 01:33:45.652514');
-INSERT INTO "django_migrations" VALUES(2,'contenttypes','0002_remove_content_type_name','2026-03-18 01:33:45.663445');
-INSERT INTO "django_migrations" VALUES(3,'auth','0001_initial','2026-03-18 01:33:45.682386');
-INSERT INTO "django_migrations" VALUES(4,'auth','0002_alter_permission_name_max_length','2026-03-18 01:33:45.691583');
-INSERT INTO "django_migrations" VALUES(5,'auth','0003_alter_user_email_max_length','2026-03-18 01:33:45.700102');
-INSERT INTO "django_migrations" VALUES(6,'auth','0004_alter_user_username_opts','2026-03-18 01:33:45.706869');
-INSERT INTO "django_migrations" VALUES(7,'auth','0005_alter_user_last_login_null','2026-03-18 01:33:45.714505');
-INSERT INTO "django_migrations" VALUES(8,'auth','0006_require_contenttypes_0002','2026-03-18 01:33:45.717737');
-INSERT INTO "django_migrations" VALUES(9,'auth','0007_alter_validators_add_error_messages','2026-03-18 01:33:45.724085');
-INSERT INTO "django_migrations" VALUES(10,'auth','0008_alter_user_username_max_length','2026-03-18 01:33:45.734008');
-INSERT INTO "django_migrations" VALUES(11,'auth','0009_alter_user_last_name_max_length','2026-03-18 01:33:45.740312');
-INSERT INTO "django_migrations" VALUES(12,'auth','0010_alter_group_name_max_length','2026-03-18 01:33:45.748854');
-INSERT INTO "django_migrations" VALUES(13,'auth','0011_update_proxy_permissions','2026-03-18 01:33:45.756620');
-INSERT INTO "django_migrations" VALUES(14,'auth','0012_alter_user_first_name_max_length','2026-03-18 01:33:45.763992');
-INSERT INTO "django_migrations" VALUES(15,'usuarios','0001_initial','2026-03-18 01:33:45.793429');
-INSERT INTO "django_migrations" VALUES(16,'admin','0001_initial','2026-03-18 01:33:45.807501');
-INSERT INTO "django_migrations" VALUES(17,'admin','0002_logentry_remove_auto_add','2026-03-18 01:33:45.822570');
-INSERT INTO "django_migrations" VALUES(18,'admin','0003_logentry_add_action_flag_choices','2026-03-18 01:33:45.832955');
-INSERT INTO "django_migrations" VALUES(19,'publicaciones','0001_initial','2026-03-18 01:33:45.848752');
-INSERT INTO "django_migrations" VALUES(20,'publicaciones','0002_imagenpublicacion','2026-03-18 01:33:45.864699');
-INSERT INTO "django_migrations" VALUES(21,'sessions','0001_initial','2026-03-18 01:33:45.871779');
-CREATE TABLE "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL);
-INSERT INTO "django_session" VALUES('sb9xucfh92fog0o8dqzwngdo30fzn239','.eJxVzLsOwjAMheF3yUyiJrFjYGTnGarYiWkBtVIvE-LdoVIHmM__nZdp87p07TrXqe2LORvWKDWFaJNgtqBElpOqBUI8cRINJzaHX8ZZHnXYbLnn4TY6GYdl6tltidvX2V3HUp-Xvf076PLcfTWCj6WGKoSgPgJo4yk3FCQoehCAGiBr9uSP3jMJ1xATClAqjSKb9wcoi0EN:1w5Es5:3gyDzJD46S4IaAdwLQiTM-XHI484tSCFbYl-yfhN0hg','2026-04-08 03:25:29.761881');
-INSERT INTO "django_session" VALUES('9kbqz9bqhw9pzvzqllumawdxbkejcklt','.eJxVjDkOwjAQRe_imljjZbxQ0nOGaOyZEBYlUpYKcXcSKQWUX--9_1YtrUvfrrNM7Z3VWYUSCLli4zq2jU8uNFnANGLBUURrOxR1-s0K1acMe8sPGm6jruOwTPeid0UfdNbXkeV1Ody_g57mfqujoWBcEYfIYJJ0vK3kc_YBTHZiHOTMNRRA8YAgzjOliBB8jh5Rfb6soz9m:1w5FGK:KBWzRLzvPZ-_xeOxQxTiBwg9QgSpeuBp-u_YAhF2Wd4','2026-04-08 03:50:32.212219');
-CREATE TABLE "publicaciones_imagenpublicacion" ("id" char(32) NOT NULL PRIMARY KEY, "imagen" varchar(100) NOT NULL, "orden" smallint unsigned NOT NULL CHECK ("orden" >= 0), "created_at" datetime NOT NULL, "publicacion_id" char(32) NOT NULL REFERENCES "publicaciones_publicacion" ("id") DEFERRABLE INITIALLY DEFERRED);
-CREATE TABLE "publicaciones_publicacion" ("id" char(32) NOT NULL PRIMARY KEY, "titulo" varchar(200) NOT NULL, "descripcion" text NOT NULL, "categoria" varchar(20) NOT NULL, "precio" decimal NOT NULL, "tiempo_entrega" varchar(50) NOT NULL, "incluye" text NOT NULL CHECK ((JSON_VALID("incluye") OR "incluye" IS NULL)), "imagen_url" varchar(200) NOT NULL, "estado" varchar(20) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "creador_id" char(32) NOT NULL REFERENCES "usuarios_usuario" ("id") DEFERRABLE INITIALLY DEFERRED);
-INSERT INTO "publicaciones_publicacion" VALUES('324dad61db2d4c1ab68ace14a3279d83','Diseño de logotipo profesional para tu marca','Creo logotipos únicos y memorables que representan la esencia de tu marca. Incluye investigación de mercado, 3 propuestas iniciales, revisiones ilimitadas y entrega en formatos vectoriales (AI, SVG, PNG, PDF).','diseno',250000,'5 días','["3 propuestas iniciales", "Revisiones ilimitadas", "Archivos fuente AI/SVG", "Manual de marca b\u00e1sico"]','','publicado','2026-03-25 03:54:46.432581','2026-03-25 03:54:46.432609','767d6e613c374bc9aee6a7b5388bdf35');
-INSERT INTO "publicaciones_publicacion" VALUES('6050c189cd36496b87bc6a514bd93163','Desarrollo de landing page con React y Tailwind','Desarrollo landing pages modernas, responsivas y optimizadas para conversión. Uso React, Next.js y Tailwind CSS para garantizar rendimiento y diseño impecable. Incluye formulario de contacto funcional y despliegue.','desarrollo',800000,'7 días','["Dise\u00f1o responsivo", "SEO b\u00e1sico", "Formulario de contacto", "Deploy en Vercel"]','','publicado','2026-03-25 03:54:46.435562','2026-03-25 03:54:46.435597','0d9ec883615e44b4af8872e5878b4dcc');
-INSERT INTO "publicaciones_publicacion" VALUES('5676b7c5e93549de91ec8ed263678f7e','Estrategia de marketing digital para redes sociales','Diseño una estrategia completa de marketing digital para tus redes sociales. Incluye análisis de audiencia, calendario de contenido para 1 mes, lineamientos gráficos y recomendaciones de pauta publicitaria.','marketing',450000,'10 días','["An\u00e1lisis de audiencia", "Calendario 30 d\u00edas", "Gu\u00eda de contenido", "Reporte de m\u00e9tricas"]','','publicado','2026-03-25 03:54:46.439273','2026-03-25 03:54:46.439323','7b4aaa1dad4a4e12809c70b1b0dcd868');
-INSERT INTO "publicaciones_publicacion" VALUES('0cc3fba711b0490baa01a58b5f270a13','Redacción de artículos SEO para blog corporativo','Escribo artículos optimizados para posicionamiento en buscadores. Cada artículo incluye investigación de keywords, estructura SEO, meta descripción y enlaces internos sugeridos.','redaccion',120000,'3 días','["Investigaci\u00f3n de keywords", "Art\u00edculo de 1500+ palabras", "Meta descripci\u00f3n", "Im\u00e1genes sugeridas"]','','publicado','2026-03-25 03:54:46.441942','2026-03-25 03:54:46.441979','a4df3e372a644645906614cc000ad794');
-INSERT INTO "publicaciones_publicacion" VALUES('04be4479d413402aafc539cd20d3cefb','Edición profesional de video para YouTube','Edito videos con calidad profesional para canales de YouTube. Incluye corrección de color, transiciones, subtítulos, música de fondo libre de derechos y thumbnail personalizado.','video',350000,'4 días','["Correcci\u00f3n de color", "Subt\u00edtulos", "M\u00fasica libre de derechos", "Thumbnail personalizado"]','','publicado','2026-03-25 03:54:46.444507','2026-03-25 03:54:46.444522','7827a65de6f246288eed322b41c8c90c');
-INSERT INTO "publicaciones_publicacion" VALUES('db1ab3b8f97945e1bf74ae5c2dc230c2','Desarrollo de API REST con Django y PostgreSQL','Diseño y desarrollo APIs RESTful robustas usando Django REST Framework. Incluye autenticación JWT, documentación Swagger, tests unitarios y despliegue en contenedor Docker.','desarrollo',1200000,'14 días','["Autenticaci\u00f3n JWT", "Documentaci\u00f3n Swagger", "Tests unitarios", "Docker"]','','publicado','2026-03-25 03:54:46.446533','2026-03-25 03:54:46.446549','0d9ec883615e44b4af8872e5878b4dcc');
-INSERT INTO "publicaciones_publicacion" VALUES('8ab5147eef16458aae24295892ded894','Diseño de interfaz UI/UX para aplicación móvil','Diseño interfaces intuitivas y atractivas para aplicaciones móviles. Proceso completo: wireframes, prototipos interactivos en Figma y sistema de diseño reutilizable.','diseno',900000,'12 días','["Wireframes", "Prototipo interactivo Figma", "Sistema de dise\u00f1o", "Handoff para desarrollo"]','','publicado','2026-03-25 03:54:46.448620','2026-03-25 03:54:46.448638','767d6e613c374bc9aee6a7b5388bdf35');
-INSERT INTO "publicaciones_publicacion" VALUES('ee13b1128999450db7401cdedc456bb8','Gestión de campañas en Google Ads','Configuro y optimizo campañas de Google Ads para maximizar tu ROI. Incluye investigación de keywords, creación de anuncios, segmentación de audiencia y reportes semanales de rendimiento.','marketing',600000,'30 días','["Configuraci\u00f3n de campa\u00f1as", "Investigaci\u00f3n de keywords", "Reportes semanales", "Optimizaci\u00f3n continua"]','','publicado','2026-03-25 03:54:46.450610','2026-03-25 03:54:46.450624','7b4aaa1dad4a4e12809c70b1b0dcd868');
-INSERT INTO "publicaciones_publicacion" VALUES('77f4876f8fa14b279fe9b3f00b9799f8','Traducción profesional español-inglés de documentos','Ofrezco traducciones precisas y naturales entre español e inglés. Especialidad en documentos técnicos, legales y de marketing. Revisión por segundo traductor incluida.','redaccion',80000,'2 días','["Traducci\u00f3n profesional", "Revisi\u00f3n por par", "Formato preservado", "Glosario de t\u00e9rminos"]','','publicado','2026-03-25 03:54:46.452526','2026-03-25 03:54:46.452543','a4df3e372a644645906614cc000ad794');
-INSERT INTO "publicaciones_publicacion" VALUES('86ed44ba3c0a4fa897fc02817d67b7ca','Creación de motion graphics para redes sociales','Creo animaciones cortas y atractivas para Instagram, TikTok y LinkedIn. Perfectas para anuncios, explicaciones de producto o contenido de marca.','video',400000,'5 días','["Animaci\u00f3n hasta 30 segundos", "M\u00fasica incluida", "3 formatos (1:1, 9:16, 16:9)", "1 revisi\u00f3n"]','','publicado','2026-03-25 03:54:46.454436','2026-03-25 03:54:46.454452','7827a65de6f246288eed322b41c8c90c');
-INSERT INTO "publicaciones_publicacion" VALUES('4cdf5e6a4a5546628de2c598e0a31022','Desarrollo de tienda online con Shopify','Configuro tu tienda en Shopify desde cero: diseño personalizado, integración de pasarela de pagos, catálogo de productos y optimización móvil.','desarrollo',1500000,'15 días','["Dise\u00f1o personalizado", "Pasarela de pagos", "Hasta 50 productos", "Capacitaci\u00f3n"]','','publicado','2026-03-25 03:54:46.456303','2026-03-25 03:54:46.456318','a6aeee76a62849a991c71edbb74bbe43');
-INSERT INTO "publicaciones_publicacion" VALUES('eb59d1907d22487281a16e294af7d0a4','Consultoría SEO y auditoría de sitio web','Realizo una auditoría completa de tu sitio web enfocada en SEO técnico, contenido y autoridad de dominio. Entrego un plan de acción priorizado con recomendaciones concretas.','marketing',350000,'7 días','["Auditor\u00eda t\u00e9cnica", "An\u00e1lisis de contenido", "An\u00e1lisis de backlinks", "Plan de acci\u00f3n"]','','publicado','2026-03-25 03:54:46.458147','2026-03-25 03:54:46.458161','7b4aaa1dad4a4e12809c70b1b0dcd868');
-INSERT INTO "publicaciones_publicacion" VALUES('f840a7c9b95e4418aba860c4706e7312','Diseño de presentaciones corporativas en PowerPoint','Diseño presentaciones visualmente impactantes para reuniones, pitch decks e informes. Plantillas editables con tu identidad de marca.','diseno',180000,'3 días','["Hasta 20 slides", "Plantilla editable", "Iconograf\u00eda personalizada", "Versi\u00f3n PDF"]','','publicado','2026-03-25 03:54:46.460079','2026-03-25 03:54:46.460094','767d6e613c374bc9aee6a7b5388bdf35');
-INSERT INTO "publicaciones_publicacion" VALUES('5b2568c06782494bb81d6f2eaee9960c','Automatización de procesos con Python y scripts','Automatizo tareas repetitivas de tu negocio: scraping de datos, generación de reportes, procesamiento de archivos y más. Soluciones a medida con Python.','desarrollo',500000,'7 días','["Script personalizado", "Documentaci\u00f3n", "Soporte 1 semana", "C\u00f3digo fuente"]','','publicado','2026-03-25 03:54:46.462012','2026-03-25 03:54:46.462026','0d9ec883615e44b4af8872e5878b4dcc');
-INSERT INTO "publicaciones_publicacion" VALUES('42bddf39494f4964a98aaa21436df4d1','Redacción de copy para landing pages y ads','Escribo textos persuasivos que convierten visitantes en clientes. Especialidad en landing pages, anuncios de Facebook/Google y emails.','redaccion',150000,'3 días','["Copy para landing page", "Variantes A/B", "CTA optimizados", "Headlines"]','','publicado','2026-03-25 03:54:46.464168','2026-03-25 03:54:46.464193','a4df3e372a644645906614cc000ad794');
-CREATE TABLE "usuarios_experiencia" ("id" char(32) NOT NULL PRIMARY KEY, "empresa" varchar(200) NOT NULL, "cargo" varchar(200) NOT NULL, "descripcion" text NOT NULL, "fecha_inicio" date NOT NULL, "fecha_fin" date NULL, "ubicacion" varchar(200) NOT NULL, "perfil_id" char(32) NOT NULL REFERENCES "usuarios_perfil" ("id") DEFERRABLE INITIALLY DEFERRED);
-INSERT INTO "usuarios_experiencia" VALUES('82133af0dae04377811ec589bc1b5186','MercadoLibre','Frontend Developer','Voluptatum consequuntur repellendus vitae. Quis perferendis voluptas eum voluptatem.','2020-04-01',NULL,'Buenos Aires, Argentina','3f3217b3af97432db3567c4fd394331e');
-INSERT INTO "usuarios_experiencia" VALUES('f1ef280b77764f4aa576d682120e054a','Globant','Diseñadora UI/UX Senior','Voluptates mollitia autem neque. Aut doloremque rem sequi.','2019-11-01','2020-07-27','Bogotá, Colombia','3f3217b3af97432db3567c4fd394331e');
-INSERT INTO "usuarios_experiencia" VALUES('c435429acb434ad69b4712624773cf9f','Freelance','Copywriter','Facilis exercitationem quas. Consequuntur eveniet autem.','2023-07-01',NULL,'Medellín, Colombia','3f3217b3af97432db3567c4fd394331e');
-INSERT INTO "usuarios_experiencia" VALUES('ac42cac64a9848dfba46d057ec067c5b','Platzi','Backend Developer','Ex totam impedit voluptatum repudiandae excepturi. Perferendis quos quos earum voluptatem. Placeat quaerat sint consequatur iure odit. Exercitationem accusantium necessitatibus consequuntur.','2020-09-01','2021-09-19','Remoto','af312e144a56404e827f4204fca35e82');
-INSERT INTO "usuarios_experiencia" VALUES('f6cb3bce0cb749e3b90998456a242b10','Google','Software Engineer Intern','Iusto magni qui eius. Odio eligendi recusandae sint illum voluptates iste. Quidem aspernatur rem cum optio possimus aspernatur.','2020-08-01','2021-02-03','Mountain View, USA','f74c55777b664d678a22a2d06df64544');
-INSERT INTO "usuarios_experiencia" VALUES('563a39c544a94ae092c4d5340ec6b9c0','Bancolombia','Analista de datos','Fugit molestiae fugit voluptas quo nihil. Totam maiores magni libero facilis commodi.','2020-12-01','2022-03-10','Medellín, Colombia','f74c55777b664d678a22a2d06df64544');
-INSERT INTO "usuarios_experiencia" VALUES('41b3363757cd476cac8371804b7ed152','Nequi','Product Manager','Laboriosam ut hic delectus eaque commodi unde placeat. Harum amet nesciunt numquam ipsum incidunt. Ratione sunt amet dolorem nam soluta.','2020-04-01','2021-09-07','Bogotá, Colombia','f74c55777b664d678a22a2d06df64544');
-INSERT INTO "usuarios_experiencia" VALUES('a1ce0f9eb0724b64952d0a1a0ce82b07','MercadoLibre','Frontend Developer','Quibusdam possimus a alias consequuntur animi mollitia. Quo nostrum velit ipsa reiciendis sequi. Cum ipsam veritatis unde.','2022-02-01','2023-07-18','Buenos Aires, Argentina','588a0d4fd7944fc081b2790802bed69f');
-INSERT INTO "usuarios_experiencia" VALUES('c4b3f16f510147b795f001848b7864ab','Freelance','Copywriter','Ea ducimus alias aut neque nam occaecati blanditiis. Vitae ut necessitatibus corrupti iusto hic porro.','2023-02-01','2024-08-21','Medellín, Colombia','f861b821ac4449259a40da28403a0c0a');
-INSERT INTO "usuarios_experiencia" VALUES('92d7b8bfb2714c5d8a5a9395cfcd2a90','Globant','Diseñadora UI/UX Senior','Repudiandae beatae deserunt eius similique tempore laudantium. Amet culpa sit enim quos enim voluptatum.','2019-09-01',NULL,'Bogotá, Colombia','f861b821ac4449259a40da28403a0c0a');
-INSERT INTO "usuarios_experiencia" VALUES('d690b319e2c547488a736d8aff4308ae','Zemoga','Full Stack Developer','Aperiam modi ullam accusantium. Adipisci explicabo blanditiis deleniti.','2024-10-01','2026-04-04','Barranquilla, Colombia','f861b821ac4449259a40da28403a0c0a');
-INSERT INTO "usuarios_experiencia" VALUES('cab70b1fbebd40abb73718062762362a','Platzi','Backend Developer','Nisi laborum nulla praesentium architecto. Porro expedita inventore maxime ipsa. Nemo harum vero ea voluptates.','2024-04-01','2024-12-18','Remoto','4aa2c7fa13e542459e45f25bde0cb592');
-INSERT INTO "usuarios_experiencia" VALUES('63a63571a1af4709807c4d006884d794','MercadoLibre','Frontend Developer','Omnis omnis aliquam sit eum est blanditiis iste. Nihil enim modi et alias.','2020-02-01','2021-11-06','Buenos Aires, Argentina','4aa2c7fa13e542459e45f25bde0cb592');
-INSERT INTO "usuarios_experiencia" VALUES('b55a58c6b0cf4b1299284bceff4eac36','Globant','Diseñadora UI/UX Senior','Dolorum dolorum ut totam minus. Tenetur magni magnam excepturi. Voluptatum excepturi voluptatibus sit eveniet ex.','2024-06-01',NULL,'Bogotá, Colombia','4aa2c7fa13e542459e45f25bde0cb592');
-INSERT INTO "usuarios_experiencia" VALUES('89c458dfa6a24a9e98da5fa66e9484e0','Platzi','Backend Developer','Quibusdam sit nostrum odio. At voluptate architecto recusandae consequuntur unde dignissimos. Quidem tempora nobis aliquam.','2021-12-01','2022-08-11','Remoto','beb4658d89e74cfda00405d6508a6905');
-INSERT INTO "usuarios_experiencia" VALUES('7d39b7987e30441586509d16c87fdfc7','Google','Software Engineer Intern','Sint veniam esse odio. Vero aut non illum est provident praesentium. Dicta commodi debitis repellat.','2023-11-01',NULL,'Mountain View, USA','beb4658d89e74cfda00405d6508a6905');
-INSERT INTO "usuarios_experiencia" VALUES('474d2457e4484c2fac4525d63f4c453b','Platzi','Backend Developer','Architecto sint vero cum commodi hic eveniet. Quo exercitationem sit rem tenetur eligendi.','2022-05-01','2023-06-09','Remoto','77eeef367bd44d85b174c9dccb9f925e');
-INSERT INTO "usuarios_experiencia" VALUES('d072612c295a4d55a9700b337b2e0842','Rappi','Content Strategist','Illo dicta aliquam debitis facilis aut eius. Dolore quo at optio magni minima at eligendi. Eos necessitatibus iure aperiam.','2024-06-01','2025-01-24','Bogotá, Colombia','77eeef367bd44d85b174c9dccb9f925e');
-INSERT INTO "usuarios_experiencia" VALUES('07ad14a388e747bb8f758a0108a6dda3','Zemoga','Full Stack Developer','Rem eligendi dicta occaecati cum molestias voluptate. Explicabo tempore numquam. Nisi recusandae beatae consequatur illum consectetur laboriosam.','2020-01-01','2021-08-13','Barranquilla, Colombia','77eeef367bd44d85b174c9dccb9f925e');
-CREATE TABLE "usuarios_habilidad" ("id" char(32) NOT NULL PRIMARY KEY, "nombre" varchar(100) NOT NULL UNIQUE);
-INSERT INTO "usuarios_habilidad" VALUES('ddd8a7ba8fa24ab6aeb6bd7f542bfd1b','Python');
-INSERT INTO "usuarios_habilidad" VALUES('0301560193164afeae9fff81d675f7e9','JavaScript');
-INSERT INTO "usuarios_habilidad" VALUES('6c8c60b6b9f94a0cb65d1ce4a8bc6aa2','TypeScript');
-INSERT INTO "usuarios_habilidad" VALUES('60481b4cb2684a0e8d814873a94f6448','React');
-INSERT INTO "usuarios_habilidad" VALUES('ca8697e5a48a48b295ef65d76ffc3c4d','Next.js');
-INSERT INTO "usuarios_habilidad" VALUES('1effc8b6870f46599539b06158d06466','Django');
-INSERT INTO "usuarios_habilidad" VALUES('71a3dee665d94e4ebb618a6c2fa4e9ed','Node.js');
-INSERT INTO "usuarios_habilidad" VALUES('fbc506360d74490080573e2572c273ac','PostgreSQL');
-INSERT INTO "usuarios_habilidad" VALUES('8e973a668ebc46c28e5706db0b5d9bad','MongoDB');
-INSERT INTO "usuarios_habilidad" VALUES('7226a66ca18e40b78c2b65457db87317','Docker');
-INSERT INTO "usuarios_habilidad" VALUES('724e254c9f8f47358792832bf36922be','AWS');
-INSERT INTO "usuarios_habilidad" VALUES('1f6fb68497b3412da9f62953119ce709','Git');
-INSERT INTO "usuarios_habilidad" VALUES('2ae16f1705b9451a9791a71b710719a5','Figma');
-INSERT INTO "usuarios_habilidad" VALUES('bc9e96ac372c425695b60bb0649abba9','Adobe Photoshop');
-INSERT INTO "usuarios_habilidad" VALUES('e078e06be1774c83ac25e31b3b4b94d2','Adobe Illustrator');
-INSERT INTO "usuarios_habilidad" VALUES('736908aae0314866b7d9a4e7c2713ea8','UI/UX Design');
-INSERT INTO "usuarios_habilidad" VALUES('eac147af4f1647a899cbd3777f6d98a3','SEO');
-INSERT INTO "usuarios_habilidad" VALUES('2072198fc7b94a4c9b52dbd4290fa36e','Google Analytics');
-INSERT INTO "usuarios_habilidad" VALUES('28a212df37a24acea37f1eedb7ff4231','Content Marketing');
-INSERT INTO "usuarios_habilidad" VALUES('98906e91ec38437db231d2c69865f057','Copywriting');
-INSERT INTO "usuarios_habilidad" VALUES('f3c9a54e912e4fcf9a34b1df62eb2dba','Video Editing');
-INSERT INTO "usuarios_habilidad" VALUES('6a3e0a29028c40d28c40f7452b1c07db','Motion Graphics');
-INSERT INTO "usuarios_habilidad" VALUES('e670fe553cad460f9dada8a9846af0a4','3D Modeling');
-INSERT INTO "usuarios_habilidad" VALUES('091da2e568664f209b0ba5c1dfc2e79a','Blender');
-INSERT INTO "usuarios_habilidad" VALUES('c386e180ef1f46338d2edbc3edb9b399','Project Management');
-INSERT INTO "usuarios_habilidad" VALUES('855659cb93434c0aa145d611ac536289','Scrum');
-INSERT INTO "usuarios_habilidad" VALUES('d6f66ef1a41c426485c06a524071aaf7','Agile');
-INSERT INTO "usuarios_habilidad" VALUES('e1091e647df24614bb02e733a8a9af98','Data Analysis');
-INSERT INTO "usuarios_habilidad" VALUES('d7dd83508b0e4d1babcbd3ac13ddadf1','Machine Learning');
-INSERT INTO "usuarios_habilidad" VALUES('ef3ac51552c6439f886eb02ac4ff2930','TensorFlow');
-INSERT INTO "usuarios_habilidad" VALUES('03bf4e59b33448c685622c8261e05b29','Power BI');
-INSERT INTO "usuarios_habilidad" VALUES('d791da06ff7b498f8a52acdad99155db','Excel Avanzado');
-INSERT INTO "usuarios_habilidad" VALUES('6bd585b66a9440d5ab526389a55d265b','Redacción Creativa');
-INSERT INTO "usuarios_habilidad" VALUES('11253f998e9f4303984c4e5f7134fc8f','Traducción');
-INSERT INTO "usuarios_habilidad" VALUES('f2f604c1c3e8400b8c38aea510b658a9','Community Management');
-INSERT INTO "usuarios_habilidad" VALUES('928eac432c1444929843a84c00b2a30e','Email Marketing');
-INSERT INTO "usuarios_habilidad" VALUES('1fe8c38b32c24905974bab45eba76d65','Google Ads');
-INSERT INTO "usuarios_habilidad" VALUES('b717927984e24627ab933930b21f3871','Facebook Ads');
-INSERT INTO "usuarios_habilidad" VALUES('7854a6c95b464fa491bca4d89510153e','WordPress');
-INSERT INTO "usuarios_habilidad" VALUES('350b24e6ef16427497a8e7b8803d29ef','Shopify');
-INSERT INTO "usuarios_habilidad" VALUES('587af59de964448ba3eb02650a747638','Flutter');
-INSERT INTO "usuarios_habilidad" VALUES('f0416dba32b24eef9f54b06fcc7a33b4','Swift');
-INSERT INTO "usuarios_habilidad" VALUES('f48486229321418f83e49a893fb573eb','Kotlin');
-INSERT INTO "usuarios_habilidad" VALUES('5cec0b3dfdd54173b2244402dcc08e43','Java');
-INSERT INTO "usuarios_habilidad" VALUES('3207c9bd2a5b4362ac0358fcd6115965','C#');
-INSERT INTO "usuarios_habilidad" VALUES('654000a49663492e9065c47011aea6dc','Unity');
-INSERT INTO "usuarios_habilidad" VALUES('0e9663b295cb4ad1bd280a3fbbe98bfd','Unreal Engine');
-INSERT INTO "usuarios_habilidad" VALUES('071a49036df3436c9f92ca770936dc6b','Cybersecurity');
-INSERT INTO "usuarios_habilidad" VALUES('13c757ab851d4d85992791f22e1272b3','DevOps');
-INSERT INTO "usuarios_habilidad" VALUES('854c3ccb74434fb5a66f1c2dfe058948','Linux');
-INSERT INTO "usuarios_habilidad" VALUES('52895e42d9994954bb3f990460ffba93','Go');
-INSERT INTO "usuarios_habilidad" VALUES('5f8817b4e3c44b619370b67ddddfe8a4','Rust');
-INSERT INTO "usuarios_habilidad" VALUES('3bc3de309f114bbd8f0ad07b47631a7d','Vue.js');
-INSERT INTO "usuarios_habilidad" VALUES('05f72069d7cd46fb912e56afe2b8d26e','Angular');
-INSERT INTO "usuarios_habilidad" VALUES('af33dc8b59804f7ab5a80db9f4fd0481','Tailwind CSS');
-INSERT INTO "usuarios_habilidad" VALUES('8ef724c74f6b4b5d97c5fe64f31e5c33','GraphQL');
-INSERT INTO "usuarios_habilidad" VALUES('34c34dc259034f0db4d094605148594d','REST APIs');
-INSERT INTO "usuarios_habilidad" VALUES('f94e022cf7e14ddb91832609c45685e3','Firebase');
-INSERT INTO "usuarios_habilidad" VALUES('05d7b85e70c2432c944a658e08a4155d','Supabase');
-INSERT INTO "usuarios_habilidad" VALUES('657f08eb60054c8d93ec744a03b826f9','Redis');
-CREATE TABLE "usuarios_perfil" ("id" char(32) NOT NULL PRIMARY KEY, "telefono" varchar(20) NOT NULL, "bio" text NOT NULL, "url_portafolio" varchar(200) NOT NULL, "tipo_usuario" varchar(20) NOT NULL, "foto_perfil" varchar(100) NULL, "usuario_id" char(32) NOT NULL UNIQUE REFERENCES "usuarios_usuario" ("id") DEFERRABLE INITIALLY DEFERRED);
-INSERT INTO "usuarios_perfil" VALUES('3f3217b3af97432db3567c4fd394331e','324 632 64 83','Diseñadora gráfica con más de 5 años de experiencia en branding y UI/UX. Apasionada por crear experiencias visuales memorables.','https://portafolio.example.com/maría','freelancer','','767d6e613c374bc9aee6a7b5388bdf35');
-INSERT INTO "usuarios_perfil" VALUES('af312e144a56404e827f4204fca35e82','57 602 427 02 03','Desarrollador full-stack especializado en Python y React. Me encanta construir productos digitales escalables y bien diseñados.','https://portafolio.example.com/carlos','freelancer','','0d9ec883615e44b4af8872e5878b4dcc');
-INSERT INTO "usuarios_perfil" VALUES('f74c55777b664d678a22a2d06df64544','573259636964','Especialista en marketing digital y estrategia de contenido. Ayudo a empresas a crecer su presencia online de forma orgánica.','https://portafolio.example.com/ana','freelancer','','7b4aaa1dad4a4e12809c70b1b0dcd868');
-INSERT INTO "usuarios_perfil" VALUES('588a0d4fd7944fc081b2790802bed69f','+57 307 551 34 63','Ingeniero de software con enfoque en arquitectura cloud y DevOps. Experiencia en AWS, Docker y CI/CD.','https://portafolio.example.com/jorge','ambos','','a6aeee76a62849a991c71edbb74bbe43');
-INSERT INTO "usuarios_perfil" VALUES('f861b821ac4449259a40da28403a0c0a','576035667584','Redactora creativa y copywriter freelance. Transformo ideas complejas en textos claros que conectan con la audiencia.','https://portafolio.example.com/laura','freelancer','','a4df3e372a644645906614cc000ad794');
-INSERT INTO "usuarios_perfil" VALUES('4aa2c7fa13e542459e45f25bde0cb592','609 432 80 36','Editor de video y motion designer. Creo contenido audiovisual para marcas, startups y creadores de contenido.','https://portafolio.example.com/david','ambos','','7827a65de6f246288eed322b41c8c90c');
-INSERT INTO "usuarios_perfil" VALUES('beb4658d89e74cfda00405d6508a6905','4151885','Emprendedora digital buscando talento para proyectos de e-commerce y aplicaciones móviles.','https://portafolio.example.com/camila','cliente','','aa13a567a320419982c1034c52cb4a13');
-INSERT INTO "usuarios_perfil" VALUES('77eeef367bd44d85b174c9dccb9f925e','+573013513690','Product manager con experiencia en startups tech. Busco freelancers para proyectos de desarrollo y diseño.','https://portafolio.example.com/andrés','cliente','','fc8a6580af054815a9fbb9ce09ebe57c');
-CREATE TABLE "usuarios_perfil_habilidades" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "perfil_id" char(32) NOT NULL REFERENCES "usuarios_perfil" ("id") DEFERRABLE INITIALLY DEFERRED, "habilidad_id" char(32) NOT NULL REFERENCES "usuarios_habilidad" ("id") DEFERRABLE INITIALLY DEFERRED);
-INSERT INTO "usuarios_perfil_habilidades" VALUES(41,'3f3217b3af97432db3567c4fd394331e','af33dc8b59804f7ab5a80db9f4fd0481');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(42,'3f3217b3af97432db3567c4fd394331e','2ae16f1705b9451a9791a71b710719a5');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(43,'3f3217b3af97432db3567c4fd394331e','e078e06be1774c83ac25e31b3b4b94d2');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(44,'3f3217b3af97432db3567c4fd394331e','bc9e96ac372c425695b60bb0649abba9');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(45,'3f3217b3af97432db3567c4fd394331e','736908aae0314866b7d9a4e7c2713ea8');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(46,'af312e144a56404e827f4204fca35e82','6c8c60b6b9f94a0cb65d1ce4a8bc6aa2');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(47,'af312e144a56404e827f4204fca35e82','ddd8a7ba8fa24ab6aeb6bd7f542bfd1b');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(48,'af312e144a56404e827f4204fca35e82','fbc506360d74490080573e2572c273ac');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(49,'af312e144a56404e827f4204fca35e82','7226a66ca18e40b78c2b65457db87317');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(50,'af312e144a56404e827f4204fca35e82','60481b4cb2684a0e8d814873a94f6448');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(51,'af312e144a56404e827f4204fca35e82','1effc8b6870f46599539b06158d06466');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(52,'f74c55777b664d678a22a2d06df64544','eac147af4f1647a899cbd3777f6d98a3');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(53,'f74c55777b664d678a22a2d06df64544','28a212df37a24acea37f1eedb7ff4231');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(54,'f74c55777b664d678a22a2d06df64544','1fe8c38b32c24905974bab45eba76d65');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(55,'f74c55777b664d678a22a2d06df64544','2072198fc7b94a4c9b52dbd4290fa36e');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(56,'f74c55777b664d678a22a2d06df64544','b717927984e24627ab933930b21f3871');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(57,'588a0d4fd7944fc081b2790802bed69f','13c757ab851d4d85992791f22e1272b3');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(58,'588a0d4fd7944fc081b2790802bed69f','724e254c9f8f47358792832bf36922be');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(59,'588a0d4fd7944fc081b2790802bed69f','ddd8a7ba8fa24ab6aeb6bd7f542bfd1b');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(60,'588a0d4fd7944fc081b2790802bed69f','52895e42d9994954bb3f990460ffba93');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(61,'588a0d4fd7944fc081b2790802bed69f','7226a66ca18e40b78c2b65457db87317');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(62,'588a0d4fd7944fc081b2790802bed69f','854c3ccb74434fb5a66f1c2dfe058948');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(63,'f861b821ac4449259a40da28403a0c0a','7854a6c95b464fa491bca4d89510153e');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(64,'f861b821ac4449259a40da28403a0c0a','eac147af4f1647a899cbd3777f6d98a3');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(65,'f861b821ac4449259a40da28403a0c0a','6bd585b66a9440d5ab526389a55d265b');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(66,'f861b821ac4449259a40da28403a0c0a','98906e91ec38437db231d2c69865f057');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(67,'f861b821ac4449259a40da28403a0c0a','11253f998e9f4303984c4e5f7134fc8f');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(68,'4aa2c7fa13e542459e45f25bde0cb592','091da2e568664f209b0ba5c1dfc2e79a');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(69,'4aa2c7fa13e542459e45f25bde0cb592','2ae16f1705b9451a9791a71b710719a5');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(70,'4aa2c7fa13e542459e45f25bde0cb592','6a3e0a29028c40d28c40f7452b1c07db');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(71,'4aa2c7fa13e542459e45f25bde0cb592','bc9e96ac372c425695b60bb0649abba9');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(72,'4aa2c7fa13e542459e45f25bde0cb592','f3c9a54e912e4fcf9a34b1df62eb2dba');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(73,'beb4658d89e74cfda00405d6508a6905','d6f66ef1a41c426485c06a524071aaf7');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(74,'beb4658d89e74cfda00405d6508a6905','d791da06ff7b498f8a52acdad99155db');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(75,'beb4658d89e74cfda00405d6508a6905','c386e180ef1f46338d2edbc3edb9b399');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(76,'beb4658d89e74cfda00405d6508a6905','855659cb93434c0aa145d611ac536289');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(77,'77eeef367bd44d85b174c9dccb9f925e','03bf4e59b33448c685622c8261e05b29');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(78,'77eeef367bd44d85b174c9dccb9f925e','e1091e647df24614bb02e733a8a9af98');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(79,'77eeef367bd44d85b174c9dccb9f925e','c386e180ef1f46338d2edbc3edb9b399');
-INSERT INTO "usuarios_perfil_habilidades" VALUES(80,'77eeef367bd44d85b174c9dccb9f925e','855659cb93434c0aa145d611ac536289');
-CREATE TABLE "usuarios_usuario" ("password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "id" char(32) NOT NULL PRIMARY KEY, "email" varchar(254) NOT NULL UNIQUE);
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$POqBetO4HYngT3hk2phpm3$u7JpLO8rBBiavohWI8Xi7FF5RQHcaO1KhYF3cMU0cpo=',NULL,0,'María','López',0,1,'2026-03-25 03:54:44.351725','767d6e613c374bc9aee6a7b5388bdf35','maria.lopez@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$t3GLvLFiP4b6Uq39DmnMVg$/iw6sjaZF7dAYGbiSriqENlnP2QxJmq6CIy7DmIXsQ0=',NULL,0,'Carlos','García',0,1,'2026-03-25 03:54:44.612607','0d9ec883615e44b4af8872e5878b4dcc','carlos.garcia@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$BSgtnGP4D2fzyskxBv1Z0E$qwhW0DR8bhDq26Ya0EpaQXEiUb+XurNmFelO2njwIps=',NULL,0,'Ana','Martínez',0,1,'2026-03-25 03:54:44.867844','7b4aaa1dad4a4e12809c70b1b0dcd868','ana.martinez@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$3Qf63YHdlZUMWKQE2ZlrAP$HlFexcoU7R5NJOw/CN6lo9yTTj3bU4FVmg3WXGxkfeE=',NULL,0,'Jorge','Ramírez',0,1,'2026-03-25 03:54:45.121771','a6aeee76a62849a991c71edbb74bbe43','jorge.ramirez@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$ZMGGuYyUePCMJHFoqc3zSr$qoOYl+zB1oZ+gQQITRygrbdOuZ179JrKnAXzSGhvT9o=',NULL,0,'Laura','Hernández',0,1,'2026-03-25 03:54:45.378248','a4df3e372a644645906614cc000ad794','laura.hernandez@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$jlG9b4oxdfIXGAz61VAfEW$1dIOpIf0kzq7KZ/p65IjPQynV1/UGuuD3eDcVv7ppEQ=',NULL,0,'David','Torres',0,1,'2026-03-25 03:54:45.632311','7827a65de6f246288eed322b41c8c90c','david.torres@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$LrSjTh7PHL3XQsREjLsYci$nLrUv/2oK4ZxRUCWA4vyHlkq9pCBD0cXtQLqrIBJEv0=',NULL,0,'Camila','Rojas',0,1,'2026-03-25 03:54:45.884949','aa13a567a320419982c1034c52cb4a13','camila.rojas@example.com');
-INSERT INTO "usuarios_usuario" VALUES('pbkdf2_sha256$1200000$SsfX40A3D1ZRZYEDxVq2Y4$k4+FV+U6Q80c45ECbEj1MP8iDZSs1+spER1d7YdwakM=',NULL,0,'Andrés','Moreno',0,1,'2026-03-25 03:54:46.135385','fc8a6580af054815a9fbb9ce09ebe57c','andres.moreno@example.com');
-CREATE TABLE "usuarios_usuario_groups" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "usuario_id" char(32) NOT NULL REFERENCES "usuarios_usuario" ("id") DEFERRABLE INITIALLY DEFERRED, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED);
-CREATE TABLE "usuarios_usuario_user_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "usuario_id" char(32) NOT NULL REFERENCES "usuarios_usuario" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED);
-CREATE UNIQUE INDEX "django_content_type_app_label_model_76bd3d3b_uniq" ON "django_content_type" ("app_label", "model");
-CREATE UNIQUE INDEX "auth_group_permissions_group_id_permission_id_0cd325b0_uniq" ON "auth_group_permissions" ("group_id", "permission_id");
-CREATE INDEX "auth_group_permissions_group_id_b120cbf9" ON "auth_group_permissions" ("group_id");
-CREATE INDEX "auth_group_permissions_permission_id_84c5c92e" ON "auth_group_permissions" ("permission_id");
-CREATE UNIQUE INDEX "auth_permission_content_type_id_codename_01ab375a_uniq" ON "auth_permission" ("content_type_id", "codename");
-CREATE INDEX "auth_permission_content_type_id_2f476e4b" ON "auth_permission" ("content_type_id");
-CREATE UNIQUE INDEX "usuarios_usuario_groups_usuario_id_group_id_4ed5b09e_uniq" ON "usuarios_usuario_groups" ("usuario_id", "group_id");
-CREATE INDEX "usuarios_usuario_groups_usuario_id_7a34077f" ON "usuarios_usuario_groups" ("usuario_id");
-CREATE INDEX "usuarios_usuario_groups_group_id_e77f6dcf" ON "usuarios_usuario_groups" ("group_id");
-CREATE UNIQUE INDEX "usuarios_usuario_user_permissions_usuario_id_permission_id_217cadcd_uniq" ON "usuarios_usuario_user_permissions" ("usuario_id", "permission_id");
-CREATE INDEX "usuarios_usuario_user_permissions_usuario_id_60aeea80" ON "usuarios_usuario_user_permissions" ("usuario_id");
-CREATE INDEX "usuarios_usuario_user_permissions_permission_id_4e5c0f2f" ON "usuarios_usuario_user_permissions" ("permission_id");
-CREATE UNIQUE INDEX "usuarios_perfil_habilidades_perfil_id_habilidad_id_accd387b_uniq" ON "usuarios_perfil_habilidades" ("perfil_id", "habilidad_id");
-CREATE INDEX "usuarios_perfil_habilidades_perfil_id_2a0b933d" ON "usuarios_perfil_habilidades" ("perfil_id");
-CREATE INDEX "usuarios_perfil_habilidades_habilidad_id_65b5c7ad" ON "usuarios_perfil_habilidades" ("habilidad_id");
-CREATE INDEX "usuarios_experiencia_perfil_id_53856829" ON "usuarios_experiencia" ("perfil_id");
-CREATE INDEX "django_admin_log_content_type_id_c4bce8eb" ON "django_admin_log" ("content_type_id");
-CREATE INDEX "django_admin_log_user_id_c564eba6" ON "django_admin_log" ("user_id");
-CREATE INDEX "publicaciones_publicacion_creador_id_221847ea" ON "publicaciones_publicacion" ("creador_id");
-CREATE INDEX "publicacion_estado_8c562d_idx" ON "publicaciones_publicacion" ("estado", "created_at" DESC);
-CREATE INDEX "publicacion_categor_de198b_idx" ON "publicaciones_publicacion" ("categoria");
-CREATE INDEX "publicaciones_imagenpublicacion_publicacion_id_8c77322d" ON "publicaciones_imagenpublicacion" ("publicacion_id");
-CREATE INDEX "django_session_expire_date_a5c62663" ON "django_session" ("expire_date");
-DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('django_migrations',21);
-INSERT INTO "sqlite_sequence" VALUES('django_content_type',11);
-INSERT INTO "sqlite_sequence" VALUES('auth_permission',44);
-INSERT INTO "sqlite_sequence" VALUES('auth_group',0);
-INSERT INTO "sqlite_sequence" VALUES('django_admin_log',0);
-INSERT INTO "sqlite_sequence" VALUES('usuarios_perfil_habilidades',80);
-COMMIT;
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.13
+-- Dumped by pg_dump version 16.13
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.django_content_type VALUES (1, 'admin', 'logentry');
+INSERT INTO public.django_content_type VALUES (2, 'auth', 'group');
+INSERT INTO public.django_content_type VALUES (3, 'auth', 'permission');
+INSERT INTO public.django_content_type VALUES (4, 'contenttypes', 'contenttype');
+INSERT INTO public.django_content_type VALUES (5, 'sessions', 'session');
+INSERT INTO public.django_content_type VALUES (6, 'usuarios', 'experiencia');
+INSERT INTO public.django_content_type VALUES (7, 'usuarios', 'habilidad');
+INSERT INTO public.django_content_type VALUES (8, 'usuarios', 'perfil');
+INSERT INTO public.django_content_type VALUES (9, 'usuarios', 'usuario');
+INSERT INTO public.django_content_type VALUES (10, 'publicaciones', 'imagenpublicacion');
+INSERT INTO public.django_content_type VALUES (11, 'publicaciones', 'publicacion');
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.auth_permission VALUES (1, 'Can add log entry', 1, 'add_logentry');
+INSERT INTO public.auth_permission VALUES (2, 'Can change log entry', 1, 'change_logentry');
+INSERT INTO public.auth_permission VALUES (3, 'Can delete log entry', 1, 'delete_logentry');
+INSERT INTO public.auth_permission VALUES (4, 'Can view log entry', 1, 'view_logentry');
+INSERT INTO public.auth_permission VALUES (5, 'Can add permission', 3, 'add_permission');
+INSERT INTO public.auth_permission VALUES (6, 'Can change permission', 3, 'change_permission');
+INSERT INTO public.auth_permission VALUES (7, 'Can delete permission', 3, 'delete_permission');
+INSERT INTO public.auth_permission VALUES (8, 'Can view permission', 3, 'view_permission');
+INSERT INTO public.auth_permission VALUES (9, 'Can add group', 2, 'add_group');
+INSERT INTO public.auth_permission VALUES (10, 'Can change group', 2, 'change_group');
+INSERT INTO public.auth_permission VALUES (11, 'Can delete group', 2, 'delete_group');
+INSERT INTO public.auth_permission VALUES (12, 'Can view group', 2, 'view_group');
+INSERT INTO public.auth_permission VALUES (13, 'Can add content type', 4, 'add_contenttype');
+INSERT INTO public.auth_permission VALUES (14, 'Can change content type', 4, 'change_contenttype');
+INSERT INTO public.auth_permission VALUES (15, 'Can delete content type', 4, 'delete_contenttype');
+INSERT INTO public.auth_permission VALUES (16, 'Can view content type', 4, 'view_contenttype');
+INSERT INTO public.auth_permission VALUES (17, 'Can add session', 5, 'add_session');
+INSERT INTO public.auth_permission VALUES (18, 'Can change session', 5, 'change_session');
+INSERT INTO public.auth_permission VALUES (19, 'Can delete session', 5, 'delete_session');
+INSERT INTO public.auth_permission VALUES (20, 'Can view session', 5, 'view_session');
+INSERT INTO public.auth_permission VALUES (21, 'Can add Habilidad', 7, 'add_habilidad');
+INSERT INTO public.auth_permission VALUES (22, 'Can change Habilidad', 7, 'change_habilidad');
+INSERT INTO public.auth_permission VALUES (23, 'Can delete Habilidad', 7, 'delete_habilidad');
+INSERT INTO public.auth_permission VALUES (24, 'Can view Habilidad', 7, 'view_habilidad');
+INSERT INTO public.auth_permission VALUES (25, 'Can add Usuario', 9, 'add_usuario');
+INSERT INTO public.auth_permission VALUES (26, 'Can change Usuario', 9, 'change_usuario');
+INSERT INTO public.auth_permission VALUES (27, 'Can delete Usuario', 9, 'delete_usuario');
+INSERT INTO public.auth_permission VALUES (28, 'Can view Usuario', 9, 'view_usuario');
+INSERT INTO public.auth_permission VALUES (29, 'Can add Perfil', 8, 'add_perfil');
+INSERT INTO public.auth_permission VALUES (30, 'Can change Perfil', 8, 'change_perfil');
+INSERT INTO public.auth_permission VALUES (31, 'Can delete Perfil', 8, 'delete_perfil');
+INSERT INTO public.auth_permission VALUES (32, 'Can view Perfil', 8, 'view_perfil');
+INSERT INTO public.auth_permission VALUES (33, 'Can add Experiencia', 6, 'add_experiencia');
+INSERT INTO public.auth_permission VALUES (34, 'Can change Experiencia', 6, 'change_experiencia');
+INSERT INTO public.auth_permission VALUES (35, 'Can delete Experiencia', 6, 'delete_experiencia');
+INSERT INTO public.auth_permission VALUES (36, 'Can view Experiencia', 6, 'view_experiencia');
+INSERT INTO public.auth_permission VALUES (37, 'Can add Publicación', 11, 'add_publicacion');
+INSERT INTO public.auth_permission VALUES (38, 'Can change Publicación', 11, 'change_publicacion');
+INSERT INTO public.auth_permission VALUES (39, 'Can delete Publicación', 11, 'delete_publicacion');
+INSERT INTO public.auth_permission VALUES (40, 'Can view Publicación', 11, 'view_publicacion');
+INSERT INTO public.auth_permission VALUES (41, 'Can add Imagen de Publicación', 10, 'add_imagenpublicacion');
+INSERT INTO public.auth_permission VALUES (42, 'Can change Imagen de Publicación', 10, 'change_imagenpublicacion');
+INSERT INTO public.auth_permission VALUES (43, 'Can delete Imagen de Publicación', 10, 'delete_imagenpublicacion');
+INSERT INTO public.auth_permission VALUES (44, 'Can view Imagen de Publicación', 10, 'view_imagenpublicacion');
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Data for Name: usuarios_usuario; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$Xb7j6NGzMLbsSwJ12PdSHx$SS2f5DcdO7klScpRZRAKomqk7TsuWEChbqBrR153zBA=', NULL, false, 'María', 'López', false, true, '2026-03-25 04:36:02.606265+00', '19b9c0fd-7308-42fd-ac7b-23a0843ff478', 'maria.lopez@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$49F5WkuEg8hpwopW2dQFrc$HYyjr0R+DXcOZepGidHWnEodDmhuBRoWaLvmRldqc2A=', NULL, false, 'Carlos', 'García', false, true, '2026-03-25 04:36:02.863905+00', 'e91dafde-3520-40cd-acde-30928b06f11e', 'carlos.garcia@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$dEZdUtDTpB53J9Hr69euUl$51/bxaArNZQjAEgsPEw73+WteqRK++nAcnOl1xqE6ao=', NULL, false, 'Ana', 'Martínez', false, true, '2026-03-25 04:36:03.110979+00', 'b844f358-2ddf-4bd1-9836-cd51ace66c91', 'ana.martinez@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$QPb92QmjeprFjyFeHlHjCn$3ox+Us9Se1TsKwnScPRv8ubmdpjgw97T4qDKtCCbUuU=', NULL, false, 'Jorge', 'Ramírez', false, true, '2026-03-25 04:36:03.358629+00', 'c907698d-1857-4f9d-b29f-2fb82b5f6c93', 'jorge.ramirez@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$bGJI7b5KWIpnEJpYhhHnBn$lvYrmtlDQnyoX+AK3m6TqHQu+YUdrJ39jAE/vBK8lVQ=', NULL, false, 'Laura', 'Hernández', false, true, '2026-03-25 04:36:03.60985+00', 'd69af16e-445a-45bb-ad6f-dda581312cf1', 'laura.hernandez@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$avTlb37iWPv3NLAYHhqLGR$zwa7J1sHJ0mLXXJbf2C/NinbPCwt5g5ExFxpCQREGdo=', NULL, false, 'David', 'Torres', false, true, '2026-03-25 04:36:03.861496+00', 'f785047c-a67f-4447-aef5-aed3339f8470', 'david.torres@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$Z65cHIJG54kdaxPGjqQjZl$5StMiF8HHejzJa2TwYrIxMfbGx3kPYR4JE1QdwqOf0A=', NULL, false, 'Camila', 'Rojas', false, true, '2026-03-25 04:36:04.108464+00', 'f620541f-0531-4132-94ae-c438c2552a3e', 'camila.rojas@example.com');
+INSERT INTO public.usuarios_usuario VALUES ('pbkdf2_sha256$1200000$Dr18ShzW9eyLGh9Lu8rNrB$kfo4XEJXNcWXy6g8nxPvyD/lWBzdQriDf8LFb7AySRM=', NULL, false, 'Andrés', 'Moreno', false, true, '2026-03-25 04:36:04.355587+00', 'b1bc267f-c7d1-48e8-a2a2-97719fa62c0c', 'andres.moreno@example.com');
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Data for Name: publicaciones_publicacion; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.publicaciones_publicacion VALUES ('40ea5088-878d-42ae-a6eb-d397bbcaa5b6', 'Diseño de logotipo profesional para tu marca', 'Creo logotipos únicos y memorables que representan la esencia de tu marca. Incluye investigación de mercado, 3 propuestas iniciales, revisiones ilimitadas y entrega en formatos vectoriales (AI, SVG, PNG, PDF).', 'diseno', 250000.00, '5 días', '["3 propuestas iniciales", "Revisiones ilimitadas", "Archivos fuente AI/SVG", "Manual de marca básico"]', '', 'publicado', '2026-03-25 04:36:04.627529+00', '2026-03-25 04:36:04.62754+00', '19b9c0fd-7308-42fd-ac7b-23a0843ff478');
+INSERT INTO public.publicaciones_publicacion VALUES ('5ec106bb-393e-43b4-b801-e69778718a10', 'Desarrollo de landing page con React y Tailwind', 'Desarrollo landing pages modernas, responsivas y optimizadas para conversión. Uso React, Next.js y Tailwind CSS para garantizar rendimiento y diseño impecable. Incluye formulario de contacto funcional y despliegue.', 'desarrollo', 800000.00, '7 días', '["Diseño responsivo", "SEO básico", "Formulario de contacto", "Deploy en Vercel"]', '', 'publicado', '2026-03-25 04:36:04.629021+00', '2026-03-25 04:36:04.62903+00', 'e91dafde-3520-40cd-acde-30928b06f11e');
+INSERT INTO public.publicaciones_publicacion VALUES ('a1a86afa-38cf-4656-a764-793f727a249a', 'Estrategia de marketing digital para redes sociales', 'Diseño una estrategia completa de marketing digital para tus redes sociales. Incluye análisis de audiencia, calendario de contenido para 1 mes, lineamientos gráficos y recomendaciones de pauta publicitaria.', 'marketing', 450000.00, '10 días', '["Análisis de audiencia", "Calendario 30 días", "Guía de contenido", "Reporte de métricas"]', '', 'publicado', '2026-03-25 04:36:04.630224+00', '2026-03-25 04:36:04.630232+00', 'b844f358-2ddf-4bd1-9836-cd51ace66c91');
+INSERT INTO public.publicaciones_publicacion VALUES ('65666384-159d-423b-b7f0-56f7f310a79c', 'Redacción de artículos SEO para blog corporativo', 'Escribo artículos optimizados para posicionamiento en buscadores. Cada artículo incluye investigación de keywords, estructura SEO, meta descripción y enlaces internos sugeridos.', 'redaccion', 120000.00, '3 días', '["Investigación de keywords", "Artículo de 1500+ palabras", "Meta descripción", "Imágenes sugeridas"]', '', 'publicado', '2026-03-25 04:36:04.631227+00', '2026-03-25 04:36:04.631235+00', 'd69af16e-445a-45bb-ad6f-dda581312cf1');
+INSERT INTO public.publicaciones_publicacion VALUES ('a5dabbe3-e1f1-46c3-b32d-7ffffea3dc6c', 'Edición profesional de video para YouTube', 'Edito videos con calidad profesional para canales de YouTube. Incluye corrección de color, transiciones, subtítulos, música de fondo libre de derechos y thumbnail personalizado.', 'video', 350000.00, '4 días', '["Corrección de color", "Subtítulos", "Música libre de derechos", "Thumbnail personalizado"]', '', 'publicado', '2026-03-25 04:36:04.632306+00', '2026-03-25 04:36:04.632314+00', 'f785047c-a67f-4447-aef5-aed3339f8470');
+INSERT INTO public.publicaciones_publicacion VALUES ('c467108c-a632-45b3-954b-b014d9e706b1', 'Desarrollo de API REST con Django y PostgreSQL', 'Diseño y desarrollo APIs RESTful robustas usando Django REST Framework. Incluye autenticación JWT, documentación Swagger, tests unitarios y despliegue en contenedor Docker.', 'desarrollo', 1200000.00, '14 días', '["Autenticación JWT", "Documentación Swagger", "Tests unitarios", "Docker"]', '', 'publicado', '2026-03-25 04:36:04.633337+00', '2026-03-25 04:36:04.633346+00', 'e91dafde-3520-40cd-acde-30928b06f11e');
+INSERT INTO public.publicaciones_publicacion VALUES ('3ea10c3f-aa68-4449-9485-2815566976d7', 'Diseño de interfaz UI/UX para aplicación móvil', 'Diseño interfaces intuitivas y atractivas para aplicaciones móviles. Proceso completo: wireframes, prototipos interactivos en Figma y sistema de diseño reutilizable.', 'diseno', 900000.00, '12 días', '["Wireframes", "Prototipo interactivo Figma", "Sistema de diseño", "Handoff para desarrollo"]', '', 'publicado', '2026-03-25 04:36:04.634499+00', '2026-03-25 04:36:04.634508+00', '19b9c0fd-7308-42fd-ac7b-23a0843ff478');
+INSERT INTO public.publicaciones_publicacion VALUES ('886d6051-6d5f-4856-aa4b-ac2b435cd444', 'Gestión de campañas en Google Ads', 'Configuro y optimizo campañas de Google Ads para maximizar tu ROI. Incluye investigación de keywords, creación de anuncios, segmentación de audiencia y reportes semanales de rendimiento.', 'marketing', 600000.00, '30 días', '["Configuración de campañas", "Investigación de keywords", "Reportes semanales", "Optimización continua"]', '', 'publicado', '2026-03-25 04:36:04.635563+00', '2026-03-25 04:36:04.635573+00', 'b844f358-2ddf-4bd1-9836-cd51ace66c91');
+INSERT INTO public.publicaciones_publicacion VALUES ('97e5cc46-6c69-4b8c-a2a7-e56280b17cb5', 'Traducción profesional español-inglés de documentos', 'Ofrezco traducciones precisas y naturales entre español e inglés. Especialidad en documentos técnicos, legales y de marketing. Revisión por segundo traductor incluida.', 'redaccion', 80000.00, '2 días', '["Traducción profesional", "Revisión por par", "Formato preservado", "Glosario de términos"]', '', 'publicado', '2026-03-25 04:36:04.636864+00', '2026-03-25 04:36:04.636874+00', 'd69af16e-445a-45bb-ad6f-dda581312cf1');
+INSERT INTO public.publicaciones_publicacion VALUES ('df8d25c7-5137-4704-b91e-7efbe35dc3e4', 'Creación de motion graphics para redes sociales', 'Creo animaciones cortas y atractivas para Instagram, TikTok y LinkedIn. Perfectas para anuncios, explicaciones de producto o contenido de marca.', 'video', 400000.00, '5 días', '["Animación hasta 30 segundos", "Música incluida", "3 formatos (1:1, 9:16, 16:9)", "1 revisión"]', '', 'publicado', '2026-03-25 04:36:04.638364+00', '2026-03-25 04:36:04.638375+00', 'f785047c-a67f-4447-aef5-aed3339f8470');
+INSERT INTO public.publicaciones_publicacion VALUES ('0edf3ffe-1c11-4f5f-86a2-7298d74d0bf3', 'Desarrollo de tienda online con Shopify', 'Configuro tu tienda en Shopify desde cero: diseño personalizado, integración de pasarela de pagos, catálogo de productos y optimización móvil.', 'desarrollo', 1500000.00, '15 días', '["Diseño personalizado", "Pasarela de pagos", "Hasta 50 productos", "Capacitación"]', '', 'publicado', '2026-03-25 04:36:04.639717+00', '2026-03-25 04:36:04.639726+00', 'c907698d-1857-4f9d-b29f-2fb82b5f6c93');
+INSERT INTO public.publicaciones_publicacion VALUES ('adbc1641-6e57-4a00-8649-239e5d020775', 'Consultoría SEO y auditoría de sitio web', 'Realizo una auditoría completa de tu sitio web enfocada en SEO técnico, contenido y autoridad de dominio. Entrego un plan de acción priorizado con recomendaciones concretas.', 'marketing', 350000.00, '7 días', '["Auditoría técnica", "Análisis de contenido", "Análisis de backlinks", "Plan de acción"]', '', 'publicado', '2026-03-25 04:36:04.641039+00', '2026-03-25 04:36:04.641049+00', 'b844f358-2ddf-4bd1-9836-cd51ace66c91');
+INSERT INTO public.publicaciones_publicacion VALUES ('ea9c40fe-b3d7-4a37-adf9-be174a2f20ed', 'Diseño de presentaciones corporativas en PowerPoint', 'Diseño presentaciones visualmente impactantes para reuniones, pitch decks e informes. Plantillas editables con tu identidad de marca.', 'diseno', 180000.00, '3 días', '["Hasta 20 slides", "Plantilla editable", "Iconografía personalizada", "Versión PDF"]', '', 'publicado', '2026-03-25 04:36:04.642664+00', '2026-03-25 04:36:04.642676+00', '19b9c0fd-7308-42fd-ac7b-23a0843ff478');
+INSERT INTO public.publicaciones_publicacion VALUES ('a4a39fb9-44c9-48d7-abd1-38eacd3f5555', 'Automatización de procesos con Python y scripts', 'Automatizo tareas repetitivas de tu negocio: scraping de datos, generación de reportes, procesamiento de archivos y más. Soluciones a medida con Python.', 'desarrollo', 500000.00, '7 días', '["Script personalizado", "Documentación", "Soporte 1 semana", "Código fuente"]', '', 'publicado', '2026-03-25 04:36:04.644682+00', '2026-03-25 04:36:04.644695+00', 'e91dafde-3520-40cd-acde-30928b06f11e');
+INSERT INTO public.publicaciones_publicacion VALUES ('a301797f-5c05-493c-820e-91a5c5666174', 'Redacción de copy para landing pages y ads', 'Escribo textos persuasivos que convierten visitantes en clientes. Especialidad en landing pages, anuncios de Facebook/Google y emails.', 'redaccion', 150000.00, '3 días', '["Copy para landing page", "Variantes A/B", "CTA optimizados", "Headlines"]', '', 'publicado', '2026-03-25 04:36:04.645752+00', '2026-03-25 04:36:04.645761+00', 'd69af16e-445a-45bb-ad6f-dda581312cf1');
+
+
+--
+-- Data for Name: publicaciones_imagenpublicacion; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Data for Name: usuarios_perfil; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.usuarios_perfil VALUES ('588f42a3-f65c-49e3-b307-0dae13f4a01e', '316 106 95 69', 'Diseñadora gráfica con más de 5 años de experiencia en branding y UI/UX. Apasionada por crear experiencias visuales memorables.', 'https://portafolio.example.com/maría', 'freelancer', '', '19b9c0fd-7308-42fd-ac7b-23a0843ff478');
+INSERT INTO public.usuarios_perfil VALUES ('05b25a96-7f6d-4a4a-983c-83eca8d3f286', '57 327 028 30 16', 'Desarrollador full-stack especializado en Python y React. Me encanta construir productos digitales escalables y bien diseñados.', 'https://portafolio.example.com/carlos', 'freelancer', '', 'e91dafde-3520-40cd-acde-30928b06f11e');
+INSERT INTO public.usuarios_perfil VALUES ('77ef140f-39b8-4ff6-81bc-2cf4a157111e', '573198538688', 'Especialista en marketing digital y estrategia de contenido. Ayudo a empresas a crecer su presencia online de forma orgánica.', 'https://portafolio.example.com/ana', 'freelancer', '', 'b844f358-2ddf-4bd1-9836-cd51ace66c91');
+INSERT INTO public.usuarios_perfil VALUES ('92fda56b-be2c-4e99-af51-04aa68f69815', '57 327 781 81 02', 'Ingeniero de software con enfoque en arquitectura cloud y DevOps. Experiencia en AWS, Docker y CI/CD.', 'https://portafolio.example.com/jorge', 'ambos', '', 'c907698d-1857-4f9d-b29f-2fb82b5f6c93');
+INSERT INTO public.usuarios_perfil VALUES ('679d5574-b4a7-426c-95b6-afa2b20ca1d9', '1406372', 'Redactora creativa y copywriter freelance. Transformo ideas complejas en textos claros que conectan con la audiencia.', 'https://portafolio.example.com/laura', 'freelancer', '', 'd69af16e-445a-45bb-ad6f-dda581312cf1');
+INSERT INTO public.usuarios_perfil VALUES ('57ef4ed9-2fa3-42a2-a410-298222611123', '573047313981', 'Editor de video y motion designer. Creo contenido audiovisual para marcas, startups y creadores de contenido.', 'https://portafolio.example.com/david', 'ambos', '', 'f785047c-a67f-4447-aef5-aed3339f8470');
+INSERT INTO public.usuarios_perfil VALUES ('297a569d-ce26-494b-8f36-9f4add4e1f78', '(+57)3082189600', 'Emprendedora digital buscando talento para proyectos de e-commerce y aplicaciones móviles.', 'https://portafolio.example.com/camila', 'cliente', '', 'f620541f-0531-4132-94ae-c438c2552a3e');
+INSERT INTO public.usuarios_perfil VALUES ('61d2dff3-3335-4f15-b72e-026f281ff9dd', '+57 328 549 10 32', 'Product manager con experiencia en startups tech. Busco freelancers para proyectos de desarrollo y diseño.', 'https://portafolio.example.com/andrés', 'cliente', '', 'b1bc267f-c7d1-48e8-a2a2-97719fa62c0c');
+
+
+--
+-- Data for Name: usuarios_experiencia; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.usuarios_experiencia VALUES ('fd47374c-fdf1-40e5-ae57-92bdd82b1a68', 'MercadoLibre', 'Frontend Developer', 'Beatae dolor illo perferendis nobis nobis deserunt iste. Ducimus soluta quasi ab facere molestias omnis. Amet earum doloribus placeat beatae.', '2020-04-01', NULL, 'Buenos Aires, Argentina', '588f42a3-f65c-49e3-b307-0dae13f4a01e');
+INSERT INTO public.usuarios_experiencia VALUES ('727642d6-5a9a-43e3-89be-34f6a75d6d0d', 'Globant', 'Diseñadora UI/UX Senior', 'Quos non quos eum. Aliquid ipsum deserunt voluptatum maxime recusandae vitae. Id placeat deserunt.', '2019-11-01', '2020-07-27', 'Bogotá, Colombia', '588f42a3-f65c-49e3-b307-0dae13f4a01e');
+INSERT INTO public.usuarios_experiencia VALUES ('f3ffda20-d764-44e6-89d9-409b04ba30f8', 'Freelance', 'Copywriter', 'Eos deserunt dolore tempore rem asperiores ut. Voluptatem debitis atque impedit maxime culpa. Occaecati quibusdam sit sapiente praesentium.', '2023-07-01', NULL, 'Medellín, Colombia', '588f42a3-f65c-49e3-b307-0dae13f4a01e');
+INSERT INTO public.usuarios_experiencia VALUES ('7416fc4f-6a1e-4cd7-a492-f20b0f69ea5d', 'Platzi', 'Backend Developer', 'Dolor amet beatae maiores aliquam culpa. Laborum suscipit nam maiores possimus ipsum voluptatibus fugiat.', '2020-09-01', '2021-09-19', 'Remoto', '05b25a96-7f6d-4a4a-983c-83eca8d3f286');
+INSERT INTO public.usuarios_experiencia VALUES ('4eab1194-2dd8-4527-8c0f-7b07da65098a', 'Google', 'Software Engineer Intern', 'Ad inventore pariatur unde autem tempore error. Excepturi doloribus quaerat voluptates id temporibus vitae placeat. Libero dolore illum quas.', '2020-08-01', '2021-02-03', 'Mountain View, USA', '77ef140f-39b8-4ff6-81bc-2cf4a157111e');
+INSERT INTO public.usuarios_experiencia VALUES ('8814adf8-ccaf-4c2d-9019-dec808ef46aa', 'Bancolombia', 'Analista de datos', 'Consequuntur iste dicta voluptatibus. Tempore praesentium eaque deserunt laboriosam nisi. Esse iusto blanditiis excepturi sunt expedita natus.', '2020-12-01', '2022-03-10', 'Medellín, Colombia', '77ef140f-39b8-4ff6-81bc-2cf4a157111e');
+INSERT INTO public.usuarios_experiencia VALUES ('4f735335-5c0e-434b-b1bf-8c38c064feed', 'Nequi', 'Product Manager', 'Accusantium quidem atque. Est ut animi harum.', '2020-04-01', '2021-09-07', 'Bogotá, Colombia', '77ef140f-39b8-4ff6-81bc-2cf4a157111e');
+INSERT INTO public.usuarios_experiencia VALUES ('7cc86843-ad94-4f1e-b015-382d77a563bf', 'MercadoLibre', 'Frontend Developer', 'Ab aliquid sed similique. Magnam vero corporis inventore hic possimus.', '2022-02-01', '2023-07-18', 'Buenos Aires, Argentina', '92fda56b-be2c-4e99-af51-04aa68f69815');
+INSERT INTO public.usuarios_experiencia VALUES ('736cd229-30b3-4078-900b-714e1e1aecb1', 'Freelance', 'Copywriter', 'Quis ullam quibusdam rerum. Velit accusamus consequuntur ipsum cupiditate quos beatae. Reiciendis atque architecto unde tempore. Reprehenderit odit provident.', '2023-02-01', '2024-08-21', 'Medellín, Colombia', '679d5574-b4a7-426c-95b6-afa2b20ca1d9');
+INSERT INTO public.usuarios_experiencia VALUES ('4cf1ece4-bb11-4893-ab8b-1fd66060bf7f', 'Globant', 'Diseñadora UI/UX Senior', 'Molestiae consequatur consequuntur minima quasi. Minima dolore voluptatem magni labore sed.', '2019-09-01', NULL, 'Bogotá, Colombia', '679d5574-b4a7-426c-95b6-afa2b20ca1d9');
+INSERT INTO public.usuarios_experiencia VALUES ('f1d5948b-92ef-46fb-84d8-f45e5599ef55', 'Zemoga', 'Full Stack Developer', 'Nostrum eligendi ratione ipsam. Ducimus at ullam optio quis aut necessitatibus.', '2024-10-01', '2026-04-04', 'Barranquilla, Colombia', '679d5574-b4a7-426c-95b6-afa2b20ca1d9');
+INSERT INTO public.usuarios_experiencia VALUES ('f1f3ffb0-bf79-4038-a348-3dcd9edf15ba', 'Platzi', 'Backend Developer', 'Dolore delectus ut quaerat possimus neque officiis. Ut voluptas praesentium sapiente.', '2024-04-01', '2024-12-18', 'Remoto', '57ef4ed9-2fa3-42a2-a410-298222611123');
+INSERT INTO public.usuarios_experiencia VALUES ('f9b38d99-c790-413b-ac11-e97d890f498d', 'MercadoLibre', 'Frontend Developer', 'At perspiciatis fugit nisi atque nemo. Eius necessitatibus occaecati odio excepturi. In porro praesentium quis omnis quidem odit.', '2020-02-01', '2021-11-06', 'Buenos Aires, Argentina', '57ef4ed9-2fa3-42a2-a410-298222611123');
+INSERT INTO public.usuarios_experiencia VALUES ('b7d80459-4802-4ade-bdc9-f4e2010bf472', 'Globant', 'Diseñadora UI/UX Senior', 'Tempora sed illum facilis eligendi. Eos fugiat voluptatum non eius non maiores occaecati. Quibusdam quaerat explicabo sunt ipsam illo.', '2024-06-01', NULL, 'Bogotá, Colombia', '57ef4ed9-2fa3-42a2-a410-298222611123');
+INSERT INTO public.usuarios_experiencia VALUES ('248016c6-53ba-4c9b-9217-dc30320c74e3', 'Platzi', 'Backend Developer', 'Quidem exercitationem maiores blanditiis pariatur quas quisquam vitae. Aut excepturi amet eum molestias illum id.', '2021-12-01', '2022-08-11', 'Remoto', '297a569d-ce26-494b-8f36-9f4add4e1f78');
+INSERT INTO public.usuarios_experiencia VALUES ('80b7e10d-c86d-40b5-8482-2bbb9befd974', 'Google', 'Software Engineer Intern', 'Blanditiis culpa molestiae voluptate debitis dolores consectetur.', '2023-11-01', NULL, 'Mountain View, USA', '297a569d-ce26-494b-8f36-9f4add4e1f78');
+INSERT INTO public.usuarios_experiencia VALUES ('46648ae6-1fa1-4589-90c6-b656366aa9ab', 'Platzi', 'Backend Developer', 'Dolore debitis ratione totam aspernatur. Perspiciatis error distinctio rem magnam minima vitae corporis.', '2022-05-01', '2023-06-09', 'Remoto', '61d2dff3-3335-4f15-b72e-026f281ff9dd');
+INSERT INTO public.usuarios_experiencia VALUES ('7f72becf-6a73-4162-93f5-cb989a50ff26', 'Rappi', 'Content Strategist', 'Itaque itaque deleniti asperiores voluptate id. Aperiam in incidunt asperiores reprehenderit quasi iure. Corrupti deleniti saepe debitis.', '2024-06-01', '2025-01-24', 'Bogotá, Colombia', '61d2dff3-3335-4f15-b72e-026f281ff9dd');
+INSERT INTO public.usuarios_experiencia VALUES ('90328aea-ffaf-4b4f-8ff9-3d37c979471c', 'Zemoga', 'Full Stack Developer', 'Dicta suscipit sed. In eius exercitationem illum iusto. Laudantium commodi impedit eaque alias consequuntur.', '2020-01-01', '2021-08-13', 'Barranquilla, Colombia', '61d2dff3-3335-4f15-b72e-026f281ff9dd');
+
+
+--
+-- Data for Name: usuarios_habilidad; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.usuarios_habilidad VALUES ('fd059f29-a222-4698-94d5-72b8607b85e0', 'Python');
+INSERT INTO public.usuarios_habilidad VALUES ('7ced7aa9-34f1-4fc8-8b06-e4e0aacd0ccb', 'JavaScript');
+INSERT INTO public.usuarios_habilidad VALUES ('a9baf523-7cff-440b-a028-39e17d8c6fa4', 'TypeScript');
+INSERT INTO public.usuarios_habilidad VALUES ('480235ae-710e-4c92-8810-9aba7e9c85ab', 'React');
+INSERT INTO public.usuarios_habilidad VALUES ('fa174867-02b8-45c8-aae8-a904287e0a26', 'Next.js');
+INSERT INTO public.usuarios_habilidad VALUES ('25a50c17-a0fa-4311-8da3-7b34b33789bb', 'Django');
+INSERT INTO public.usuarios_habilidad VALUES ('ceeca115-72a6-4857-b5b6-bc4a4eccb836', 'Node.js');
+INSERT INTO public.usuarios_habilidad VALUES ('c4f14efa-a9d1-4646-9a11-d792232a681b', 'PostgreSQL');
+INSERT INTO public.usuarios_habilidad VALUES ('3d0adb74-1602-4097-ad17-00ae4c814bcf', 'MongoDB');
+INSERT INTO public.usuarios_habilidad VALUES ('c5fef664-9993-47b1-9f64-64c9b3d69a80', 'Docker');
+INSERT INTO public.usuarios_habilidad VALUES ('55098eaf-2ce3-468d-852c-25813a7f8a0e', 'AWS');
+INSERT INTO public.usuarios_habilidad VALUES ('e1e1b4ad-1638-4c0a-852e-b532673a1d93', 'Git');
+INSERT INTO public.usuarios_habilidad VALUES ('a27a0e35-ff72-4bdd-b871-4b29a7887cfc', 'Figma');
+INSERT INTO public.usuarios_habilidad VALUES ('a456e8d2-cd59-4835-869f-b14fe074d497', 'Adobe Photoshop');
+INSERT INTO public.usuarios_habilidad VALUES ('c0acfba1-c3bb-4606-9618-36413f289937', 'Adobe Illustrator');
+INSERT INTO public.usuarios_habilidad VALUES ('24092544-c48a-4d9b-8753-d1e8f0361d36', 'UI/UX Design');
+INSERT INTO public.usuarios_habilidad VALUES ('3f49077d-3393-4113-b7d1-e2ecd7dd8fe2', 'SEO');
+INSERT INTO public.usuarios_habilidad VALUES ('e2890e17-c960-4dfe-ad15-563ec496f916', 'Google Analytics');
+INSERT INTO public.usuarios_habilidad VALUES ('b8c852f8-2b97-4316-a21a-158b547301e6', 'Content Marketing');
+INSERT INTO public.usuarios_habilidad VALUES ('c4a2f418-5946-47d2-b177-77d7c2bc4441', 'Copywriting');
+INSERT INTO public.usuarios_habilidad VALUES ('0af2036b-7dd3-4bfb-835a-83d1342491f1', 'Video Editing');
+INSERT INTO public.usuarios_habilidad VALUES ('586cb32b-8f4a-405f-8fa2-806e505293b9', 'Motion Graphics');
+INSERT INTO public.usuarios_habilidad VALUES ('6b2c3284-70b9-4ca9-96b7-f86785f7103f', '3D Modeling');
+INSERT INTO public.usuarios_habilidad VALUES ('53944a37-b1a4-4707-9ee8-a593ab4e376d', 'Blender');
+INSERT INTO public.usuarios_habilidad VALUES ('a8f069ef-3e8d-4746-88c0-0d6ef8aec72c', 'Project Management');
+INSERT INTO public.usuarios_habilidad VALUES ('b8dfb57e-4e89-45c5-8787-a3e9c04bbbb4', 'Scrum');
+INSERT INTO public.usuarios_habilidad VALUES ('bcd61c6c-2582-45d2-9429-05ad8222a8c4', 'Agile');
+INSERT INTO public.usuarios_habilidad VALUES ('f2b218c9-ada8-4c75-a63c-36009d17db4d', 'Data Analysis');
+INSERT INTO public.usuarios_habilidad VALUES ('56255ff2-7c32-4804-8bac-0b24d30043dd', 'Machine Learning');
+INSERT INTO public.usuarios_habilidad VALUES ('baeccaf8-beaf-48ef-b80a-c8815546406c', 'TensorFlow');
+INSERT INTO public.usuarios_habilidad VALUES ('72fb1fe2-a3f2-4ff2-b845-2bf114dea745', 'Power BI');
+INSERT INTO public.usuarios_habilidad VALUES ('dd494f75-dd58-497e-ad85-95180684ef2a', 'Excel Avanzado');
+INSERT INTO public.usuarios_habilidad VALUES ('4fc2d7c3-770a-4593-925c-52389ba757f8', 'Redacción Creativa');
+INSERT INTO public.usuarios_habilidad VALUES ('9bb06922-e0cf-44e4-a168-a1c2332e72b8', 'Traducción');
+INSERT INTO public.usuarios_habilidad VALUES ('f9d788fc-f7ad-463a-aca5-c38f8e7e92c3', 'Community Management');
+INSERT INTO public.usuarios_habilidad VALUES ('69a108bc-e369-45ff-95b0-37e037a0b4c2', 'Email Marketing');
+INSERT INTO public.usuarios_habilidad VALUES ('4a284962-b745-42b2-8b4a-e0d71ddf74cc', 'Google Ads');
+INSERT INTO public.usuarios_habilidad VALUES ('1294aedd-6a79-4a71-9808-fcb09d676e53', 'Facebook Ads');
+INSERT INTO public.usuarios_habilidad VALUES ('42d58c88-aa11-44de-a6a0-2b3f3d860979', 'WordPress');
+INSERT INTO public.usuarios_habilidad VALUES ('e71c07a6-7a03-4ce3-9d8a-0bdbd4866106', 'Shopify');
+INSERT INTO public.usuarios_habilidad VALUES ('288d34a1-e123-4b6b-aae9-2e7a62f3d5ee', 'Flutter');
+INSERT INTO public.usuarios_habilidad VALUES ('f62f16f5-0c59-45bc-8a8b-8f4b07916c62', 'Swift');
+INSERT INTO public.usuarios_habilidad VALUES ('fbeac4a9-5c5f-4cbf-8dee-dee60fb2d6b1', 'Kotlin');
+INSERT INTO public.usuarios_habilidad VALUES ('6636018f-c0d9-4e6b-a4d3-1db368005748', 'Java');
+INSERT INTO public.usuarios_habilidad VALUES ('6094fbe4-5297-405f-867a-18c269a0353e', 'C#');
+INSERT INTO public.usuarios_habilidad VALUES ('93dece1d-bd5c-4332-ad43-3ebc5f492d00', 'Unity');
+INSERT INTO public.usuarios_habilidad VALUES ('da675d40-ed48-427a-b1b9-83620bf391aa', 'Unreal Engine');
+INSERT INTO public.usuarios_habilidad VALUES ('47383211-9373-4c90-b52c-19b993130b08', 'Cybersecurity');
+INSERT INTO public.usuarios_habilidad VALUES ('84d343b2-c6e4-4cbc-9e07-3d917cc58f83', 'DevOps');
+INSERT INTO public.usuarios_habilidad VALUES ('b44f2734-eb7c-4367-8095-f8228ffa2c80', 'Linux');
+INSERT INTO public.usuarios_habilidad VALUES ('a77b4354-ac50-4025-8090-d24c1376f74b', 'Go');
+INSERT INTO public.usuarios_habilidad VALUES ('e7d45193-f17c-488a-bc5b-6af8fd517172', 'Rust');
+INSERT INTO public.usuarios_habilidad VALUES ('41744c32-a397-4b9b-aa0f-ff1ed13208a0', 'Vue.js');
+INSERT INTO public.usuarios_habilidad VALUES ('907e0da1-ad48-43ff-bae5-10497465408b', 'Angular');
+INSERT INTO public.usuarios_habilidad VALUES ('49d68daf-44c2-480f-b644-9455b87a2ba4', 'Tailwind CSS');
+INSERT INTO public.usuarios_habilidad VALUES ('54c7aa6e-e8f2-484d-a099-c995f09abc38', 'GraphQL');
+INSERT INTO public.usuarios_habilidad VALUES ('8cb2e183-a61d-45d8-a760-e16633d9b3eb', 'REST APIs');
+INSERT INTO public.usuarios_habilidad VALUES ('28cccb45-47fa-4392-a488-2ec6e437bc35', 'Firebase');
+INSERT INTO public.usuarios_habilidad VALUES ('b34e055f-815c-495b-8549-708c4c0f8c1b', 'Supabase');
+INSERT INTO public.usuarios_habilidad VALUES ('a314da5d-8176-454c-bb44-e18ff71b5941', 'Redis');
+
+
+--
+-- Data for Name: usuarios_perfil_habilidades; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+INSERT INTO public.usuarios_perfil_habilidades VALUES (1, '588f42a3-f65c-49e3-b307-0dae13f4a01e', 'a456e8d2-cd59-4835-869f-b14fe074d497');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (2, '588f42a3-f65c-49e3-b307-0dae13f4a01e', 'a27a0e35-ff72-4bdd-b871-4b29a7887cfc');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (3, '588f42a3-f65c-49e3-b307-0dae13f4a01e', 'c0acfba1-c3bb-4606-9618-36413f289937');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (4, '588f42a3-f65c-49e3-b307-0dae13f4a01e', '49d68daf-44c2-480f-b644-9455b87a2ba4');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (5, '588f42a3-f65c-49e3-b307-0dae13f4a01e', '24092544-c48a-4d9b-8753-d1e8f0361d36');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (6, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', 'c4f14efa-a9d1-4646-9a11-d792232a681b');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (7, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', 'fd059f29-a222-4698-94d5-72b8607b85e0');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (8, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', 'a9baf523-7cff-440b-a028-39e17d8c6fa4');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (9, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', '25a50c17-a0fa-4311-8da3-7b34b33789bb');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (10, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', '480235ae-710e-4c92-8810-9aba7e9c85ab');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (11, '05b25a96-7f6d-4a4a-983c-83eca8d3f286', 'c5fef664-9993-47b1-9f64-64c9b3d69a80');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (12, '77ef140f-39b8-4ff6-81bc-2cf4a157111e', 'e2890e17-c960-4dfe-ad15-563ec496f916');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (13, '77ef140f-39b8-4ff6-81bc-2cf4a157111e', '1294aedd-6a79-4a71-9808-fcb09d676e53');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (14, '77ef140f-39b8-4ff6-81bc-2cf4a157111e', 'b8c852f8-2b97-4316-a21a-158b547301e6');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (15, '77ef140f-39b8-4ff6-81bc-2cf4a157111e', '3f49077d-3393-4113-b7d1-e2ecd7dd8fe2');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (16, '77ef140f-39b8-4ff6-81bc-2cf4a157111e', '4a284962-b745-42b2-8b4a-e0d71ddf74cc');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (17, '92fda56b-be2c-4e99-af51-04aa68f69815', 'a77b4354-ac50-4025-8090-d24c1376f74b');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (18, '92fda56b-be2c-4e99-af51-04aa68f69815', 'fd059f29-a222-4698-94d5-72b8607b85e0');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (19, '92fda56b-be2c-4e99-af51-04aa68f69815', '84d343b2-c6e4-4cbc-9e07-3d917cc58f83');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (20, '92fda56b-be2c-4e99-af51-04aa68f69815', 'b44f2734-eb7c-4367-8095-f8228ffa2c80');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (21, '92fda56b-be2c-4e99-af51-04aa68f69815', '55098eaf-2ce3-468d-852c-25813a7f8a0e');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (22, '92fda56b-be2c-4e99-af51-04aa68f69815', 'c5fef664-9993-47b1-9f64-64c9b3d69a80');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (23, '679d5574-b4a7-426c-95b6-afa2b20ca1d9', '9bb06922-e0cf-44e4-a168-a1c2332e72b8');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (24, '679d5574-b4a7-426c-95b6-afa2b20ca1d9', 'c4a2f418-5946-47d2-b177-77d7c2bc4441');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (25, '679d5574-b4a7-426c-95b6-afa2b20ca1d9', '4fc2d7c3-770a-4593-925c-52389ba757f8');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (26, '679d5574-b4a7-426c-95b6-afa2b20ca1d9', '3f49077d-3393-4113-b7d1-e2ecd7dd8fe2');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (27, '679d5574-b4a7-426c-95b6-afa2b20ca1d9', '42d58c88-aa11-44de-a6a0-2b3f3d860979');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (28, '57ef4ed9-2fa3-42a2-a410-298222611123', '586cb32b-8f4a-405f-8fa2-806e505293b9');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (29, '57ef4ed9-2fa3-42a2-a410-298222611123', 'a456e8d2-cd59-4835-869f-b14fe074d497');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (30, '57ef4ed9-2fa3-42a2-a410-298222611123', '0af2036b-7dd3-4bfb-835a-83d1342491f1');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (31, '57ef4ed9-2fa3-42a2-a410-298222611123', 'a27a0e35-ff72-4bdd-b871-4b29a7887cfc');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (32, '57ef4ed9-2fa3-42a2-a410-298222611123', '53944a37-b1a4-4707-9ee8-a593ab4e376d');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (33, '297a569d-ce26-494b-8f36-9f4add4e1f78', 'dd494f75-dd58-497e-ad85-95180684ef2a');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (34, '297a569d-ce26-494b-8f36-9f4add4e1f78', 'a8f069ef-3e8d-4746-88c0-0d6ef8aec72c');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (35, '297a569d-ce26-494b-8f36-9f4add4e1f78', 'b8dfb57e-4e89-45c5-8787-a3e9c04bbbb4');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (36, '297a569d-ce26-494b-8f36-9f4add4e1f78', 'bcd61c6c-2582-45d2-9429-05ad8222a8c4');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (37, '61d2dff3-3335-4f15-b72e-026f281ff9dd', 'f2b218c9-ada8-4c75-a63c-36009d17db4d');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (38, '61d2dff3-3335-4f15-b72e-026f281ff9dd', 'a8f069ef-3e8d-4746-88c0-0d6ef8aec72c');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (39, '61d2dff3-3335-4f15-b72e-026f281ff9dd', 'b8dfb57e-4e89-45c5-8787-a3e9c04bbbb4');
+INSERT INTO public.usuarios_perfil_habilidades VALUES (40, '61d2dff3-3335-4f15-b72e-026f281ff9dd', '72fb1fe2-a3f2-4ff2-b845-2bf114dea745');
+
+
+--
+-- Data for Name: usuarios_usuario_groups; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Data for Name: usuarios_usuario_user_permissions; Type: TABLE DATA; Schema: public; Owner: marketplace
+--
+
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 44, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 11, true);
+
+
+--
+-- Name: usuarios_perfil_habilidades_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.usuarios_perfil_habilidades_id_seq', 40, true);
+
+
+--
+-- Name: usuarios_usuario_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.usuarios_usuario_groups_id_seq', 1, false);
+
+
+--
+-- Name: usuarios_usuario_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marketplace
+--
+
+SELECT pg_catalog.setval('public.usuarios_usuario_user_permissions_id_seq', 1, false);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+
