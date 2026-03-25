@@ -147,6 +147,16 @@ class PropuestaDetailView(APIView):
         return Response(serializer.data)
 
 
+class MisPropuestasEnviadas(generics.ListAPIView):
+    serializer_class = PropuestaListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Propuesta.objects.filter(
+            cliente=self.request.user,
+        ).select_related('cliente', 'cliente__perfil', 'publicacion').order_by('-created_at')
+
+
 class MisPropuestasRecibidas(generics.ListAPIView):
     serializer_class = PropuestaListSerializer
     permission_classes = [IsAuthenticated]

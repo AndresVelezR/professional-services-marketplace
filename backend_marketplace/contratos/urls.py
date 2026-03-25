@@ -3,12 +3,14 @@ from django.urls import path
 from .views import (
     ContratoDetailView,
     MisContratosList,
+    MisPropuestasEnviadas,
     MisPropuestasRecibidas,
     PropuestaDetailView,
     PropuestaListCreateView,
 )
 
 urlpatterns = [
+    path('propuestas/enviadas/', MisPropuestasEnviadas.as_view(), name='propuestas-enviadas'),
     path('propuestas/recibidas/', MisPropuestasRecibidas.as_view(), name='propuestas-recibidas'),
     path('propuestas/publicacion/<uuid:publicacion_id>/', PropuestaListCreateView.as_view(), name='propuesta-list-create'),
     path('propuestas/<uuid:pk>/', PropuestaDetailView.as_view(), name='propuesta-detail'),
