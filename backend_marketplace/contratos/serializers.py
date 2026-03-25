@@ -1,0 +1,56 @@
+from rest_framework import serializers
+
+from publicaciones.serializers import CreadorResumenSerializer
+
+from .models import Contrato, Propuesta
+
+
+class PropuestaCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Propuesta
+        fields = ['id', 'mensaje', 'precio_propuesto', 'fecha_limite']
+        read_only_fields = ['id']
+
+
+class PropuestaListSerializer(serializers.ModelSerializer):
+    cliente = CreadorResumenSerializer()
+
+    class Meta:
+        model = Propuesta
+        fields = [
+            'id', 'cliente', 'mensaje', 'precio_propuesto',
+            'fecha_limite', 'estado', 'created_at',
+        ]
+
+
+class UsuarioContratoSerializer(serializers.Serializer):
+    nombre_completo = serializers.CharField(source='perfil.nombre_completo')
+    email = serializers.EmailField()
+    iniciales = serializers.SerializerMethodField()
+
+    def get_iniciales(self, obj):
+        f = obj.first_name[:1] if obj.first_name else ''
+        l = obj.last_name[:1] if obj.last_name else ''
+        return f'{f}{l}'.upper()
+
+
+class ContratoListSerializer(serializers.ModelSerializer):
+    cliente = UsuarioContratoSerializer()
+    freelancer = UsuarioContratoSerializer()
+    publicacion_titulo = serializers.CharField(
+        source='propuesta.publicacion.titulo', read_only=True
+    )
+
+    class Meta:
+        model = Contrato
+        fields = [
+            'id', 'cliente', 'freelancer', 'publicacion_titulo',
+            'precio', 'fecha_inicio', 'fecha_fin', 'estado', 'created_at',
+        ]
+
+
+class ContratoDetailSerializer(ContratoListSerializer):
+    propuesta = PropuestaListSerializer()
+
+    class Meta(ContratoListSerializer.Meta):
+        fields = ContratoListSerializer.Meta.fields + ['propuesta']
