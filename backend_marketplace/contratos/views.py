@@ -132,12 +132,14 @@ class PropuestaDetailView(APIView):
         propuesta.save()
 
         if nuevo_estado == Propuesta.Estado.ACEPTADA:
-            Contrato.objects.create(
+            from chat.models import Conversacion
+            contrato = Contrato.objects.create(
                 propuesta=propuesta,
                 cliente=propuesta.cliente,
                 freelancer=propuesta.publicacion.creador,
                 precio=propuesta.precio_propuesto,
             )
+            Conversacion.objects.create(contrato=contrato)
             Propuesta.objects.filter(
                 publicacion=propuesta.publicacion,
                 estado=Propuesta.Estado.PENDIENTE,
