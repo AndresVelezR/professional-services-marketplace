@@ -1,0 +1,57 @@
+import { useState } from "react"
+import { RiImageLine } from "@remixicon/react"
+
+interface ServiceGalleryProps {
+  category: string
+  images?: string[]
+}
+
+export function ServiceGallery({ category, images }: ServiceGalleryProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const hasImages = images && images.length > 0
+
+  return (
+    <div className="space-y-3">
+      {/* Hero image */}
+      <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-muted">
+        {hasImages ? (
+          <img
+            src={images[selectedIndex]}
+            alt={`${category} - imagen ${selectedIndex + 1}`}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-primary/5 text-primary/30">
+            <RiImageLine className="size-12" />
+            <span className="text-sm font-medium">{category}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Thumbnails - only show if multiple images */}
+      {hasImages && images.length > 1 && (
+        <div className="flex gap-3">
+          {images.map((img, i) => (
+            <button
+              key={img}
+              type="button"
+              onClick={() => setSelectedIndex(i)}
+              className={`aspect-[4/3] w-20 overflow-hidden rounded-md bg-muted transition-all ${
+                selectedIndex === i
+                  ? "ring-2 ring-primary ring-offset-2"
+                  : "opacity-70 hover:opacity-100"
+              }`}
+            >
+              <img
+                src={img}
+                alt={`Thumbnail ${i + 1}`}
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
