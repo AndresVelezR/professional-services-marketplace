@@ -28,7 +28,7 @@ export function toServiceCardProps(
       name: item.creador.nombre_completo,
       initials: item.creador.iniciales,
     },
-    imageUrl: item.imagenes?.[0]?.url || item.imagen_url || undefined,
+    imageUrl: item.imagenes?.[0]?.url || undefined,
   }
 }
 
