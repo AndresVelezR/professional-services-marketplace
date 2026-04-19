@@ -16,7 +16,6 @@ export interface PublicacionListItem {
   titulo: string
   categoria: string
   precio: string
-  imagen_url: string
   tiempo_entrega: string
   creador: {
     nombre_completo: string
@@ -49,7 +48,6 @@ export interface CreatePublicacionPayload {
   precio: number
   tiempo_entrega: string
   incluye: string[]
-  imagen_url?: string
   estado?: string
   imagenes?: File[]
 }

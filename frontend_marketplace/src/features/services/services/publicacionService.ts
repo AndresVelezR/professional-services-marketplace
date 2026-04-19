@@ -67,7 +67,6 @@ export async function createPublicacion(
   formData.append("categoria", payload.categoria)
   formData.append("precio", String(payload.precio))
   formData.append("tiempo_entrega", payload.tiempo_entrega)
-  if (payload.imagen_url) formData.append("imagen_url", payload.imagen_url)
   if (payload.estado) formData.append("estado", payload.estado)
 
   for (const item of payload.incluye) {
