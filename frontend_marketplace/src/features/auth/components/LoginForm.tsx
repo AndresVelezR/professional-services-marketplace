@@ -173,11 +173,11 @@ export function LoginForm() {
         <p className="text-center text-xs text-muted-foreground">
           Al ingresar, aceptas nuestros{" "}
           <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
-            Términos de Servicio
+            Términos de servicio
           </Link>{" "}
           y{" "}
           <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
-            Política de Privacidad
+            Política de privacidad
           </Link>
           .
         </p>
