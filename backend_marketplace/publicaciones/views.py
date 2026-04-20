@@ -1,4 +1,7 @@
+from decimal import Decimal, InvalidOperation
+
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
@@ -9,6 +12,13 @@ from .serializers import (
     PublicacionDetailSerializer,
     PublicacionListSerializer,
 )
+
+
+def _parse_precio(valor, campo):
+    try:
+        return Decimal(valor)
+    except (InvalidOperation, TypeError):
+        raise ValidationError({campo: f'Debe ser un número válido.'})
 
 
 class PublicacionPagination(PageNumberPagination):
@@ -51,11 +61,11 @@ class PublicacionListCreateView(generics.ListCreateAPIView):
 
         precio_min = self.request.query_params.get('precio_min')
         if precio_min:
-            qs = qs.filter(precio__gte=precio_min)
+            qs = qs.filter(precio__gte=_parse_precio(precio_min, 'precio_min'))
 
         precio_max = self.request.query_params.get('precio_max')
         if precio_max:
-            qs = qs.filter(precio__lte=precio_max)
+            qs = qs.filter(precio__lte=_parse_precio(precio_max, 'precio_max'))
 
         ordering = self.request.query_params.get('ordering')
         if ordering in ('precio', '-precio', '-created_at', 'created_at'):

@@ -63,7 +63,7 @@ export async function updatePerfil(
   }
 
   const res = await fetch(`${API_URL}/api/usuarios/perfil/`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { ...JSON_HEADERS, Authorization: `Bearer ${token}` },
     body: formData,
   })
@@ -99,7 +99,7 @@ export async function updateExperiencia(
   payload: Partial<CreateExperienciaPayload>,
 ): Promise<Experiencia> {
   const res = await fetch(`${API_URL}/api/usuarios/experiencias/${id}/`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       ...JSON_HEADERS,
       "Content-Type": "application/json",
