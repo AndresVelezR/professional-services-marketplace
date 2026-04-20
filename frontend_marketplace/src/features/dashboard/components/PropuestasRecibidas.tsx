@@ -23,7 +23,7 @@ export function PropuestasRecibidas() {
   if (isLoading) {
     return (
       <section>
-        <h2 className="mb-4 text-lg font-bold text-foreground">Propuestas Recibidas</h2>
+        <h2 className="mb-4 text-lg font-bold text-foreground">Propuestas recibidas</h2>
         <div className="flex justify-center py-8">
           <RiLoader4Line className="size-6 animate-spin text-muted-foreground" />
         </div>
@@ -37,7 +37,7 @@ export function PropuestasRecibidas() {
     <section>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">
-          Propuestas Recibidas
+          Propuestas recibidas
           <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
             {propuestas.length}
           </span>

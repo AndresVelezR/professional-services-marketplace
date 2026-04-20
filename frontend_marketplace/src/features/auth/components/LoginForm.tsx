@@ -54,7 +54,7 @@ export function LoginForm() {
           </div>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground">
-              Iniciar Sesión
+              Iniciar sesión
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Bienvenido de nuevo a la plataforma
@@ -74,7 +74,7 @@ export function LoginForm() {
 
               {/* Email */}
               <Field>
-                <FieldLabel htmlFor="login-email">Email</FieldLabel>
+                <FieldLabel htmlFor="login-email">Correo electrónico</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiMailLine className="size-4 text-muted-foreground" />
@@ -134,7 +134,7 @@ export function LoginForm() {
                 className="w-full h-11 text-base font-semibold"
                 disabled={loading}
               >
-                {loading ? "Ingresando..." : "Ingresar"}
+                {loading ? "Iniciando sesión..." : "Iniciar sesión"}
               </Button>
             </form>
 

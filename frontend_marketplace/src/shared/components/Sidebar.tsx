@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: RiDashboardLine },
+  { name: "Inicio", href: "/dashboard", icon: RiDashboardLine },
   { name: "Buscar", href: "/services", icon: RiSearchLine },
   { name: "Publicar", href: "/services/new", icon: RiAddCircleLine },
   { name: "Contratos", href: "/contracts", icon: RiFileList3Line },
