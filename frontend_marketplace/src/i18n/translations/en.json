@@ -185,5 +185,64 @@
     "seeMore": "see more",
     "seeLess": "see less"
   },
-  "profile": {}
+  "profile": {
+    "loadError": "Error loading profile",
+    "photoPending": "Photo selected — it will be saved when you click \"Save changes\"",
+    "photoAlt": "Profile photo",
+    "sections": {
+      "info": "Personal information",
+      "skills": "Skills",
+      "experience": "Experience"
+    },
+    "header": {
+      "noName": "No name",
+      "tipo": {
+        "freelancer": "Freelancer",
+        "cliente": "Client",
+        "ambos": "Freelancer & Client"
+      }
+    },
+    "info": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself, your experience and what you're passionate about...",
+      "phone": "Phone",
+      "phonePlaceholder": "+1 555 123 4567",
+      "userType": "User type",
+      "userTypeOptions": {
+        "freelancer": "Freelancer",
+        "cliente": "Client",
+        "ambos": "Both"
+      },
+      "portfolioUrl": "Portfolio URL",
+      "portfolioPlaceholder": "https://myportfolio.com",
+      "save": "Save changes",
+      "saving": "Saving..."
+    },
+    "skills": {
+      "searchPlaceholder": "Search skill...",
+      "notFound": "No skills found",
+      "hint": "Search and add your professional skills"
+    },
+    "experience": {
+      "present": "Present",
+      "add": "Add experience",
+      "edit": "Edit experience",
+      "company": "Company",
+      "companyPlaceholder": "Google, Meta, Startup XYZ...",
+      "role": "Role",
+      "rolePlaceholder": "Senior Frontend Developer",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your responsibilities and achievements...",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "endDateHint": "Empty = present",
+      "location": "Location",
+      "locationPlaceholder": "Medellín, Colombia",
+      "submitEdit": "Save changes",
+      "submitAdd": "Add",
+      "cancel": "Cancel"
+    }
+  }
 }

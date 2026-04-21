@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiCloseLine, RiLoader4Line } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,7 @@ export function ExperienciaForm({
   onSubmit,
   onCancel,
 }: ExperienciaFormProps) {
+  const t = useTranslations("profile.experience")
   const [empresa, setEmpresa] = useState(initial?.empresa ?? "")
   const [cargo, setCargo] = useState(initial?.cargo ?? "")
   const [descripcion, setDescripcion] = useState(initial?.descripcion ?? "")
@@ -48,7 +50,7 @@ export function ExperienciaForm({
     <div className="rounded-xl border border-border bg-card p-5">
       <div className="mb-4 flex items-center justify-between">
         <h4 className="text-sm font-semibold text-foreground">
-          {initial ? "Editar experiencia" : "Agregar experiencia"}
+          {initial ? t("edit") : t("add")}
         </h4>
         <button
           type="button"
@@ -63,26 +65,26 @@ export function ExperienciaForm({
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="empresa">
-              Empresa <span className="text-destructive">*</span>
+              {t("company")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="empresa"
               value={empresa}
               onChange={(e) => setEmpresa(e.target.value)}
-              placeholder="Google, Meta, Startup XYZ..."
+              placeholder={t("companyPlaceholder")}
               className="h-10"
               required
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="cargo">
-              Cargo <span className="text-destructive">*</span>
+              {t("role")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="cargo"
               value={cargo}
               onChange={(e) => setCargo(e.target.value)}
-              placeholder="Desarrollador Frontend Senior"
+              placeholder={t("rolePlaceholder")}
               className="h-10"
               required
             />
@@ -90,12 +92,12 @@ export function ExperienciaForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="descripcion_exp">Descripción</Label>
+          <Label htmlFor="descripcion_exp">{t("description")}</Label>
           <Textarea
             id="descripcion_exp"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            placeholder="Describe tus responsabilidades y logros..."
+            placeholder={t("descriptionPlaceholder")}
             className="min-h-20 resize-y"
           />
         </div>
@@ -103,7 +105,7 @@ export function ExperienciaForm({
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="space-y-2">
             <Label htmlFor="fecha_inicio">
-              Fecha inicio <span className="text-destructive">*</span>
+              {t("startDate")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="fecha_inicio"
@@ -115,7 +117,7 @@ export function ExperienciaForm({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="fecha_fin">Fecha fin</Label>
+            <Label htmlFor="fecha_fin">{t("endDate")}</Label>
             <Input
               id="fecha_fin"
               type="date"
@@ -124,16 +126,16 @@ export function ExperienciaForm({
               className="h-10"
             />
             <p className="text-[11px] text-muted-foreground">
-              Vacío = actual
+              {t("endDateHint")}
             </p>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="ubicacion">Ubicación</Label>
+            <Label htmlFor="ubicacion">{t("location")}</Label>
             <Input
               id="ubicacion"
               value={ubicacion}
               onChange={(e) => setUbicacion(e.target.value)}
-              placeholder="Medellín, Colombia"
+              placeholder={t("locationPlaceholder")}
               className="h-10"
             />
           </div>
@@ -146,7 +148,7 @@ export function ExperienciaForm({
             className="h-9 gap-2 bg-action text-action-foreground hover:bg-action/90 font-semibold text-sm"
           >
             {isLoading && <RiLoader4Line className="size-3.5 animate-spin" />}
-            {initial ? "Guardar cambios" : "Agregar"}
+            {initial ? t("submitEdit") : t("submitAdd")}
           </Button>
           <Button
             type="button"
@@ -154,7 +156,7 @@ export function ExperienciaForm({
             onClick={onCancel}
             className="h-9 text-sm"
           >
-            Cancelar
+            {t("cancel")}
           </Button>
         </div>
       </form>

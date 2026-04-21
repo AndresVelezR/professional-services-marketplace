@@ -185,5 +185,64 @@
     "seeMore": "ver más",
     "seeLess": "ver menos"
   },
-  "profile": {}
+  "profile": {
+    "loadError": "Error al cargar perfil",
+    "photoPending": "Foto seleccionada — se guardará al hacer clic en \"Guardar cambios\"",
+    "photoAlt": "Foto de perfil",
+    "sections": {
+      "info": "Información personal",
+      "skills": "Habilidades",
+      "experience": "Experiencia"
+    },
+    "header": {
+      "noName": "Sin nombre",
+      "tipo": {
+        "freelancer": "Freelancer",
+        "cliente": "Cliente",
+        "ambos": "Freelancer & Cliente"
+      }
+    },
+    "info": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "bio": "Biografía",
+      "bioPlaceholder": "Cuéntanos sobre ti, tu experiencia y qué te apasiona...",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+57 300 123 4567",
+      "userType": "Tipo de usuario",
+      "userTypeOptions": {
+        "freelancer": "Freelancer",
+        "cliente": "Cliente",
+        "ambos": "Ambos"
+      },
+      "portfolioUrl": "URL del portafolio",
+      "portfolioPlaceholder": "https://miportafolio.com",
+      "save": "Guardar cambios",
+      "saving": "Guardando..."
+    },
+    "skills": {
+      "searchPlaceholder": "Buscar habilidad...",
+      "notFound": "No se encontraron habilidades",
+      "hint": "Busca y agrega tus habilidades profesionales"
+    },
+    "experience": {
+      "present": "Actual",
+      "add": "Agregar experiencia",
+      "edit": "Editar experiencia",
+      "company": "Empresa",
+      "companyPlaceholder": "Google, Meta, Startup XYZ...",
+      "role": "Cargo",
+      "rolePlaceholder": "Desarrollador Frontend Senior",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Describe tus responsabilidades y logros...",
+      "startDate": "Fecha inicio",
+      "endDate": "Fecha fin",
+      "endDateHint": "Vacío = actual",
+      "location": "Ubicación",
+      "locationPlaceholder": "Medellín, Colombia",
+      "submitEdit": "Guardar cambios",
+      "submitAdd": "Agregar",
+      "cancel": "Cancelar"
+    }
+  }
 }
