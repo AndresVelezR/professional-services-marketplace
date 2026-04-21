@@ -22,7 +22,7 @@ class PublicacionAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {'fields': ('titulo', 'descripcion', 'categoria')}),
-        ('Detalles', {'fields': ('precio', 'tiempo_entrega', 'incluye', 'imagen_url')}),
+        ('Detalles', {'fields': ('precio', 'tiempo_entrega', 'incluye')}),
         ('Estado', {'fields': ('estado', 'creador')}),
         ('Fechas', {'fields': ('created_at', 'updated_at')}),
     )

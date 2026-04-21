@@ -42,7 +42,7 @@ class PublicacionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publicacion
         fields = [
-            'id', 'titulo', 'categoria', 'precio', 'imagen_url',
+            'id', 'titulo', 'categoria', 'precio',
             'tiempo_entrega', 'creador', 'imagenes', 'created_at',
         ]
 
@@ -55,7 +55,7 @@ class PublicacionDetailSerializer(serializers.ModelSerializer):
         model = Publicacion
         fields = [
             'id', 'titulo', 'descripcion', 'categoria', 'precio',
-            'tiempo_entrega', 'incluye', 'imagen_url', 'estado',
+            'tiempo_entrega', 'incluye', 'estado',
             'creador', 'imagenes', 'created_at', 'updated_at',
         ]
 
@@ -77,7 +77,7 @@ class PublicacionCreateSerializer(serializers.ModelSerializer):
         model = Publicacion
         fields = [
             'id', 'titulo', 'descripcion', 'categoria', 'precio',
-            'tiempo_entrega', 'incluye', 'imagen_url', 'estado',
+            'tiempo_entrega', 'incluye', 'estado',
             'imagenes',
         ]
         read_only_fields = ['id']

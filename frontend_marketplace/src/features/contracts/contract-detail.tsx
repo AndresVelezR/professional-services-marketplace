@@ -1,14 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { RiLoader4Line } from "@remixicon/react"
+import { useEffect, useState } from "react"
+import { RiLoader4Line, RiMessage3Line } from "@remixicon/react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { obtenerOCrearConversacion } from "@/features/chat/services/chatService"
 import { getContrato, updateContratoEstado } from "./services/contractService"
 import type { Contrato } from "./models"
-import { useEffect } from "react"
 
 const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   activo: "bg-blue-100 text-blue-700",
@@ -28,10 +29,17 @@ interface ContractDetailProps {
 
 export function ContractDetail({ id }: ContractDetailProps) {
   const { token, perfil } = useAuth()
+  const router = useRouter()
   const [contrato, setContrato] = useState<Contrato | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
+
+  async function handleAbrirChat() {
+    if (!token) return
+    await obtenerOCrearConversacion(id, token)
+    router.push("/messages")
+  }
 
   useEffect(() => {
     if (!token) return
@@ -140,6 +148,12 @@ export function ContractDetail({ id }: ContractDetailProps) {
           )}
         </div>
       </div>
+
+      {/* Chat */}
+      <Button variant="outline" className="w-full" onClick={handleAbrirChat}>
+        <RiMessage3Line className="size-4" />
+        Abrir chat
+      </Button>
 
       {/* Actions */}
       {contrato.estado === "activo" && (

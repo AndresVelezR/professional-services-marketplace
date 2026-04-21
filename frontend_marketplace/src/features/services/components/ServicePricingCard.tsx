@@ -72,10 +72,10 @@ export function ServicePricingCard({
 
         {/* CTAs */}
         <div className="space-y-2">
-          <Button className="w-full font-semibold" onClick={onContratar}>Contratar Ahora</Button>
+          <Button className="w-full font-semibold" onClick={onContratar}>Contratar ahora</Button>
           <Button variant="outline" className="w-full">
             <RiHeartLine className="size-4" />
-            Agregar a Favoritos
+            Agregar a favoritos
           </Button>
         </div>
 

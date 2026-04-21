@@ -114,7 +114,7 @@ function StepBasicData({
           <RiBriefcaseLine className="size-7" />
         </div>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground">Crear Cuenta</h1>
+          <h1 className="text-2xl font-bold text-foreground">Crear cuenta</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Paso 1 de 2 — Información básica
           </p>
@@ -166,7 +166,7 @@ function StepBasicData({
             </div>
 
             <Field>
-              <FieldLabel htmlFor="signup-email">Correo Electrónico</FieldLabel>
+              <FieldLabel htmlFor="signup-email">Correo electrónico</FieldLabel>
               <InputGroup>
                 <InputGroupAddon>
                   <RiMailLine className="size-4 text-muted-foreground" />
@@ -218,11 +218,11 @@ function StepBasicData({
       <p className="text-center text-xs text-muted-foreground">
         Al unirte, aceptas nuestros{" "}
         <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
-          Términos de Servicio
+          Términos de servicio
         </Link>{" "}
         y{" "}
         <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
-          Política de Privacidad
+          Política de privacidad
         </Link>
         .
       </p>

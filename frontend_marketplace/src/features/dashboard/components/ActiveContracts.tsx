@@ -29,7 +29,7 @@ export function ActiveContracts() {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">Mis Contratos Activos</h2>
+        <h2 className="text-lg font-bold text-foreground">Mis contratos activos</h2>
         <Link href="/contracts" className="text-sm font-medium text-primary hover:underline">
           Ver todos
         </Link>

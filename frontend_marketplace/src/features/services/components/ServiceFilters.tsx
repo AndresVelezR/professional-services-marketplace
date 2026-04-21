@@ -86,7 +86,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
 
   return (
     <div className="sticky top-24 space-y-6 rounded-lg border border-border bg-card p-6 shadow-sm">
-      <FilterSection icon={RiMoneyDollarCircleLine} title="Rango de Precio">
+      <FilterSection icon={RiMoneyDollarCircleLine} title="Rango de precio">
         {PRICE_RANGES.map((range) => (
           <FilterCheckbox
             key={range.id}
@@ -99,7 +99,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
       </FilterSection>
 
       <div className="border-t border-border pt-6">
-        <FilterSection icon={RiTimeLine} title="Tiempo de Entrega">
+        <FilterSection icon={RiTimeLine} title="Tiempo de entrega">
           <FilterCheckbox id="time-1-3" label="1-3 días" />
           <FilterCheckbox id="time-3-7" label="3-7 días" />
         </FilterSection>
@@ -121,7 +121,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
       </div>
 
       <Button className="w-full h-11 bg-action text-action-foreground hover:bg-action/90 font-bold shadow-md">
-        Aplicar Filtros
+        Aplicar filtros
       </Button>
     </div>
   )
