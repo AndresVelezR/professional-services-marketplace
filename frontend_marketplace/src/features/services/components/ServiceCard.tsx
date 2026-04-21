@@ -1,5 +1,5 @@
 import { RiHeartLine, RiStarFill } from "@remixicon/react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"

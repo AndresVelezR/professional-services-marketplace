@@ -1,13 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { RiLoader4Line } from "@remixicon/react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { categoriaLabel } from "@/features/services/adapters"
 import { getPublicaciones } from "@/features/services/services/publicacionService"
 import type { PublicacionListItem } from "@/features/services/models"
 
@@ -72,7 +71,7 @@ export function RecommendedServices() {
                 <Badge
                   className={`absolute left-3 top-3 ${categoryColor(s.categoria)} border-0 text-[11px] font-bold uppercase tracking-wide text-white`}
                 >
-                  {categoriaLabel(s.categoria)}
+                  {s.categoria}
                 </Badge>
               </div>
 
