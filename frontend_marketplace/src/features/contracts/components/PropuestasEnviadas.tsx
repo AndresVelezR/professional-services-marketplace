@@ -1,9 +1,9 @@
 "use client"
 
 import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { usePropuestasEnviadas } from "../hooks/usePropuestasEnviadas"
 
 const ESTADO_STYLES = {
@@ -12,13 +12,8 @@ const ESTADO_STYLES = {
   rechazada: "bg-red-100 text-red-700",
 }
 
-const ESTADO_LABEL = {
-  pendiente: "PENDIENTE",
-  aceptada: "ACEPTADA",
-  rechazada: "RECHAZADA",
-}
-
 export function PropuestasEnviadas() {
+  const t = useTranslations("contracts.propuestasEnviadas")
   const { propuestas, isLoading, error } = usePropuestasEnviadas()
 
   if (isLoading) {
@@ -36,7 +31,7 @@ export function PropuestasEnviadas() {
   if (propuestas.length === 0) {
     return (
       <p className="py-12 text-center text-sm text-muted-foreground">
-        No has enviado propuestas aún.
+        {t("empty")}
       </p>
     )
   }
@@ -52,7 +47,7 @@ export function PropuestasEnviadas() {
             <span
               className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${ESTADO_STYLES[p.estado]}`}
             >
-              {ESTADO_LABEL[p.estado]}
+              {t(`estado.${p.estado}`)}
             </span>
             <span className="text-sm font-semibold text-foreground">
               ${p.precio_propuesto}
@@ -74,17 +69,17 @@ export function PropuestasEnviadas() {
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               {p.fecha_limite && (
                 <span>
-                  Límite: {new Date(p.fecha_limite).toLocaleDateString("es-CO")}
+                  {t("limite", { date: new Date(p.fecha_limite).toLocaleDateString("es-CO") })}
                 </span>
               )}
               <span>
-                Enviada: {new Date(p.created_at).toLocaleDateString("es-CO")}
+                {t("enviada", { date: new Date(p.created_at).toLocaleDateString("es-CO") })}
               </span>
             </div>
 
             {p.estado === "aceptada" && (
               <span className="text-xs font-medium text-green-600">
-                Contrato creado →
+                {t("contratoCreado")}
               </span>
             )}
           </div>

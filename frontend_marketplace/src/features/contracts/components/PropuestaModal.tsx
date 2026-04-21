@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -26,6 +27,7 @@ export function PropuestaModal({
   publicacionId,
   precioBase,
 }: PropuestaModalProps) {
+  const t = useTranslations("contracts.propuestaModal")
   const { token } = useAuth()
   const [mensaje, setMensaje] = useState("")
   const [precio, setPrecio] = useState(String(precioBase))
@@ -51,7 +53,7 @@ export function PropuestaModal({
       )
       setSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al enviar propuesta")
+      setError(err instanceof Error ? err.message : t("errorDefault"))
     } finally {
       setIsLoading(false)
     }
@@ -70,32 +72,32 @@ export function PropuestaModal({
     <Dialog open={open} onOpenChange={(v) => !v && handleClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Enviar propuesta</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            El freelancer revisará tu propuesta y la aceptará o rechazará.
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
 
         {success ? (
           <div className="space-y-4">
             <p className="text-sm text-green-600 font-medium">
-              ¡Propuesta enviada con éxito! El freelancer te responderá pronto.
+              {t("success")}
             </p>
             <Button className="w-full" onClick={handleClose}>
-              Cerrar
+              {t("close")}
             </Button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                Mensaje <span className="text-destructive">*</span>
+                {t("mensajeLabel")} <span className="text-destructive">*</span>
               </label>
               <textarea
                 required
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
-                placeholder="Describe tu proyecto y qué necesitas..."
+                placeholder={t("mensajePlaceholder")}
                 rows={4}
                 className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
               />
@@ -103,7 +105,7 @@ export function PropuestaModal({
 
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                Precio propuesto (USD) <span className="text-destructive">*</span>
+                {t("precioLabel")} <span className="text-destructive">*</span>
               </label>
               <input
                 required
@@ -118,7 +120,7 @@ export function PropuestaModal({
 
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                Fecha límite (opcional)
+                {t("fechaLimiteLabel")}
               </label>
               <input
                 type="date"
@@ -141,10 +143,10 @@ export function PropuestaModal({
                 onClick={handleClose}
                 disabled={isLoading}
               >
-                Cancelar
+                {t("cancel")}
               </Button>
               <Button type="submit" className="flex-1" disabled={isLoading}>
-                {isLoading ? "Enviando..." : "Enviar propuesta"}
+                {isLoading ? t("submitting") : t("submit")}
               </Button>
             </div>
           </form>

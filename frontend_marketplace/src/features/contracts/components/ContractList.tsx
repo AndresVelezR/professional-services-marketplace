@@ -1,3 +1,7 @@
+"use client"
+
+import { useTranslations } from "next-intl"
+
 import type { Contrato } from "../models"
 import { ContractCard } from "./ContractCard"
 
@@ -6,10 +10,12 @@ interface ContractListProps {
 }
 
 export function ContractList({ contracts }: ContractListProps) {
+  const t = useTranslations("contracts.list")
+
   if (contracts.length === 0) {
     return (
       <p className="py-12 text-center text-sm text-muted-foreground">
-        No tienes contratos aún.
+        {t("empty")}
       </p>
     )
   }

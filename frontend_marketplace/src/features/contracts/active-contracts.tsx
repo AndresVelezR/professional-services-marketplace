@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
@@ -15,6 +16,7 @@ type Tab = "contratos" | "propuestas"
 type EstadoFiltro = "todos" | Contrato["estado"]
 
 export function ActiveContracts() {
+  const t = useTranslations("contracts.tabs")
   const { contratos, isLoading, error } = useContratos()
   const { perfil } = useAuth()
   const [tab, setTab] = useState<Tab>("contratos")
@@ -49,7 +51,7 @@ export function ActiveContracts() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Contratos
+          {t("contratos")}
         </button>
         <button
           type="button"
@@ -60,7 +62,7 @@ export function ActiveContracts() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Propuestas enviadas
+          {t("propuestas")}
         </button>
       </div>
 

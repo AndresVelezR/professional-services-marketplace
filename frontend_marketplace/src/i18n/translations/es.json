@@ -107,6 +107,68 @@
       "activo": "Activo",
       "completado": "Completado",
       "cancelado": "Cancelado"
+    },
+    "title": "Contratos activos",
+    "subtitle": "Revisa y gestiona tus compromisos profesionales en curso.",
+    "postJob": "+ Publicar trabajo",
+    "tabs": {
+      "contratos": "Contratos",
+      "propuestas": "Propuestas enviadas"
+    },
+    "filters": {
+      "searchPlaceholder": "Buscar por servicio o persona...",
+      "todos": "Todos"
+    },
+    "list": {
+      "empty": "No tienes contratos aún."
+    },
+    "card": {
+      "inicio": "Inicio",
+      "fin": "Fin",
+      "cliente": "Cliente",
+      "freelancer": "Freelancer",
+      "viewDetails": "Ver detalles"
+    },
+    "detail": {
+      "back": "Volver",
+      "notFound": "Contrato no encontrado",
+      "loadError": "Error al cargar contrato",
+      "updateError": "Error al actualizar contrato",
+      "backToList": "Volver a contratos",
+      "precioAcordado": "Precio acordado",
+      "servicio": "Servicio",
+      "cliente": "Cliente",
+      "freelancer": "Freelancer",
+      "fechaInicio": "Fecha inicio",
+      "fechaFin": "Fecha fin",
+      "abrirChat": "Abrir chat",
+      "markCompleted": "Marcar como completado",
+      "cancel": "Cancelar contrato"
+    },
+    "propuestaModal": {
+      "title": "Enviar propuesta",
+      "description": "El freelancer revisará tu propuesta y la aceptará o rechazará.",
+      "success": "¡Propuesta enviada con éxito! El freelancer te responderá pronto.",
+      "close": "Cerrar",
+      "mensajeLabel": "Mensaje",
+      "mensajePlaceholder": "Describe tu proyecto y qué necesitas...",
+      "precioLabel": "Precio propuesto (USD)",
+      "fechaLimiteLabel": "Fecha límite (opcional)",
+      "cancel": "Cancelar",
+      "submit": "Enviar propuesta",
+      "submitting": "Enviando...",
+      "errorDefault": "Error al enviar propuesta"
+    },
+    "propuestasEnviadas": {
+      "empty": "No has enviado propuestas aún.",
+      "estado": {
+        "pendiente": "PENDIENTE",
+        "aceptada": "ACEPTADA",
+        "rechazada": "RECHAZADA"
+      },
+      "limite": "Límite: {date}",
+      "enviada": "Enviada: {date}",
+      "contratoCreado": "Contrato creado"
     }
   },
   "services": {},

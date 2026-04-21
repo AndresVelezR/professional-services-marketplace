@@ -107,6 +107,68 @@
       "activo": "Active",
       "completado": "Completed",
       "cancelado": "Canceled"
+    },
+    "title": "Active Contracts",
+    "subtitle": "Review and manage your ongoing professional engagements.",
+    "postJob": "+ Post a Job",
+    "tabs": {
+      "contratos": "Contracts",
+      "propuestas": "Proposals sent"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by service or person...",
+      "todos": "All"
+    },
+    "list": {
+      "empty": "You don't have any contracts yet."
+    },
+    "card": {
+      "inicio": "Start",
+      "fin": "End",
+      "cliente": "Client",
+      "freelancer": "Freelancer",
+      "viewDetails": "View details"
+    },
+    "detail": {
+      "back": "Back",
+      "notFound": "Contract not found",
+      "loadError": "Error loading contract",
+      "updateError": "Error updating contract",
+      "backToList": "Back to contracts",
+      "precioAcordado": "Agreed price",
+      "servicio": "Service",
+      "cliente": "Client",
+      "freelancer": "Freelancer",
+      "fechaInicio": "Start date",
+      "fechaFin": "End date",
+      "abrirChat": "Open chat",
+      "markCompleted": "Mark as completed",
+      "cancel": "Cancel contract"
+    },
+    "propuestaModal": {
+      "title": "Send proposal",
+      "description": "The freelancer will review your proposal and accept or reject it.",
+      "success": "Proposal sent successfully! The freelancer will respond soon.",
+      "close": "Close",
+      "mensajeLabel": "Message",
+      "mensajePlaceholder": "Describe your project and what you need...",
+      "precioLabel": "Proposed price (USD)",
+      "fechaLimiteLabel": "Deadline (optional)",
+      "cancel": "Cancel",
+      "submit": "Send proposal",
+      "submitting": "Sending...",
+      "errorDefault": "Error sending proposal"
+    },
+    "propuestasEnviadas": {
+      "empty": "You haven't sent any proposals yet.",
+      "estado": {
+        "pendiente": "PENDING",
+        "aceptada": "ACCEPTED",
+        "rechazada": "REJECTED"
+      },
+      "limite": "Deadline: {date}",
+      "enviada": "Sent: {date}",
+      "contratoCreado": "Contract created"
     }
   },
   "services": {},

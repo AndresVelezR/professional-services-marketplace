@@ -1,3 +1,6 @@
+"use client"
+
+import { useTranslations } from "next-intl"
 import { RiSearchLine } from "@remixicon/react"
 
 import type { Contrato } from "../models"
@@ -11,12 +14,7 @@ interface ContractFiltersProps {
   onEstadoChange: (v: EstadoFiltro) => void
 }
 
-const ESTADOS: { value: EstadoFiltro; label: string }[] = [
-  { value: "todos", label: "Todos" },
-  { value: "activo", label: "Activo" },
-  { value: "completado", label: "Completado" },
-  { value: "cancelado", label: "Cancelado" },
-]
+const ESTADO_VALUES: EstadoFiltro[] = ["todos", "activo", "completado", "cancelado"]
 
 export function ContractFilters({
   search,
@@ -24,6 +22,12 @@ export function ContractFilters({
   onSearchChange,
   onEstadoChange,
 }: ContractFiltersProps) {
+  const t = useTranslations("contracts")
+
+  function labelFor(value: EstadoFiltro) {
+    return value === "todos" ? t("filters.todos") : t(`estado.${value}`)
+  }
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div className="relative flex-1">
@@ -32,23 +36,23 @@ export function ContractFilters({
           type="text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Buscar por servicio o persona..."
+          placeholder={t("filters.searchPlaceholder")}
           className="h-10 w-full rounded-lg border border-border bg-white pl-10 pr-4 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
         />
       </div>
       <div className="flex gap-2">
-        {ESTADOS.map((e) => (
+        {ESTADO_VALUES.map((value) => (
           <button
-            key={e.value}
+            key={value}
             type="button"
-            onClick={() => onEstadoChange(e.value)}
+            onClick={() => onEstadoChange(value)}
             className={`h-10 rounded-lg border px-4 text-sm transition-colors ${
-              estado === e.value
+              estado === value
                 ? "border-blue-500 bg-blue-50 font-semibold text-blue-700"
                 : "border-border bg-white text-foreground hover:bg-muted"
             }`}
           >
-            {e.label}
+            {labelFor(value)}
           </button>
         ))}
       </div>
