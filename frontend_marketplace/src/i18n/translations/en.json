@@ -1,6 +1,21 @@
 {
   "common": {},
-  "nav": {},
+  "nav": {
+    "dashboard": "Dashboard",
+    "search": "Search",
+    "publish": "Publish",
+    "contracts": "Contracts",
+    "messages": "Messages",
+    "profile": "Profile",
+    "logout": "Log out",
+    "greeting": "Hi, {name} 👋",
+    "settings": "Settings",
+    "userType": {
+      "freelancer": "Freelancer",
+      "cliente": "Client",
+      "ambos": "Both"
+    }
+  },
   "auth": {
     "login": {
       "title": "Sign In",

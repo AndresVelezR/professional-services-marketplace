@@ -1,6 +1,21 @@
 {
   "common": {},
-  "nav": {},
+  "nav": {
+    "dashboard": "Dashboard",
+    "search": "Buscar",
+    "publish": "Publicar",
+    "contracts": "Contratos",
+    "messages": "Mensajes",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "greeting": "Hola, {name} 👋",
+    "settings": "Configuración",
+    "userType": {
+      "freelancer": "Freelancer",
+      "cliente": "Cliente",
+      "ambos": "Ambos"
+    }
+  },
   "auth": {
     "login": {
       "title": "Iniciar Sesión",
