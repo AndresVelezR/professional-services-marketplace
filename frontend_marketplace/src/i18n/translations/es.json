@@ -1,7 +1,60 @@
 {
   "common": {},
   "nav": {},
-  "auth": {},
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Bienvenido de nuevo a la plataforma",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ejemplo@correo.com",
+      "passwordLabel": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "rememberMe": "Recordar mi sesión",
+      "submit": "Ingresar",
+      "submitting": "Ingresando...",
+      "divider": "O continuar con",
+      "noAccount": "¿No tienes cuenta?",
+      "signupLink": "Regístrate",
+      "errorDefault": "Credenciales inválidas",
+      "terms": "Al ingresar, aceptas nuestros <terms>Términos de Servicio</terms> y <privacy>Política de Privacidad</privacy>."
+    },
+    "signup": {
+      "title": "Crear Cuenta",
+      "stepSubtitle": "Paso 1 de 2 — Información básica",
+      "firstNameLabel": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastNameLabel": "Apellido",
+      "lastNamePlaceholder": "Pérez",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordHint": "Mínimo 8 caracteres",
+      "continue": "Continuar →",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Iniciar sesión",
+      "terms": "Al unirte, aceptas nuestros <terms>Términos de Servicio</terms> y <privacy>Política de Privacidad</privacy>.",
+      "accountType": {
+        "title": "¿Cómo quieres usar la plataforma?",
+        "subtitle": "Personaliza tu experiencia seleccionando el perfil que mejor se adapte a tus necesidades. Podrás cambiar esto más adelante.",
+        "select": "Seleccionar",
+        "creating": "Creando cuenta...",
+        "back": "Volver",
+        "errorDefault": "Error al crear la cuenta",
+        "freelancer": {
+          "title": "Freelancer",
+          "description": "Busco proyectos emocionantes y quiero ofrecer mis servicios profesionales al mundo."
+        },
+        "cliente": {
+          "title": "Cliente",
+          "description": "Busco el mejor talento para realizar mis proyectos y contratar servicios especializados."
+        },
+        "ambos": {
+          "title": "Ambos",
+          "description": "Quiero tanto contratar como ofrecer mis servicios en la plataforma sin limitaciones."
+        }
+      }
+    }
+  },
   "dashboard": {},
   "contracts": {},
   "services": {},

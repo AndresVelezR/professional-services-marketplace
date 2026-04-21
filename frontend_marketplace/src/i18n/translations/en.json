@@ -1,7 +1,60 @@
 {
   "common": {},
   "nav": {},
-  "auth": {},
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Welcome back to the platform",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forgot your password?",
+      "rememberMe": "Remember me",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "divider": "Or continue with",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "errorDefault": "Invalid credentials",
+      "terms": "By signing in, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>."
+    },
+    "signup": {
+      "title": "Create Account",
+      "stepSubtitle": "Step 1 of 2 — Basic information",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "John",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordHint": "At least 8 characters",
+      "continue": "Continue →",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "terms": "By signing up, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+      "accountType": {
+        "title": "How do you want to use the platform?",
+        "subtitle": "Customize your experience by selecting the profile that best fits your needs. You can change this later.",
+        "select": "Select",
+        "creating": "Creating account...",
+        "back": "Back",
+        "errorDefault": "Error creating your account",
+        "freelancer": {
+          "title": "Freelancer",
+          "description": "I'm looking for exciting projects and want to offer my professional services to the world."
+        },
+        "cliente": {
+          "title": "Client",
+          "description": "I'm looking for the best talent to deliver my projects and hire specialized services."
+        },
+        "ambos": {
+          "title": "Both",
+          "description": "I want to both hire and offer my services on the platform without limits."
+        }
+      }
+    }
+  },
   "dashboard": {},
   "contracts": {},
   "services": {},
