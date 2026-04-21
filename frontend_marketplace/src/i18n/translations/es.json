@@ -70,8 +70,45 @@
       }
     }
   },
-  "dashboard": {},
-  "contracts": {},
+  "dashboard": {
+    "searchPlaceholder": "Buscar servicios...",
+    "filters": "Filtros",
+    "propuestasRecibidas": {
+      "title": "Propuestas Recibidas",
+      "for": "Para:",
+      "precioPropuesto": "Precio propuesto",
+      "fechaLimite": "Fecha límite",
+      "aceptar": "Aceptar",
+      "rechazar": "Rechazar"
+    },
+    "activeContracts": {
+      "title": "Mis Contratos Activos",
+      "viewAll": "Ver todos",
+      "empty": "No tienes contratos activos.",
+      "headerServicio": "Servicio",
+      "headerCliente": "Cliente",
+      "headerFreelancer": "Freelancer",
+      "headerEstado": "Estado",
+      "headerPrecio": "Precio",
+      "headerAcciones": "Acciones",
+      "from": "Desde {date}",
+      "viewDetails": "Ver detalles"
+    },
+    "recommendedServices": {
+      "title": "Servicios Recomendados",
+      "viewAll": "Ver todos",
+      "empty": "No hay servicios disponibles.",
+      "from": "Desde ${price}",
+      "viewService": "Ver servicio"
+    }
+  },
+  "contracts": {
+    "estado": {
+      "activo": "Activo",
+      "completado": "Completado",
+      "cancelado": "Cancelado"
+    }
+  },
   "services": {},
   "chat": {},
   "profile": {}

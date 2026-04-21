@@ -2,12 +2,14 @@
 
 import { RiCheckLine, RiCloseLine, RiLoader4Line } from "@remixicon/react"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { usePropuestasRecibidas } from "@/features/contracts/hooks/usePropuestasRecibidas"
 
 export function PropuestasRecibidas() {
+  const t = useTranslations("dashboard.propuestasRecibidas")
   const { propuestas, isLoading, error, responder } = usePropuestasRecibidas()
   const [loadingId, setLoadingId] = useState<string | null>(null)
 
@@ -23,7 +25,7 @@ export function PropuestasRecibidas() {
   if (isLoading) {
     return (
       <section>
-        <h2 className="mb-4 text-lg font-bold text-foreground">Propuestas recibidas</h2>
+        <h2 className="mb-4 text-lg font-bold text-foreground">{t("title")}</h2>
         <div className="flex justify-center py-8">
           <RiLoader4Line className="size-6 animate-spin text-muted-foreground" />
         </div>
@@ -37,7 +39,7 @@ export function PropuestasRecibidas() {
     <section>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">
-          Propuestas recibidas
+          {t("title")}
           <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
             {propuestas.length}
           </span>
@@ -56,7 +58,7 @@ export function PropuestasRecibidas() {
               {/* Left: info */}
               <div className="min-w-0 flex-1">
                 <p className="mb-1 text-xs text-muted-foreground">
-                  Para: <span className="font-medium text-foreground">{p.publicacion_titulo}</span>
+                  {t("for")} <span className="font-medium text-foreground">{p.publicacion_titulo}</span>
                 </p>
 
                 <div className="mb-3 flex items-center gap-2">
@@ -74,12 +76,12 @@ export function PropuestasRecibidas() {
 
                 <div className="flex flex-wrap gap-4 text-sm">
                   <div>
-                    <span className="text-xs text-muted-foreground">Precio propuesto</span>
+                    <span className="text-xs text-muted-foreground">{t("precioPropuesto")}</span>
                     <p className="font-semibold text-foreground">${p.precio_propuesto}</p>
                   </div>
                   {p.fecha_limite && (
                     <div>
-                      <span className="text-xs text-muted-foreground">Fecha límite</span>
+                      <span className="text-xs text-muted-foreground">{t("fechaLimite")}</span>
                       <p className="font-medium text-foreground">
                         {new Date(p.fecha_limite).toLocaleDateString("es-CO")}
                       </p>
@@ -97,7 +99,7 @@ export function PropuestasRecibidas() {
                   onClick={() => handleResponder(p.id, "aceptada")}
                 >
                   <RiCheckLine className="size-4" />
-                  Aceptar
+                  {t("aceptar")}
                 </Button>
                 <Button
                   size="sm"
@@ -107,7 +109,7 @@ export function PropuestasRecibidas() {
                   onClick={() => handleResponder(p.id, "rechazada")}
                 >
                   <RiCloseLine className="size-4" />
-                  Rechazar
+                  {t("rechazar")}
                 </Button>
               </div>
             </div>

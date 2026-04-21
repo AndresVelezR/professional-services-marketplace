@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -24,6 +25,7 @@ function categoryColor(categoria: string) {
 }
 
 export function RecommendedServices() {
+  const t = useTranslations("dashboard.recommendedServices")
   const [services, setServices] = useState<PublicacionListItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -37,9 +39,9 @@ export function RecommendedServices() {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">Servicios recomendados</h2>
+        <h2 className="text-lg font-bold text-foreground">{t("title")}</h2>
         <Link href="/services" className="text-sm font-medium text-primary hover:underline">
-          Ver todos
+          {t("viewAll")}
         </Link>
       </div>
 
@@ -50,7 +52,7 @@ export function RecommendedServices() {
       )}
 
       {!isLoading && services.length === 0 && (
-        <p className="text-sm text-muted-foreground">No hay servicios disponibles.</p>
+        <p className="text-sm text-muted-foreground">{t("empty")}</p>
       )}
 
       {!isLoading && services.length > 0 && (
@@ -90,12 +92,12 @@ export function RecommendedServices() {
                 </h3>
 
                 <div className="mb-4 flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Desde ${s.precio}</span>
+                  <span className="text-muted-foreground">{t("from", { price: s.precio })}</span>
                   <span className="text-xs text-muted-foreground">{s.tiempo_entrega}</span>
                 </div>
 
                 <Button asChild className="w-full" size="sm">
-                  <Link href={`/services/${s.id}`}>Ver servicio</Link>
+                  <Link href={`/services/${s.id}`}>{t("viewService")}</Link>
                 </Button>
               </div>
             </div>
