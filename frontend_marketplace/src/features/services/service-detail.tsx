@@ -1,9 +1,11 @@
 "use client"
 
+import { useState } from "react"
 import { RiLoader4Line } from "@remixicon/react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
+import { PropuestaModal } from "@/features/contracts/components/PropuestaModal"
 import { toServiceDetailProps } from "./adapters"
 import { FreelancerProfileCard } from "./components/FreelancerProfileCard"
 import { ServiceDescription } from "./components/ServiceDescription"
@@ -17,6 +19,7 @@ interface ServiceDetailProps {
 
 export function ServiceDetail({ id }: ServiceDetailProps) {
   const { data, isLoading, error } = usePublicacion(id)
+  const [modalOpen, setModalOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -43,7 +46,6 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
 
   return (
     <div>
-      {/* Two-column layout */}
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Left column */}
         <div className="flex-[3] space-y-8">
@@ -70,9 +72,17 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
             price={s.price}
             includes={s.includes}
             deliveryTime={s.deliveryTime}
+            onContratar={() => setModalOpen(true)}
           />
         </div>
       </div>
+
+      <PropuestaModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        publicacionId={id}
+        precioBase={s.price}
+      />
     </div>
   )
 }
