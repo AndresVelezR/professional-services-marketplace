@@ -44,7 +44,7 @@ export function FreelancerProfileCard({
 
         <Button variant="outline" className="mt-4 w-full">
           <RiChat1Line className="size-4" />
-          Enviar Mensaje
+          Enviar mensaje
         </Button>
       </CardContent>
     </Card>

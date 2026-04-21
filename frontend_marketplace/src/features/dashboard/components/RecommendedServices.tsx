@@ -7,6 +7,7 @@ import { RiLoader4Line } from "@remixicon/react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { categoriaLabel } from "@/features/services/adapters"
 import { getPublicaciones } from "@/features/services/services/publicacionService"
 import type { PublicacionListItem } from "@/features/services/models"
 
@@ -37,7 +38,7 @@ export function RecommendedServices() {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">Servicios Recomendados</h2>
+        <h2 className="text-lg font-bold text-foreground">Servicios recomendados</h2>
         <Link href="/services" className="text-sm font-medium text-primary hover:underline">
           Ver todos
         </Link>
@@ -71,7 +72,7 @@ export function RecommendedServices() {
                 <Badge
                   className={`absolute left-3 top-3 ${categoryColor(s.categoria)} border-0 text-[11px] font-bold uppercase tracking-wide text-white`}
                 >
-                  {s.categoria}
+                  {categoriaLabel(s.categoria)}
                 </Badge>
               </div>
 
