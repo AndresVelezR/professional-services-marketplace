@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 
 import type { Mensaje } from "../models"
 
@@ -12,6 +13,7 @@ interface MessageBubbleProps {
 }
 
 export function MessageBubble({ mensaje, isOwn }: MessageBubbleProps) {
+  const t = useTranslations("chat")
   const [expanded, setExpanded] = useState(false)
 
   const time = new Date(mensaje.created_at).toLocaleTimeString("es-CO", {
@@ -51,7 +53,7 @@ export function MessageBubble({ mensaje, isOwn }: MessageBubbleProps) {
               onClick={() => setExpanded((v) => !v)}
               className={`ml-1 text-xs font-medium underline-offset-2 hover:underline ${linkClass}`}
             >
-              {expanded ? "ver menos" : "ver más"}
+              {expanded ? t("seeLess") : t("seeMore")}
             </button>
           )}
         </div>

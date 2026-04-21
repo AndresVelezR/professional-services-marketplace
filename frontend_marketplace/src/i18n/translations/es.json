@@ -172,6 +172,18 @@
     }
   },
   "services": {},
-  "chat": {},
+  "chat": {
+    "title": "Mensajes",
+    "empty": "No tienes conversaciones aún. Se crean al abrir un contrato activo.",
+    "selectConversation": "Selecciona una conversación",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "loading": "Cargando mensajes...",
+    "emptyMessages": "Aún no hay mensajes. ¡Inicia la conversación!",
+    "inputPlaceholder": "Escribe un mensaje...",
+    "waitingConnection": "Esperando conexión...",
+    "seeMore": "ver más",
+    "seeLess": "ver menos"
+  },
   "profile": {}
 }

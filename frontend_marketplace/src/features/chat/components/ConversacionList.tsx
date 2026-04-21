@@ -1,3 +1,6 @@
+"use client"
+
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 
 import type { Conversacion } from "../models"
@@ -16,10 +19,11 @@ export function ConversacionList({
   activeId,
   onSelect,
 }: ConversacionListProps) {
+  const t = useTranslations("chat")
   return (
     <div className="flex h-full flex-col border-r border-border">
       <div className="border-b border-border px-5 py-4">
-        <h2 className="text-lg font-bold text-foreground">Mensajes</h2>
+        <h2 className="text-lg font-bold text-foreground">{t("title")}</h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-2">
@@ -31,7 +35,7 @@ export function ConversacionList({
 
         {!isLoading && conversaciones.length === 0 && (
           <p className="px-4 py-8 text-center text-sm text-muted-foreground">
-            No tienes conversaciones aún. Se crean al abrir un contrato activo.
+            {t("empty")}
           </p>
         )}
 
