@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/navigation"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
@@ -9,6 +10,7 @@ import type { CreatePublicacionPayload } from "./models"
 import { createPublicacion } from "./services/publicacionService"
 
 export function CreateService() {
+  const t = useTranslations("services.create")
   const router = useRouter()
   const { token } = useAuth()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -16,7 +18,7 @@ export function CreateService() {
 
   async function handleSubmit(payload: CreatePublicacionPayload) {
     if (!token) {
-      setError("Debes iniciar sesión para publicar un servicio")
+      setError(t("authError"))
       return
     }
 
@@ -27,7 +29,7 @@ export function CreateService() {
       await createPublicacion(payload, token)
       router.push("/services")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al crear el servicio")
+      setError(err instanceof Error ? err.message : t("submitError"))
     } finally {
       setIsSubmitting(false)
     }
@@ -38,18 +40,18 @@ export function CreateService() {
       <div className="mx-auto min-w-[420px] max-w-3xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Publica tu servicio
+            {t("title")}
           </h1>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            Describe tu oferta para que clientes potenciales puedan encontrarte y contratarte.
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           <div className="border-b border-border bg-muted/30 px-6 py-4">
-            <h2 className="text-sm font-semibold text-foreground">Detalles del servicio</h2>
+            <h2 className="text-sm font-semibold text-foreground">{t("cardTitle")}</h2>
             <p className="text-xs text-muted-foreground">
-              Los campos marcados son obligatorios
+              {t("cardSubtitle")}
             </p>
           </div>
           <div className="p-6 sm:p-8">

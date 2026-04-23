@@ -171,7 +171,112 @@
       "contratoCreado": "Contract created"
     }
   },
-  "services": {},
+  "services": {
+    "explorer": {
+      "searchPlaceholder": "Search services...",
+      "filters": "Filters",
+      "ordering": {
+        "relevancia": "Relevance",
+        "precioBajo": "Lowest price",
+        "mejorCalificados": "Top rated",
+        "nuevos": "Newest services"
+      },
+      "heading": "Services",
+      "count": "{count, plural, =0 {No services available} one {# service available} other {# services available}}",
+      "loadError": "Error loading services: {error}",
+      "emptyTitle": "No services found",
+      "emptyHint": "Try other filters or search terms"
+    },
+    "filters": {
+      "price": "Price range",
+      "delivery": "Delivery time",
+      "delivery13": "1-3 days",
+      "delivery37": "3-7 days",
+      "rating": "Rating",
+      "rating4": "4+ stars",
+      "rating45": "4.5+ stars",
+      "apply": "Apply filters"
+    },
+    "card": {
+      "from": "From",
+      "viewMore": "View more"
+    },
+    "pricing": {
+      "by": "by {author}",
+      "includesTitle": "What's included?",
+      "deliveryIn": "Delivered in <b>{deliveryTime}</b>",
+      "hire": "Hire now",
+      "favorite": "Add to favorites",
+      "guarantee": "Satisfaction guarantee. If you're not happy, we refund your money."
+    },
+    "description": {
+      "title": "About this service",
+      "includesTitle": "What's included?"
+    },
+    "gallery": {
+      "imageAlt": "{category} — image {index}",
+      "thumbAlt": "Thumbnail {index}"
+    },
+    "reviews": {
+      "total": "{count, plural, one {# review} other {# reviews}}"
+    },
+    "freelancer": {
+      "sendMessage": "Send message"
+    },
+    "detail": {
+      "loadError": "Error loading the service: {error}",
+      "back": "Back to services"
+    },
+    "create": {
+      "title": "Publish your service",
+      "subtitle": "Describe your offering so potential clients can find and hire you.",
+      "cardTitle": "Service details",
+      "cardSubtitle": "Fields marked are required",
+      "authError": "You must sign in to publish a service",
+      "submitError": "Error creating the service"
+    },
+    "form": {
+      "errorTitle": "The service couldn't be published",
+      "section1Title": "Basic information",
+      "section1Description": "The title and description are the first things clients will see",
+      "titulo": "Service title",
+      "tituloPlaceholder": "E.g. Professional logo design for startups",
+      "tituloHint": "Be specific — clear titles get more clicks",
+      "descripcion": "Description",
+      "descripcionPlaceholder": "Describe your service, your experience and workflow...",
+      "descripcionHint": "Include your experience, process and what sets you apart",
+      "section2Title": "Category and price",
+      "section2Description": "Help clients find your service",
+      "categoria": "Category",
+      "categoriaPlaceholder": "Select a category",
+      "categorias": {
+        "diseno": "Graphic design",
+        "desarrollo": "Web development",
+        "marketing": "Digital marketing",
+        "redaccion": "Copywriting",
+        "video": "Video and animation",
+        "otro": "Other"
+      },
+      "precio": "Price (USD)",
+      "tiempoEntrega": "Delivery time",
+      "tiempoEntregaPlaceholder": "E.g. 3-5 days",
+      "section3Title": "Additional details",
+      "section3Description": "These fields are optional but improve your listing",
+      "imagenes": "Service images",
+      "imagenesOpcional": "(optional, max. 3)",
+      "imagenesAgregar": "Add",
+      "imagenesHint": "JPG, PNG or WebP. They'll be shown as the service gallery.",
+      "imagenAlt": "Preview {index}",
+      "incluye": "What's included?",
+      "incluyeOpcional": "(optional)",
+      "incluyePlaceholder": "E.g. Unlimited revisions",
+      "incluyeAgregar": "Add",
+      "incluyeHint": "Press Enter or click Add to append items",
+      "submitNote": "By publishing, you accept FreelanceHub's terms of service.",
+      "submit": "Publish service",
+      "submitting": "Publishing..."
+    }
+  },
   "chat": {
     "title": "Messages",
     "empty": "You don't have any conversations yet. They're created when you open an active contract.",

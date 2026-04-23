@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { RiStarFill } from "@remixicon/react"
 
 interface RatingBreakdown {
@@ -16,6 +17,7 @@ export function ReviewsSummary({
   totalReviews,
   breakdown,
 }: ReviewsSummaryProps) {
+  const t = useTranslations("services.reviews")
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
       {/* Average score */}
@@ -36,7 +38,7 @@ export function ReviewsSummary({
           ))}
         </div>
         <span className="text-sm text-muted-foreground">
-          {totalReviews} reseñas
+          {t("total", { count: totalReviews })}
         </span>
       </div>
 

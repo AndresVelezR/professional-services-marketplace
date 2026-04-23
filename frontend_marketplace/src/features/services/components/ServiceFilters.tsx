@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiMoneyDollarCircleLine, RiStarFill, RiTimeLine } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
@@ -65,6 +66,7 @@ const PRICE_RANGES = [
 ] as const
 
 export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
+  const t = useTranslations("services.filters")
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null)
 
   function handlePriceChange(rangeId: string, checked: boolean) {
@@ -86,7 +88,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
 
   return (
     <div className="sticky top-24 space-y-6 rounded-lg border border-border bg-card p-6 shadow-sm">
-      <FilterSection icon={RiMoneyDollarCircleLine} title="Rango de precio">
+      <FilterSection icon={RiMoneyDollarCircleLine} title={t("price")}>
         {PRICE_RANGES.map((range) => (
           <FilterCheckbox
             key={range.id}
@@ -99,29 +101,29 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
       </FilterSection>
 
       <div className="border-t border-border pt-6">
-        <FilterSection icon={RiTimeLine} title="Tiempo de entrega">
-          <FilterCheckbox id="time-1-3" label="1-3 días" />
-          <FilterCheckbox id="time-3-7" label="3-7 días" />
+        <FilterSection icon={RiTimeLine} title={t("delivery")}>
+          <FilterCheckbox id="time-1-3" label={t("delivery13")} />
+          <FilterCheckbox id="time-3-7" label={t("delivery37")} />
         </FilterSection>
       </div>
 
       <div className="border-t border-border pt-6">
-        <FilterSection icon={RiStarFill} title="Calificación">
+        <FilterSection icon={RiStarFill} title={t("rating")}>
           <FilterCheckbox
             id="rating-4"
-            label="4+ estrellas"
+            label={t("rating4")}
             suffix={<RiStarFill className="size-3 text-yellow-400" />}
           />
           <FilterCheckbox
             id="rating-4-5"
-            label="4.5+ estrellas"
+            label={t("rating45")}
             suffix={<RiStarFill className="size-3 text-yellow-400" />}
           />
         </FilterSection>
       </div>
 
       <Button className="w-full h-11 bg-action text-action-foreground hover:bg-action/90 font-bold shadow-md">
-        Aplicar filtros
+        {t("apply")}
       </Button>
     </div>
   )

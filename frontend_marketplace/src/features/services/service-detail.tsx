@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 import { Link } from "@/i18n/navigation"
 
@@ -18,6 +19,7 @@ interface ServiceDetailProps {
 }
 
 export function ServiceDetail({ id }: ServiceDetailProps) {
+  const t = useTranslations("services.detail")
   const { data, isLoading, error } = usePublicacion(id)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -32,9 +34,9 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
   if (error) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <p className="text-sm text-destructive">Error al cargar el servicio: {error}</p>
+        <p className="text-sm text-destructive">{t("loadError", { error })}</p>
         <Link href="/services">
-          <Button variant="outline" size="sm">Volver a servicios</Button>
+          <Button variant="outline" size="sm">{t("back")}</Button>
         </Link>
       </div>
     )

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { RiHeartLine, RiStarFill } from "@remixicon/react"
 import { Link } from "@/i18n/navigation"
 
@@ -29,6 +30,7 @@ export function ServiceCard({
   freelancer,
   imageUrl,
 }: ServiceCardProps) {
+  const t = useTranslations("services.card")
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:shadow-xl">
       {/* Image */}
@@ -85,14 +87,14 @@ export function ServiceCard({
       <div className="flex items-center justify-between border-t border-border px-4 py-3">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
-            Desde
+            {t("from")}
           </p>
           <p className="text-lg font-bold leading-none text-foreground">
             ${price}
           </p>
         </div>
         <Button asChild size="sm" className="text-xs font-bold">
-          <Link href={`/services/${id}`}>Ver más</Link>
+          <Link href={`/services/${id}`}>{t("viewMore")}</Link>
         </Button>
       </div>
     </div>

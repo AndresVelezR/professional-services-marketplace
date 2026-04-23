@@ -171,7 +171,112 @@
       "contratoCreado": "Contrato creado"
     }
   },
-  "services": {},
+  "services": {
+    "explorer": {
+      "searchPlaceholder": "Buscar servicios...",
+      "filters": "Filtros",
+      "ordering": {
+        "relevancia": "Relevancia",
+        "precioBajo": "Precio más bajo",
+        "mejorCalificados": "Mejor calificados",
+        "nuevos": "Nuevos servicios"
+      },
+      "heading": "Servicios",
+      "count": "{count, plural, =0 {No hay servicios disponibles} one {# servicio disponible} other {# servicios disponibles}}",
+      "loadError": "Error al cargar servicios: {error}",
+      "emptyTitle": "No se encontraron servicios",
+      "emptyHint": "Intenta con otros filtros o términos de búsqueda"
+    },
+    "filters": {
+      "price": "Rango de precio",
+      "delivery": "Tiempo de entrega",
+      "delivery13": "1-3 días",
+      "delivery37": "3-7 días",
+      "rating": "Calificación",
+      "rating4": "4+ estrellas",
+      "rating45": "4.5+ estrellas",
+      "apply": "Aplicar filtros"
+    },
+    "card": {
+      "from": "Desde",
+      "viewMore": "Ver más"
+    },
+    "pricing": {
+      "by": "por {author}",
+      "includesTitle": "¿Qué incluye?",
+      "deliveryIn": "Entrega en <b>{deliveryTime}</b>",
+      "hire": "Contratar ahora",
+      "favorite": "Agregar a favoritos",
+      "guarantee": "Garantía de satisfacción. Si no estás conforme, te devolvemos tu dinero."
+    },
+    "description": {
+      "title": "Acerca de este servicio",
+      "includesTitle": "¿Qué incluye?"
+    },
+    "gallery": {
+      "imageAlt": "{category} — imagen {index}",
+      "thumbAlt": "Miniatura {index}"
+    },
+    "reviews": {
+      "total": "{count, plural, one {# reseña} other {# reseñas}}"
+    },
+    "freelancer": {
+      "sendMessage": "Enviar mensaje"
+    },
+    "detail": {
+      "loadError": "Error al cargar el servicio: {error}",
+      "back": "Volver a servicios"
+    },
+    "create": {
+      "title": "Publica tu servicio",
+      "subtitle": "Describe tu oferta para que clientes potenciales puedan encontrarte y contratarte.",
+      "cardTitle": "Detalles del servicio",
+      "cardSubtitle": "Los campos marcados son obligatorios",
+      "authError": "Debes iniciar sesión para publicar un servicio",
+      "submitError": "Error al crear el servicio"
+    },
+    "form": {
+      "errorTitle": "No se pudo publicar el servicio",
+      "section1Title": "Información básica",
+      "section1Description": "El título y la descripción son lo primero que verán los clientes",
+      "titulo": "Título del servicio",
+      "tituloPlaceholder": "Ej: Diseño de logo profesional para startups",
+      "tituloHint": "Sé específico — los títulos claros reciben más clics",
+      "descripcion": "Descripción",
+      "descripcionPlaceholder": "Describe tu servicio, tu experiencia y proceso de trabajo...",
+      "descripcionHint": "Incluye tu experiencia, proceso y qué te diferencia",
+      "section2Title": "Categoría y precio",
+      "section2Description": "Ayuda a los clientes a encontrar tu servicio",
+      "categoria": "Categoría",
+      "categoriaPlaceholder": "Selecciona categoría",
+      "categorias": {
+        "diseno": "Diseño gráfico",
+        "desarrollo": "Desarrollo web",
+        "marketing": "Marketing digital",
+        "redaccion": "Redacción",
+        "video": "Video y animación",
+        "otro": "Otro"
+      },
+      "precio": "Precio (USD)",
+      "tiempoEntrega": "Tiempo de entrega",
+      "tiempoEntregaPlaceholder": "Ej: 3-5 días",
+      "section3Title": "Detalles adicionales",
+      "section3Description": "Estos campos son opcionales pero mejoran tu publicación",
+      "imagenes": "Imágenes del servicio",
+      "imagenesOpcional": "(opcional, máx. 3)",
+      "imagenesAgregar": "Agregar",
+      "imagenesHint": "JPG, PNG o WebP. Se mostrarán como galería del servicio.",
+      "imagenAlt": "Vista previa {index}",
+      "incluye": "¿Qué incluye?",
+      "incluyeOpcional": "(opcional)",
+      "incluyePlaceholder": "Ej: Revisiones ilimitadas",
+      "incluyeAgregar": "Agregar",
+      "incluyeHint": "Presiona Enter o haz clic en Agregar para añadir ítems",
+      "submitNote": "Al publicar, aceptas los términos de servicio de FreelanceHub.",
+      "submit": "Publicar servicio",
+      "submitting": "Publicando..."
+    }
+  },
   "chat": {
     "title": "Mensajes",
     "empty": "No tienes conversaciones aún. Se crean al abrir un contrato activo.",
