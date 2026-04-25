@@ -33,6 +33,7 @@ export function ServiceCard({
   imageUrl,
 }: ServiceCardProps) {
   const t = useTranslations("services.card")
+  const tCat = useTranslations("services.form.categorias")
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:shadow-xl">
       {/* Image */}
@@ -52,7 +53,7 @@ export function ServiceCard({
           variant="secondary"
           className="absolute left-3 top-3 bg-white/90 text-primary shadow-sm backdrop-blur"
         >
-          {category}
+          {tCat(category)}
         </Badge>
         <Button
           variant="ghost"

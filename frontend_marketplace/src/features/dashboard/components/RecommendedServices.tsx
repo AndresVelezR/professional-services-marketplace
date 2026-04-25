@@ -26,6 +26,7 @@ function categoryColor(categoria: string) {
 
 export function RecommendedServices() {
   const t = useTranslations("dashboard.recommendedServices")
+  const tCat = useTranslations("services.form.categorias")
   const [services, setServices] = useState<PublicacionListItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -73,7 +74,7 @@ export function RecommendedServices() {
                 <Badge
                   className={`absolute left-3 top-3 ${categoryColor(s.categoria)} border-0 text-[11px] font-bold uppercase tracking-wide text-white`}
                 >
-                  {s.categoria}
+                  {tCat(s.categoria)}
                 </Badge>
               </div>
 

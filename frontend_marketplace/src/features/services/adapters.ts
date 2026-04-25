@@ -20,7 +20,7 @@ export function toServiceCardProps(
   return {
     id: item.id,
     title: item.titulo,
-    category: categoriaLabel(item.categoria),
+    category: item.categoria,
     price: parseFloat(item.precio),
     rating: 0,
     reviews: 0,
@@ -35,7 +35,7 @@ export function toServiceCardProps(
 export function toServiceDetailProps(detail: PublicacionDetail) {
   return {
     title: detail.titulo,
-    category: categoriaLabel(detail.categoria),
+    category: detail.categoria,
     price: parseFloat(detail.precio),
     deliveryTime: detail.tiempo_entrega,
     includes: detail.incluye,
