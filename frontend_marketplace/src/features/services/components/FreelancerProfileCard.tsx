@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslations } from "next-intl"
 import { RiChat1Line } from "@remixicon/react"
 

@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslations } from "next-intl"
 import { RiHeartLine, RiStarFill } from "@remixicon/react"
 import { Link } from "@/i18n/navigation"

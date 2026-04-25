@@ -1,3 +1,5 @@
+"use client"
+
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 import type { Conversacion } from "../models"
 
