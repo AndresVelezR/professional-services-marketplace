@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiMessage3Line } from "@remixicon/react"
 
 import { ConversacionList } from "./components/ConversacionList"
@@ -9,6 +10,7 @@ import { useConversaciones } from "./hooks/useConversaciones"
 import type { Conversacion } from "./models"
 
 export function Chat() {
+  const t = useTranslations("chat")
   const { conversaciones, isLoading } = useConversaciones()
   const [active, setActive] = useState<Conversacion | null>(null)
 
@@ -31,7 +33,7 @@ export function Chat() {
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 text-muted-foreground">
             <RiMessage3Line className="size-10 opacity-30" />
-            <p className="text-sm">Selecciona una conversación</p>
+            <p className="text-sm">{t("selectConversation")}</p>
           </div>
         )}
       </div>

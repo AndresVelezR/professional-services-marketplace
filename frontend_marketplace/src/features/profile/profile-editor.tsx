@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import {
   RiAlertLine,
   RiBriefcaseLine,
@@ -36,6 +37,7 @@ function SectionTitle({
 }
 
 export function ProfileEditor() {
+  const t = useTranslations("profile")
   const { token } = useAuth()
   const { perfil, isLoading, error, isSaving, save, refetch } = usePerfil()
   const { habilidades: catalog } = useHabilidades()
@@ -82,7 +84,7 @@ export function ProfileEditor() {
         <div className="flex items-start gap-3">
           <RiAlertLine className="mt-0.5 size-5 text-destructive" />
           <div>
-            <p className="font-medium text-destructive">Error al cargar perfil</p>
+            <p className="font-medium text-destructive">{t("loadError")}</p>
             <p className="mt-1 text-sm text-destructive/80">{error}</p>
           </div>
         </div>
@@ -99,15 +101,14 @@ export function ProfileEditor() {
         <ProfileHeader perfil={perfil} onPhotoSelect={setPendingPhoto} />
         {pendingPhoto && (
           <p className="mt-3 text-xs text-muted-foreground">
-            Foto seleccionada — se guardará al hacer click en &quot;Guardar
-            cambios&quot;
+            {t("photoPending")}
           </p>
         )}
       </div>
 
       {/* Info */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <SectionTitle icon={RiUserLine} title="Información personal" />
+        <SectionTitle icon={RiUserLine} title={t("sections.info")} />
         <div className="mt-5">
           <ProfileInfoForm
             perfil={perfil}
@@ -122,7 +123,7 @@ export function ProfileEditor() {
 
       {/* Skills */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <SectionTitle icon={RiStackLine} title="Habilidades" />
+        <SectionTitle icon={RiStackLine} title={t("sections.skills")} />
         <div className="mt-5">
           <SkillsSelector
             selected={perfil.habilidades}
@@ -134,7 +135,7 @@ export function ProfileEditor() {
 
       {/* Experience */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <SectionTitle icon={RiBriefcaseLine} title="Experiencia" />
+        <SectionTitle icon={RiBriefcaseLine} title={t("sections.experience")} />
         <div className="mt-5">
           <ExperienciaList
             experiencias={experienciasHook.experiencias}

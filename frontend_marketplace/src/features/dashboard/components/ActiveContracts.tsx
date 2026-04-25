@@ -1,6 +1,7 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -14,13 +15,9 @@ const ESTADO_STYLES = {
   cancelado: "bg-red-100 text-red-700",
 }
 
-const ESTADO_LABEL = {
-  activo: "ACTIVO",
-  completado: "COMPLETADO",
-  cancelado: "CANCELADO",
-}
-
 export function ActiveContracts() {
+  const t = useTranslations("dashboard.activeContracts")
+  const tEstado = useTranslations("contracts.estado")
   const { perfil } = useAuth()
   const { contratos, isLoading } = useContratos()
 
@@ -29,9 +26,9 @@ export function ActiveContracts() {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">Mis contratos activos</h2>
+        <h2 className="text-lg font-bold text-foreground">{t("title")}</h2>
         <Link href="/contracts" className="text-sm font-medium text-primary hover:underline">
-          Ver todos
+          {t("viewAll")}
         </Link>
       </div>
 
@@ -43,7 +40,7 @@ export function ActiveContracts() {
 
       {!isLoading && activos.length === 0 && (
         <div className="rounded-xl border border-border bg-card px-5 py-8 text-center">
-          <p className="text-sm text-muted-foreground">No tienes contratos activos.</p>
+          <p className="text-sm text-muted-foreground">{t("empty")}</p>
         </div>
       )}
 
@@ -53,19 +50,19 @@ export function ActiveContracts() {
             <thead>
               <tr className="border-b border-border bg-muted/40">
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Servicio
+                  {t("headerServicio")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  {perfil?.tipo_usuario === "freelancer" ? "Cliente" : "Freelancer"}
+                  {perfil?.tipo_usuario === "freelancer" ? t("headerCliente") : t("headerFreelancer")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Estado
+                  {t("headerEstado")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Precio
+                  {t("headerPrecio")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Acciones
+                  {t("headerAcciones")}
                 </th>
               </tr>
             </thead>
@@ -78,7 +75,7 @@ export function ActiveContracts() {
                     <td className="px-5 py-4">
                       <p className="font-medium text-foreground">{c.publicacion_titulo}</p>
                       <p className="text-xs text-muted-foreground">
-                        Desde {new Date(c.fecha_inicio).toLocaleDateString("es-CO")}
+                        {t("from", { date: new Date(c.fecha_inicio).toLocaleDateString("es-CO") })}
                       </p>
                     </td>
                     <td className="px-5 py-4">
@@ -92,14 +89,14 @@ export function ActiveContracts() {
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${ESTADO_STYLES[c.estado]}`}>
-                        {ESTADO_LABEL[c.estado]}
+                      <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase ${ESTADO_STYLES[c.estado]}`}>
+                        {tEstado(c.estado)}
                       </span>
                     </td>
                     <td className="px-5 py-4 font-medium text-foreground">${c.precio}</td>
                     <td className="px-5 py-4">
                       <Button asChild size="sm" className="bg-blue-600 text-white hover:bg-blue-700">
-                        <Link href={`/contracts/${c.id}`}>Ver detalles</Link>
+                        <Link href={`/contracts/${c.id}`}>{t("viewDetails")}</Link>
                       </Button>
                     </td>
                   </tr>

@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { Link, useRouter } from "@/i18n/navigation"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import {
   RiArrowLeftLine,
   RiBriefcaseLine,
@@ -25,29 +25,13 @@ import { useAuth } from "@/infrastructure/auth/AuthContext"
 import { registro } from "@/features/auth/services/authService"
 import type { TipoUsuario } from "@/features/auth/models"
 
-const accountTypes: { id: TipoUsuario; title: string; description: string; icon: React.ElementType }[] = [
-  {
-    id: "freelancer",
-    title: "Freelancer",
-    description:
-      "Busco proyectos emocionantes y quiero ofrecer mis servicios profesionales al mundo.",
-    icon: RiBriefcaseLine,
-  },
-  {
-    id: "cliente",
-    title: "Cliente",
-    description:
-      "Busco el mejor talento para realizar mis proyectos y contratar servicios especializados.",
-    icon: RiSearchLine,
-  },
-  {
-    id: "ambos",
-    title: "Ambos",
-    description:
-      "Quiero tanto contratar como ofrecer mis servicios en la plataforma sin limitaciones.",
-    icon: RiCodeLine,
-  },
-]
+const accountTypeIcons: Record<TipoUsuario, React.ElementType> = {
+  freelancer: RiBriefcaseLine,
+  cliente: RiSearchLine,
+  ambos: RiCodeLine,
+}
+
+const accountTypeIds: TipoUsuario[] = ["freelancer", "cliente", "ambos"]
 
 interface BasicData {
   first_name: string
@@ -101,6 +85,7 @@ function StepBasicData({
   initial: BasicData
   onNext: (data: BasicData) => void
 }) {
+  const t = useTranslations("auth.signup")
   const [first_name, setFirstName] = useState(initial.first_name)
   const [last_name, setLastName] = useState(initial.last_name)
   const [email, setEmail] = useState(initial.email)
@@ -114,9 +99,9 @@ function StepBasicData({
           <RiBriefcaseLine className="size-7" />
         </div>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground">Crear cuenta</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Paso 1 de 2 — Información básica
+            {t("stepSubtitle")}
           </p>
         </div>
       </div>
@@ -132,7 +117,7 @@ function StepBasicData({
           >
             <div className="grid grid-cols-2 gap-3">
               <Field>
-                <FieldLabel htmlFor="signup-first-name">Nombre</FieldLabel>
+                <FieldLabel htmlFor="signup-first-name">{t("firstNameLabel")}</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiUserLine className="size-4 text-muted-foreground" />
@@ -140,7 +125,7 @@ function StepBasicData({
                   <InputGroupInput
                     id="signup-first-name"
                     type="text"
-                    placeholder="Juan"
+                    placeholder={t("firstNamePlaceholder")}
                     value={first_name}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
@@ -148,7 +133,7 @@ function StepBasicData({
                 </InputGroup>
               </Field>
               <Field>
-                <FieldLabel htmlFor="signup-last-name">Apellido</FieldLabel>
+                <FieldLabel htmlFor="signup-last-name">{t("lastNameLabel")}</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiUserLine className="size-4 text-muted-foreground" />
@@ -156,7 +141,7 @@ function StepBasicData({
                   <InputGroupInput
                     id="signup-last-name"
                     type="text"
-                    placeholder="Pérez"
+                    placeholder={t("lastNamePlaceholder")}
                     value={last_name}
                     onChange={(e) => setLastName(e.target.value)}
                     required
@@ -166,7 +151,7 @@ function StepBasicData({
             </div>
 
             <Field>
-              <FieldLabel htmlFor="signup-email">Correo electrónico</FieldLabel>
+              <FieldLabel htmlFor="signup-email">{t("emailLabel")}</FieldLabel>
               <InputGroup>
                 <InputGroupAddon>
                   <RiMailLine className="size-4 text-muted-foreground" />
@@ -174,7 +159,7 @@ function StepBasicData({
                 <InputGroupInput
                   id="signup-email"
                   type="email"
-                  placeholder="correo@ejemplo.com"
+                  placeholder={t("emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -183,7 +168,7 @@ function StepBasicData({
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="signup-password">Contraseña</FieldLabel>
+              <FieldLabel htmlFor="signup-password">{t("passwordLabel")}</FieldLabel>
               <InputGroup>
                 <InputGroupAddon>
                   <RiLockLine className="size-4 text-muted-foreground" />
@@ -198,33 +183,36 @@ function StepBasicData({
                   required
                 />
               </InputGroup>
-              <FieldDescription>Mínimo 8 caracteres</FieldDescription>
+              <FieldDescription>{t("passwordHint")}</FieldDescription>
             </Field>
 
             <Button type="submit" size="lg" className="w-full h-11 text-base font-semibold">
-              Continuar →
+              {t("continue")}
             </Button>
           </form>
         </CardContent>
       </Card>
 
       <p className="text-sm text-muted-foreground">
-        ¿Ya tienes cuenta?{" "}
+        {t("hasAccount")}{" "}
         <Link href="/login" className="font-semibold text-primary hover:underline">
-          Iniciar sesión
+          {t("loginLink")}
         </Link>
       </p>
 
       <p className="text-center text-xs text-muted-foreground">
-        Al unirte, aceptas nuestros{" "}
-        <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
-          Términos de servicio
-        </Link>{" "}
-        y{" "}
-        <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
-          Política de privacidad
-        </Link>
-        .
+        {t.rich("terms", {
+          terms: (chunks) => (
+            <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
+              {chunks}
+            </Link>
+          ),
+          privacy: (chunks) => (
+            <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+              {chunks}
+            </Link>
+          ),
+        })}
       </p>
     </div>
   )
@@ -237,6 +225,7 @@ function StepAccountType({
   basicData: BasicData
   onBack: () => void
 }) {
+  const t = useTranslations("auth.signup.accountType")
   const { login } = useAuth()
   const router = useRouter()
   const [error, setError] = useState("")
@@ -250,7 +239,7 @@ function StepAccountType({
       await login({ email: basicData.email, password: basicData.password })
       router.push("/dashboard")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al crear la cuenta")
+      setError(err instanceof Error ? err.message : t("errorDefault"))
       setLoading(false)
     }
   }
@@ -259,11 +248,10 @@ function StepAccountType({
     <div className="w-full max-w-4xl">
       <div className="mb-10 text-center">
         <h1 className="text-3xl font-bold text-foreground md:text-4xl">
-          ¿Cómo quieres usar la plataforma?
+          {t("title")}
         </h1>
         <p className="mx-auto mt-3 max-w-lg text-base text-muted-foreground">
-          Personaliza tu experiencia seleccionando el perfil que mejor se adapte
-          a tus necesidades. Podrás cambiar esto más adelante.
+          {t("subtitle")}
         </p>
         {error && (
           <p className="mt-4 rounded-md bg-destructive/10 px-4 py-2 text-sm text-destructive">
@@ -273,39 +261,42 @@ function StepAccountType({
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {accountTypes.map((type) => (
-          <Card
-            key={type.id}
-            className="flex flex-col items-center text-center transition-shadow hover:shadow-md"
-          >
-            <CardContent className="flex flex-1 flex-col items-center gap-5 pt-8 pb-6">
-              <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-                <type.icon className="size-7 text-primary" />
-              </div>
-              <div className="flex flex-1 flex-col gap-2">
-                <h2 className="text-xl font-semibold text-foreground">
-                  {type.title}
-                </h2>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {type.description}
-                </p>
-              </div>
-              <Button
-                className="w-full h-11 text-base font-semibold"
-                disabled={loading}
-                onClick={() => handleSelect(type.id)}
-              >
-                {loading ? "Creando cuenta..." : "Seleccionar"}
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+        {accountTypeIds.map((id) => {
+          const Icon = accountTypeIcons[id]
+          return (
+            <Card
+              key={id}
+              className="flex flex-col items-center text-center transition-shadow hover:shadow-md"
+            >
+              <CardContent className="flex flex-1 flex-col items-center gap-5 pt-8 pb-6">
+                <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
+                  <Icon className="size-7 text-primary" />
+                </div>
+                <div className="flex flex-1 flex-col gap-2">
+                  <h2 className="text-xl font-semibold text-foreground">
+                    {t(`${id}.title`)}
+                  </h2>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {t(`${id}.description`)}
+                  </p>
+                </div>
+                <Button
+                  className="w-full h-11 text-base font-semibold"
+                  disabled={loading}
+                  onClick={() => handleSelect(id)}
+                >
+                  {loading ? t("creating") : t("select")}
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
       <div className="mt-8 flex justify-center">
         <Button variant="ghost" size="lg" onClick={onBack} disabled={loading}>
           <RiArrowLeftLine className="size-4" />
-          Volver
+          {t("back")}
         </Button>
       </div>
     </div>

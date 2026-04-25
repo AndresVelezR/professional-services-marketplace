@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import {
   RiAddLine,
   RiAlertLine,
@@ -25,13 +26,13 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import type { CreatePublicacionPayload } from "../models"
 
-const CATEGORIAS = [
-  { value: "diseno", label: "Diseño Gráfico" },
-  { value: "desarrollo", label: "Desarrollo Web" },
-  { value: "marketing", label: "Marketing Digital" },
-  { value: "redaccion", label: "Redacción" },
-  { value: "video", label: "Video y Animación" },
-  { value: "otro", label: "Otro" },
+const CATEGORIA_VALUES = [
+  "diseno",
+  "desarrollo",
+  "marketing",
+  "redaccion",
+  "video",
+  "otro",
 ] as const
 
 interface CreateServiceFormProps {
@@ -67,6 +68,7 @@ export function CreateServiceForm({
   error,
   onSubmit,
 }: CreateServiceFormProps) {
+  const t = useTranslations("services.form")
   const [titulo, setTitulo] = useState("")
   const [descripcion, setDescripcion] = useState("")
   const [categoria, setCategoria] = useState("")
@@ -124,7 +126,7 @@ export function CreateServiceForm({
           <RiAlertLine className="mt-0.5 size-4 shrink-0 text-destructive" />
           <div className="min-w-0">
             <p className="text-sm font-medium text-destructive">
-              No se pudo publicar el servicio
+              {t("errorTitle")}
             </p>
             <p className="mt-0.5 text-xs text-destructive/80">{error}</p>
           </div>
@@ -135,42 +137,42 @@ export function CreateServiceForm({
       <section className="space-y-5">
         <SectionHeader
           step={1}
-          title="Información básica"
-          description="El título y la descripción son lo primero que verán los clientes"
+          title={t("section1Title")}
+          description={t("section1Description")}
         />
 
         <div className="space-y-4 pl-10">
           <div className="space-y-2">
             <Label htmlFor="titulo" className="text-sm font-medium">
-              Título del servicio <span className="text-destructive">*</span>
+              {t("titulo")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="titulo"
-              placeholder="Ej: Diseño de logo profesional para startups"
+              placeholder={t("tituloPlaceholder")}
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
               required
               className="h-11"
             />
             <p className="text-[11px] text-muted-foreground">
-              Sé específico — los títulos claros reciben más clicks
+              {t("tituloHint")}
             </p>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="descripcion" className="text-sm font-medium">
-              Descripción <span className="text-destructive">*</span>
+              {t("descripcion")} <span className="text-destructive">*</span>
             </Label>
             <Textarea
               id="descripcion"
-              placeholder="Describe tu servicio, tu experiencia y proceso de trabajo..."
+              placeholder={t("descripcionPlaceholder")}
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
               required
               className="min-h-36 resize-y"
             />
             <p className="text-[11px] text-muted-foreground">
-              Incluye tu experiencia, proceso y qué te diferencia
+              {t("descripcionHint")}
             </p>
           </div>
         </div>
@@ -183,24 +185,24 @@ export function CreateServiceForm({
       <section className="space-y-5">
         <SectionHeader
           step={2}
-          title="Categoría y precio"
-          description="Ayuda a los clientes a encontrar tu servicio"
+          title={t("section2Title")}
+          description={t("section2Description")}
         />
 
         <div className="space-y-4 pl-10">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label className="text-sm font-medium">
-                Categoría <span className="text-destructive">*</span>
+                {t("categoria")} <span className="text-destructive">*</span>
               </Label>
               <Select value={categoria} onValueChange={setCategoria} required>
                 <SelectTrigger className="h-11 w-full">
-                  <SelectValue placeholder="Selecciona categoría" />
+                  <SelectValue placeholder={t("categoriaPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
-                  {CATEGORIAS.map((cat) => (
-                    <SelectItem key={cat.value} value={cat.value}>
-                      {cat.label}
+                  {CATEGORIA_VALUES.map((value) => (
+                    <SelectItem key={value} value={value}>
+                      {t(`categorias.${value}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -209,7 +211,7 @@ export function CreateServiceForm({
 
             <div className="space-y-2">
               <Label htmlFor="precio" className="text-sm font-medium">
-                Precio (USD) <span className="text-destructive">*</span>
+                {t("precio")} <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
                 <RiMoneyDollarCircleLine className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -230,13 +232,13 @@ export function CreateServiceForm({
 
           <div className="space-y-2 sm:max-w-[calc(50%-0.5rem)]">
             <Label htmlFor="tiempo_entrega" className="text-sm font-medium">
-              Tiempo de entrega <span className="text-destructive">*</span>
+              {t("tiempoEntrega")} <span className="text-destructive">*</span>
             </Label>
             <div className="relative">
               <RiTimeLine className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="tiempo_entrega"
-                placeholder="Ej: 3-5 días"
+                placeholder={t("tiempoEntregaPlaceholder")}
                 value={tiempoEntrega}
                 onChange={(e) => setTiempoEntrega(e.target.value)}
                 required
@@ -254,17 +256,17 @@ export function CreateServiceForm({
       <section className="space-y-5">
         <SectionHeader
           step={3}
-          title="Detalles adicionales"
-          description="Estos campos son opcionales pero mejoran tu publicación"
+          title={t("section3Title")}
+          description={t("section3Description")}
         />
 
         <div className="space-y-5 pl-10">
           {/* Imágenes */}
           <div className="space-y-3">
             <Label className="text-sm font-medium">
-              Imágenes del servicio
+              {t("imagenes")}
               <span className="ml-1.5 text-xs font-normal text-muted-foreground">
-                (opcional, máx. 3)
+                {t("imagenesOpcional")}
               </span>
             </Label>
 
@@ -276,7 +278,7 @@ export function CreateServiceForm({
                 >
                   <img
                     src={URL.createObjectURL(file)}
-                    alt={`Preview ${i + 1}`}
+                    alt={t("imagenAlt", { index: i + 1 })}
                     className="h-full w-full object-cover"
                   />
                   <button
@@ -296,7 +298,7 @@ export function CreateServiceForm({
                   className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-border bg-muted/30 text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
                 >
                   <RiImageAddLine className="size-6" />
-                  <span className="text-[11px] font-medium">Agregar</span>
+                  <span className="text-[11px] font-medium">{t("imagenesAgregar")}</span>
                 </button>
               )}
             </div>
@@ -311,22 +313,22 @@ export function CreateServiceForm({
             />
 
             <p className="text-[11px] text-muted-foreground">
-              JPG, PNG o WebP. Se mostrarán como galería del servicio.
+              {t("imagenesHint")}
             </p>
           </div>
 
           {/* Incluye */}
           <div className="space-y-3">
             <Label className="text-sm font-medium">
-              ¿Qué incluye?
+              {t("incluye")}
               <span className="ml-1.5 text-xs font-normal text-muted-foreground">
-                (opcional)
+                {t("incluyeOpcional")}
               </span>
             </Label>
 
             <div className="flex gap-2">
               <Input
-                placeholder="Ej: Revisiones ilimitadas"
+                placeholder={t("incluyePlaceholder")}
                 value={nuevoIncluye}
                 onChange={(e) => setNuevoIncluye(e.target.value)}
                 onKeyDown={(e) => {
@@ -344,7 +346,7 @@ export function CreateServiceForm({
                 className="h-11 shrink-0 gap-1.5 px-4 text-xs font-semibold"
               >
                 <RiAddLine className="size-4" />
-                Agregar
+                {t("incluyeAgregar")}
               </Button>
             </div>
 
@@ -371,7 +373,7 @@ export function CreateServiceForm({
 
             {incluye.length === 0 && (
               <p className="text-[11px] text-muted-foreground">
-                Presiona Enter o haz click en Agregar para añadir items
+                {t("incluyeHint")}
               </p>
             )}
           </div>
@@ -384,7 +386,7 @@ export function CreateServiceForm({
       {/* Submit */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-muted-foreground">
-          Al publicar, aceptas los términos de servicio de FreelanceHub.
+          {t("submitNote")}
         </p>
         <Button
           type="submit"
@@ -394,10 +396,10 @@ export function CreateServiceForm({
           {isSubmitting ? (
             <>
               <RiLoader4Line className="size-4 animate-spin" />
-              Publicando...
+              {t("submitting")}
             </>
           ) : (
-            "Publicar servicio"
+            t("submit")
           )}
         </Button>
       </div>

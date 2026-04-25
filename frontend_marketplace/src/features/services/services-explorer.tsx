@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
@@ -35,6 +36,7 @@ const ORDERING_MAP: Record<string, string> = {
 }
 
 export function ServicesExplorer() {
+  const t = useTranslations("services.explorer")
   const {
     results,
     count,
@@ -78,7 +80,7 @@ export function ServicesExplorer() {
                 <RiSearchLine className="size-4 text-muted-foreground" />
               </InputGroupAddon>
               <InputGroupInput
-                placeholder="Buscar servicios..."
+                placeholder={t("searchPlaceholder")}
                 onChange={handleSearch}
               />
             </InputGroup>
@@ -86,7 +88,7 @@ export function ServicesExplorer() {
           <div className="flex items-center gap-3">
             <Button variant="outline" size="sm" className="xl:hidden">
               <RiEqualizerLine className="size-4" />
-              Filtros
+              {t("filters")}
             </Button>
             <Select defaultValue="relevancia" onValueChange={handleOrdering}>
               <SelectTrigger className="w-44">
@@ -94,10 +96,10 @@ export function ServicesExplorer() {
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={4} align="end">
                 <SelectGroup>
-                  <SelectItem value="relevancia">Relevancia</SelectItem>
-                  <SelectItem value="precio-bajo">Precio más bajo</SelectItem>
-                  <SelectItem value="mejor-calificados">Mejor calificados</SelectItem>
-                  <SelectItem value="nuevos">Nuevos servicios</SelectItem>
+                  <SelectItem value="relevancia">{t("ordering.relevancia")}</SelectItem>
+                  <SelectItem value="precio-bajo">{t("ordering.precioBajo")}</SelectItem>
+                  <SelectItem value="mejor-calificados">{t("ordering.mejorCalificados")}</SelectItem>
+                  <SelectItem value="nuevos">{t("ordering.nuevos")}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -106,9 +108,9 @@ export function ServicesExplorer() {
 
         {/* Results info */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-foreground">Servicios</h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("heading")}</h2>
           <p className="text-sm text-muted-foreground">
-            {count} servicio{count !== 1 ? "s" : ""} disponible{count !== 1 ? "s" : ""}
+            {t("count", { count })}
           </p>
         </div>
 
@@ -122,7 +124,7 @@ export function ServicesExplorer() {
         {/* Error */}
         {error && !isLoading && (
           <div className="flex min-h-[300px] items-center justify-center">
-            <p className="text-sm text-destructive">Error al cargar servicios: {error}</p>
+            <p className="text-sm text-destructive">{t("loadError", { error })}</p>
           </div>
         )}
 
@@ -130,10 +132,10 @@ export function ServicesExplorer() {
         {!isLoading && !error && results.length === 0 && (
           <div className="flex min-h-[300px] flex-col items-center justify-center gap-2">
             <p className="text-sm font-medium text-muted-foreground">
-              No se encontraron servicios
+              {t("emptyTitle")}
             </p>
             <p className="text-xs text-muted-foreground">
-              Intenta con otros filtros o términos de búsqueda
+              {t("emptyHint")}
             </p>
           </div>
         )}

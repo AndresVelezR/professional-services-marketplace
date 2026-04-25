@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link, usePathname } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import {
   RiAddCircleLine,
   RiDashboardLine,
@@ -15,22 +15,37 @@ import {
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 
-const navigation = [
-  { name: "Inicio", href: "/dashboard", icon: RiDashboardLine },
-  { name: "Buscar", href: "/services", icon: RiSearchLine },
-  { name: "Publicar", href: "/services/new", icon: RiAddCircleLine },
-  { name: "Contratos", href: "/contracts", icon: RiFileList3Line },
-  { name: "Mensajes", href: "/messages", icon: RiMessage3Line },
-  { name: "Perfil", href: "/profile", icon: RiUserLine },
-] as const
+type NavKey =
+  | "dashboard"
+  | "search"
+  | "publish"
+  | "contracts"
+  | "messages"
+  | "profile"
+
+const navigation: { key: NavKey; href: string; icon: React.ElementType }[] = [
+  { key: "dashboard", href: "/dashboard", icon: RiDashboardLine },
+  { key: "search", href: "/services", icon: RiSearchLine },
+  { key: "publish", href: "/services/new", icon: RiAddCircleLine },
+  { key: "contracts", href: "/contracts", icon: RiFileList3Line },
+  { key: "messages", href: "/messages", icon: RiMessage3Line },
+  { key: "profile", href: "/profile", icon: RiUserLine },
+]
 
 export function Sidebar() {
+  const t = useTranslations("nav")
   const pathname = usePathname()
   const { perfil, logout } = useAuth()
 
   const initials = perfil
     ? `${perfil.first_name?.[0] ?? ""}${perfil.last_name?.[0] ?? ""}`.toUpperCase()
     : ""
+
+  const tipoUsuario = perfil?.tipo_usuario
+  const userTypeLabel =
+    tipoUsuario === "freelancer" || tipoUsuario === "cliente" || tipoUsuario === "ambos"
+      ? t(`userType.${tipoUsuario}`)
+      : ""
 
   return (
     <aside className="flex h-screen w-56 flex-col bg-[#1f2937] text-white">
@@ -50,7 +65,7 @@ export function Sidebar() {
           const isActive = pathname === item.href
           return (
             <Link
-              key={item.name}
+              key={item.key}
               href={item.href}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -60,7 +75,7 @@ export function Sidebar() {
               )}
             >
               <item.icon className="size-5" />
-              {item.name}
+              {t(item.key)}
             </Link>
           )
         })}
@@ -76,8 +91,8 @@ export function Sidebar() {
             <p className="text-sm font-medium text-white truncate">
               {perfil?.nombre_completo}
             </p>
-            <p className="text-xs text-blue-200/60 capitalize">
-              {perfil?.tipo_usuario}
+            <p className="text-xs text-blue-200/60">
+              {userTypeLabel}
             </p>
           </div>
         </div>
@@ -85,7 +100,7 @@ export function Sidebar() {
           onClick={logout}
           className="mt-3 w-full rounded-lg px-3 py-2 text-left text-sm text-blue-200/70 transition-colors hover:bg-white/10 hover:text-white"
         >
-          Cerrar sesión
+          {t("logout")}
         </button>
       </div>
     </aside>

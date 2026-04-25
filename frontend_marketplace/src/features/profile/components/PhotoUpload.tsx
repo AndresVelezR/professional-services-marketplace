@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiCameraLine } from "@remixicon/react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -16,6 +17,7 @@ export function PhotoUpload({
   initials,
   onSelect,
 }: PhotoUploadProps) {
+  const t = useTranslations("profile")
   const fileRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
 
@@ -38,7 +40,7 @@ export function PhotoUpload({
       >
         <Avatar className="size-24 text-2xl">
           {src ? (
-            <AvatarImage src={src} alt="Foto de perfil" />
+            <AvatarImage src={src} alt={t("photoAlt")} />
           ) : null}
           <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
         </Avatar>

@@ -1,4 +1,7 @@
+"use client"
+
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiImageLine } from "@remixicon/react"
 
 interface ServiceGalleryProps {
@@ -7,6 +10,8 @@ interface ServiceGalleryProps {
 }
 
 export function ServiceGallery({ category, images }: ServiceGalleryProps) {
+  const t = useTranslations("services.gallery")
+  const tCat = useTranslations("services.form.categorias")
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const hasImages = images && images.length > 0
@@ -18,13 +23,13 @@ export function ServiceGallery({ category, images }: ServiceGalleryProps) {
         {hasImages ? (
           <img
             src={images[selectedIndex]}
-            alt={`${category} - imagen ${selectedIndex + 1}`}
+            alt={t("imageAlt", { category, index: selectedIndex + 1 })}
             className="h-full w-full object-cover"
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-primary/5 text-primary/30">
             <RiImageLine className="size-12" />
-            <span className="text-sm font-medium">{category}</span>
+            <span className="text-sm font-medium">{tCat(category)}</span>
           </div>
         )}
       </div>
@@ -45,7 +50,7 @@ export function ServiceGallery({ category, images }: ServiceGalleryProps) {
             >
               <img
                 src={img}
-                alt={`Thumbnail ${i + 1}`}
+                alt={t("thumbAlt", { index: i + 1 })}
                 className="h-full w-full object-cover"
               />
             </button>

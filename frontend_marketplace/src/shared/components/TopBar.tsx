@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import {
   RiNotification3Line,
   RiSettings4Line,
@@ -9,12 +10,13 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 export function TopBar() {
+  const t = useTranslations("nav")
   const { perfil } = useAuth()
 
   return (
     <header className="flex items-center justify-between border-b border-border bg-white px-8 py-3">
       <h1 className="text-lg font-bold text-foreground">
-        Hola, {perfil?.first_name ?? ""} 👋
+        {t("greeting", { name: perfil?.first_name ?? "" })}
       </h1>
 
       <div className="flex items-center gap-3">
@@ -24,7 +26,7 @@ export function TopBar() {
         </Button>
 
         <Button variant="ghost" className="flex items-center gap-2 text-sm text-muted-foreground">
-          Configuración
+          {t("settings")}
           <RiSettings4Line className="size-5" />
         </Button>
       </div>

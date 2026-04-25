@@ -1,4 +1,7 @@
-import Link from "next/link"
+"use client"
+
+import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 import type { Contrato } from "../models"
@@ -13,18 +16,13 @@ const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   cancelado: "bg-red-100 text-red-700",
 }
 
-const ESTADO_LABEL: Record<Contrato["estado"], string> = {
-  activo: "ACTIVO",
-  completado: "COMPLETADO",
-  cancelado: "CANCELADO",
-}
-
 export function ContractCard({ contract }: ContractCardProps) {
+  const t = useTranslations("contracts")
   const { perfil } = useAuth()
 
   const isCliente = perfil?.email === contract.cliente.email
   const otherParty = isCliente ? contract.freelancer : contract.cliente
-  const otherLabel = isCliente ? "Freelancer" : "Cliente"
+  const otherLabel = isCliente ? t("card.freelancer") : t("card.cliente")
 
   return (
     <div className="rounded-xl border border-border bg-white p-5 transition-shadow hover:shadow-md">
@@ -33,7 +31,7 @@ export function ContractCard({ contract }: ContractCardProps) {
         <span
           className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${ESTADO_STYLES[contract.estado]}`}
         >
-          {ESTADO_LABEL[contract.estado]}
+          {t(`estado.${contract.estado}`)}
         </span>
         <span className="text-sm font-semibold text-foreground">
           ${contract.precio}
@@ -47,9 +45,9 @@ export function ContractCard({ contract }: ContractCardProps) {
 
       {/* Dates */}
       <p className="mb-4 text-xs text-muted-foreground">
-        Inicio: {new Date(contract.fecha_inicio).toLocaleDateString("es-CO")}
+        {t("card.inicio")}: {new Date(contract.fecha_inicio).toLocaleDateString("es-CO")}
         {contract.fecha_fin &&
-          ` · Fin: ${new Date(contract.fecha_fin).toLocaleDateString("es-CO")}`}
+          ` · ${t("card.fin")}: ${new Date(contract.fecha_fin).toLocaleDateString("es-CO")}`}
       </p>
 
       {/* Bottom row: other party + button */}
@@ -70,7 +68,7 @@ export function ContractCard({ contract }: ContractCardProps) {
           href={`/contracts/${contract.id}`}
           className="rounded-lg border border-border bg-action px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
         >
-          Ver detalles
+          {t("card.viewDetails")}
         </Link>
       </div>
     </div>

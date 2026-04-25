@@ -1,3 +1,7 @@
+"use client"
+
+import { useTranslations } from "next-intl"
+
 interface ServiceDescriptionProps {
   description: string
   includes: string[]
@@ -7,11 +11,12 @@ export function ServiceDescription({
   description,
   includes,
 }: ServiceDescriptionProps) {
+  const t = useTranslations("services.description")
   return (
     <div className="space-y-6">
       <div>
         <h3 className="mb-3 text-lg font-semibold text-foreground">
-          Acerca de este servicio
+          {t("title")}
         </h3>
         <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
           {description}
@@ -21,7 +26,7 @@ export function ServiceDescription({
       {includes.length > 0 && (
         <div>
           <h3 className="mb-3 text-lg font-semibold text-foreground">
-            ¿Qué incluye?
+            {t("includesTitle")}
           </h3>
           <ul className="space-y-2">
             {includes.map((item) => (

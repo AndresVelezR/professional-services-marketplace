@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiAddLine, RiCloseLine } from "@remixicon/react"
 
 import { Badge } from "@/components/ui/badge"
@@ -20,6 +21,7 @@ export function SkillsSelector({
   catalog,
   onChange,
 }: SkillsSelectorProps) {
+  const t = useTranslations("profile.skills")
   const [search, setSearch] = useState("")
   const selectedIds = new Set(selected.map((h) => h.id))
 
@@ -65,7 +67,7 @@ export function SkillsSelector({
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar habilidad..."
+          placeholder={t("searchPlaceholder")}
           className="h-10"
         />
 
@@ -87,14 +89,14 @@ export function SkillsSelector({
 
         {search.length > 0 && filtered.length === 0 && (
           <div className="absolute z-10 mt-1 w-full rounded-lg border border-border bg-popover p-3 text-center text-sm text-muted-foreground shadow-lg">
-            No se encontraron habilidades
+            {t("notFound")}
           </div>
         )}
       </div>
 
       {selected.length === 0 && !search && (
         <p className="text-xs text-muted-foreground">
-          Busca y agrega tus habilidades profesionales
+          {t("hint")}
         </p>
       )}
     </div>

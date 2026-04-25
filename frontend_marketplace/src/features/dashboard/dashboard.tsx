@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { RiEqualizerLine, RiSearchLine } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
@@ -13,6 +14,7 @@ import { PropuestasRecibidas } from "./components/PropuestasRecibidas"
 import { RecommendedServices } from "./components/RecommendedServices"
 
 export function Dashboard() {
+  const t = useTranslations("dashboard")
   return (
     <div className="space-y-8">
       {/* Search bar */}
@@ -22,12 +24,12 @@ export function Dashboard() {
             <InputGroupAddon>
               <RiSearchLine className="size-4 text-muted-foreground" />
             </InputGroupAddon>
-            <InputGroupInput placeholder="Buscar servicios..." />
+            <InputGroupInput placeholder={t("searchPlaceholder")} />
           </InputGroup>
         </div>
         <Button variant="outline">
           <RiEqualizerLine className="size-4" />
-          Filtros
+          {t("filters")}
         </Button>
       </div>
 
