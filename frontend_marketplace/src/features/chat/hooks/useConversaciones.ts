@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
 import { getMisConversaciones } from "../services/chatService"
 import type { Conversacion } from "../models"
 
 export function useConversaciones() {
   const { token } = useAuth()
+  const authFetch = useAuthFetch()
   const [conversaciones, setConversaciones] = useState<Conversacion[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -17,14 +19,14 @@ export function useConversaciones() {
     setIsLoading(true)
     setError(null)
     try {
-      const data = await getMisConversaciones(token)
+      const data = await getMisConversaciones(authFetch)
       setConversaciones(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al cargar conversaciones")
     } finally {
       setIsLoading(false)
     }
-  }, [token])
+  }, [token, authFetch])
 
   useEffect(() => {
     fetch()

@@ -20,27 +20,27 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return data as T
 }
 
-export async function getMisConversaciones(token: string): Promise<Conversacion[]> {
-  const res = await fetch(`${API_URL}/api/chat/conversaciones/`, {
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+export async function getMisConversaciones(fetcher: typeof fetch): Promise<Conversacion[]> {
+  const res = await fetcher(`${API_URL}/api/chat/conversaciones/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<Conversacion[]>(res)
 }
 
-export async function getConversacion(id: string, token: string): Promise<ConversacionDetalle> {
-  const res = await fetch(`${API_URL}/api/chat/conversaciones/${id}/`, {
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+export async function getConversacion(id: string, fetcher: typeof fetch): Promise<ConversacionDetalle> {
+  const res = await fetcher(`${API_URL}/api/chat/conversaciones/${id}/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<ConversacionDetalle>(res)
 }
 
 export async function obtenerOCrearConversacion(
   contratoId: string,
-  token: string,
+  fetcher: typeof fetch,
 ): Promise<ConversacionDetalle> {
-  const res = await fetch(`${API_URL}/api/chat/conversaciones/contrato/${contratoId}/`, {
+  const res = await fetcher(`${API_URL}/api/chat/conversaciones/contrato/${contratoId}/`, {
     method: "POST",
-    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+    headers: { Accept: "application/json" },
   })
   return handleResponse<ConversacionDetalle>(res)
 }

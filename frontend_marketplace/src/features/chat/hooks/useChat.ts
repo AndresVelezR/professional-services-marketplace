@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
 import { getConversacion } from "../services/chatService"
 import type { Mensaje } from "../models"
 
@@ -10,6 +11,7 @@ const WS_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/^http/, "ws") ?? "ws://
 
 export function useChat(conversacionId: string | null) {
   const { token } = useAuth()
+  const authFetch = useAuthFetch()
   const [mensajes, setMensajes] = useState<Mensaje[]>([])
   const [connected, setConnected] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -19,14 +21,14 @@ export function useChat(conversacionId: string | null) {
     if (!conversacionId || !token) return
     setIsLoading(true)
     try {
-      const data = await getConversacion(conversacionId, token)
+      const data = await getConversacion(conversacionId, authFetch)
       setMensajes(data.mensajes)
     } catch {
       // silencioso, el WS seguirá funcionando
     } finally {
       setIsLoading(false)
     }
-  }, [conversacionId, token])
+  }, [conversacionId, token, authFetch])
 
   useEffect(() => {
     if (!conversacionId || !token) return

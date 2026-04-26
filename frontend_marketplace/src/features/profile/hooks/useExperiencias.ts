@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
 
 import type { CreateExperienciaPayload, Experiencia } from "../models"
 import {
@@ -13,6 +14,7 @@ import {
 
 export function useExperiencias(initial: Experiencia[] = []) {
   const { token } = useAuth()
+  const authFetch = useAuthFetch()
   const [experiencias, setExperiencias] = useState<Experiencia[]>(initial)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +35,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
       setIsLoading(true)
       setError(null)
       try {
-        const created = await createExperiencia(token, payload)
+        const created = await createExperiencia(authFetch, payload)
         sync([...experiencias, created])
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al crear")
@@ -42,7 +44,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
         setIsLoading(false)
       }
     },
-    [token, experiencias, sync],
+    [token, authFetch, experiencias, sync],
   )
 
   const update = useCallback(
@@ -51,7 +53,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
       setIsLoading(true)
       setError(null)
       try {
-        const updated = await updateExperiencia(token, id, payload)
+        const updated = await updateExperiencia(authFetch, id, payload)
         sync(experiencias.map((e) => (e.id === id ? updated : e)))
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al actualizar")
@@ -60,7 +62,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
         setIsLoading(false)
       }
     },
-    [token, experiencias, sync],
+    [token, authFetch, experiencias, sync],
   )
 
   const remove = useCallback(
@@ -69,7 +71,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
       setIsLoading(true)
       setError(null)
       try {
-        await deleteExperiencia(token, id)
+        await deleteExperiencia(authFetch, id)
         setExperiencias((prev) => prev.filter((e) => e.id !== id))
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al eliminar")
@@ -78,7 +80,7 @@ export function useExperiencias(initial: Experiencia[] = []) {
         setIsLoading(false)
       }
     },
-    [token],
+    [token, authFetch],
   )
 
   return { experiencias, isLoading, error, create, update, remove, sync }

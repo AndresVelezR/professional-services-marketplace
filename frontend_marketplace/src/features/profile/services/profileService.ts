@@ -29,17 +29,15 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return data as T
 }
 
-export async function getPerfilCompleto(
-  token: string,
-): Promise<PerfilCompleto> {
-  const res = await fetch(`${API_URL}/api/usuarios/perfil/`, {
-    headers: { ...JSON_HEADERS, Authorization: `Bearer ${token}` },
+export async function getPerfilCompleto(fetcher: typeof fetch): Promise<PerfilCompleto> {
+  const res = await fetcher(`${API_URL}/api/usuarios/perfil/`, {
+    headers: JSON_HEADERS,
   })
   return handleResponse<PerfilCompleto>(res)
 }
 
 export async function updatePerfil(
-  token: string,
+  fetcher: typeof fetch,
   payload: UpdatePerfilPayload,
 ): Promise<PerfilCompleto> {
   const formData = new FormData()
@@ -62,9 +60,9 @@ export async function updatePerfil(
     }
   }
 
-  const res = await fetch(`${API_URL}/api/usuarios/perfil/`, {
+  const res = await fetcher(`${API_URL}/api/usuarios/perfil/`, {
     method: "PATCH",
-    headers: { ...JSON_HEADERS, Authorization: `Bearer ${token}` },
+    headers: JSON_HEADERS,
     body: formData,
   })
   return handleResponse<PerfilCompleto>(res)
@@ -78,15 +76,14 @@ export async function getHabilidades(): Promise<Habilidad[]> {
 }
 
 export async function createExperiencia(
-  token: string,
+  fetcher: typeof fetch,
   payload: CreateExperienciaPayload,
 ): Promise<Experiencia> {
-  const res = await fetch(`${API_URL}/api/usuarios/experiencias/`, {
+  const res = await fetcher(`${API_URL}/api/usuarios/experiencias/`, {
     method: "POST",
     headers: {
       ...JSON_HEADERS,
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   })
@@ -94,16 +91,15 @@ export async function createExperiencia(
 }
 
 export async function updateExperiencia(
-  token: string,
+  fetcher: typeof fetch,
   id: string,
   payload: Partial<CreateExperienciaPayload>,
 ): Promise<Experiencia> {
-  const res = await fetch(`${API_URL}/api/usuarios/experiencias/${id}/`, {
+  const res = await fetcher(`${API_URL}/api/usuarios/experiencias/${id}/`, {
     method: "PATCH",
     headers: {
       ...JSON_HEADERS,
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   })
@@ -111,12 +107,12 @@ export async function updateExperiencia(
 }
 
 export async function deleteExperiencia(
-  token: string,
+  fetcher: typeof fetch,
   id: string,
 ): Promise<void> {
-  const res = await fetch(`${API_URL}/api/usuarios/experiencias/${id}/`, {
+  const res = await fetcher(`${API_URL}/api/usuarios/experiencias/${id}/`, {
     method: "DELETE",
-    headers: { ...JSON_HEADERS, Authorization: `Bearer ${token}` },
+    headers: JSON_HEADERS,
   })
   if (!res.ok) {
     throw new Error(`Error al eliminar experiencia (${res.status})`)
