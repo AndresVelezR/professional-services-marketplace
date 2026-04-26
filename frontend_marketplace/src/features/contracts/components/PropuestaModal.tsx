@@ -12,6 +12,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
 import { createPropuesta } from "../services/contractService"
 
 interface PropuestaModalProps {
@@ -29,6 +30,7 @@ export function PropuestaModal({
 }: PropuestaModalProps) {
   const t = useTranslations("contracts.propuestaModal")
   const { token } = useAuth()
+  const authFetch = useAuthFetch()
   const [mensaje, setMensaje] = useState("")
   const [precio, setPrecio] = useState(String(precioBase))
   const [fechaLimite, setFechaLimite] = useState("")
@@ -49,7 +51,7 @@ export function PropuestaModal({
           precio_propuesto: Number(precio),
           ...(fechaLimite ? { fecha_limite: fechaLimite } : {}),
         },
-        token,
+        authFetch,
       )
       setSuccess(true)
     } catch (err) {

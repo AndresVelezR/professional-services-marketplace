@@ -21,22 +21,16 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return data as T
 }
 
-export async function getMisContratos(token: string): Promise<Contrato[]> {
-  const res = await fetch(`${API_URL}/api/contratos/contratos/`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getMisContratos(fetcher: typeof fetch): Promise<Contrato[]> {
+  const res = await fetcher(`${API_URL}/api/contratos/contratos/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<Contrato[]>(res)
 }
 
-export async function getContrato(id: string, token: string): Promise<Contrato> {
-  const res = await fetch(`${API_URL}/api/contratos/contratos/${id}/`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getContrato(id: string, fetcher: typeof fetch): Promise<Contrato> {
+  const res = await fetcher(`${API_URL}/api/contratos/contratos/${id}/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<Contrato>(res)
 }
@@ -44,16 +38,15 @@ export async function getContrato(id: string, token: string): Promise<Contrato> 
 export async function createPropuesta(
   publicacionId: string,
   payload: PropuestaCreate,
-  token: string,
+  fetcher: typeof fetch,
 ): Promise<Propuesta> {
-  const res = await fetch(
+  const res = await fetcher(
     `${API_URL}/api/contratos/propuestas/publicacion/${publicacionId}/`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
     },
@@ -61,22 +54,16 @@ export async function createPropuesta(
   return handleResponse<Propuesta>(res)
 }
 
-export async function getMisPropuestasEnviadas(token: string): Promise<Propuesta[]> {
-  const res = await fetch(`${API_URL}/api/contratos/propuestas/enviadas/`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getMisPropuestasEnviadas(fetcher: typeof fetch): Promise<Propuesta[]> {
+  const res = await fetcher(`${API_URL}/api/contratos/propuestas/enviadas/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<Propuesta[]>(res)
 }
 
-export async function getMisPropuestasRecibidas(token: string): Promise<Propuesta[]> {
-  const res = await fetch(`${API_URL}/api/contratos/propuestas/recibidas/`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getMisPropuestasRecibidas(fetcher: typeof fetch): Promise<Propuesta[]> {
+  const res = await fetcher(`${API_URL}/api/contratos/propuestas/recibidas/`, {
+    headers: { Accept: "application/json" },
   })
   return handleResponse<Propuesta[]>(res)
 }
@@ -84,14 +71,13 @@ export async function getMisPropuestasRecibidas(token: string): Promise<Propuest
 export async function responderPropuesta(
   id: string,
   estado: "aceptada" | "rechazada",
-  token: string,
+  fetcher: typeof fetch,
 ): Promise<Propuesta> {
-  const res = await fetch(`${API_URL}/api/contratos/propuestas/${id}/`, {
+  const res = await fetcher(`${API_URL}/api/contratos/propuestas/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ estado }),
   })
@@ -101,14 +87,13 @@ export async function responderPropuesta(
 export async function updateContratoEstado(
   id: string,
   estado: "completado" | "cancelado",
-  token: string,
+  fetcher: typeof fetch,
 ): Promise<Contrato> {
-  const res = await fetch(`${API_URL}/api/contratos/contratos/${id}/`, {
+  const res = await fetcher(`${API_URL}/api/contratos/contratos/${id}/`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ estado }),
   })
