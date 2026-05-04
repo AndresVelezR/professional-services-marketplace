@@ -91,8 +91,24 @@ uv run python manage.py seed_habilidades
 uv run python manage.py runserver
 ```
 
-Requiere PostgreSQL corriendo localmente. Configurar variables de entorno:
-`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
+Requiere PostgreSQL corriendo localmente. Para preparar variables locales:
+
+```bash
+cp backend_marketplace/.env.example backend_marketplace/.env
+```
+
+Luego editar `backend_marketplace/.env`. Para usar Gemini, cambiar `USE_GEMINI=true` y pegar la clave regenerada en `GEMINI_API_KEY`.
+
+Variables opcionales para integraciones externas del backend:
+
+```env
+USE_GEMINI=true
+GEMINI_API_KEY=PASTE_REGENERATED_KEY_HERE
+GEMINI_MODEL=gemini-1.5-flash
+GEMINI_TIMEOUT_SECONDS=15
+```
+
+El fallback de avatar usa URLs determinísticas de DiceBear cuando un perfil no tiene `foto_perfil`. El asistente de publicaciones corre sólo en el backend en `POST /api/integrations/summarize-service/`; si Gemini no está habilitado o no hay credenciales, responde con el adaptador local sin hacer llamadas de red. Las pruebas no requieren credenciales de Gemini.
 
 ### Frontend
 
@@ -116,6 +132,7 @@ professional-services-marketplace/
 │   ├── core/                   # Settings, URLs
 │   ├── usuarios/               # Auth, perfiles, habilidades, experiencia
 │   ├── publicaciones/          # Servicios publicados
+│   ├── integrations/           # Integraciones externas y fallback local
 │   ├── entrypoint.sh           # Arranque del backend en Docker
 │   └── demo_data.sql           # Datos ficticios exportados
 ├── frontend_marketplace/

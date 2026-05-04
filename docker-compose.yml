@@ -23,6 +23,10 @@ services:
       context: ./backend_marketplace
       dockerfile: Dockerfile
     container_name: marketplace-backend
+    env_file:
+      - path: ./backend_marketplace/.env.example
+      - path: ./backend_marketplace/.env
+        required: false
     ports:
       - "8000:8000"
     volumes:
