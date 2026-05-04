@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'publicaciones',
     'contratos',
     'chat',
+    'calificaciones',
 ]
 
 CORS_ALLOWED_ORIGINS = [

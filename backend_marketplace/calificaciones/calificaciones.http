@@ -1,0 +1,36 @@
+### Login - obtener token
+POST http://localhost:8000/api/auth/login/
+Content-Type: application/json
+
+{
+  "email": "fegoda26@gmail.com",
+  "password": "Fegoda99"
+}
+
+### Mis contratos
+GET http://localhost:8000/api/contratos/contratos/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODQ3MzgxLCJpYXQiOjE3Nzc4NDM3ODEsImp0aSI6IjU0YjEzMjhiMGRmYjQ3NDE5ZTQzNWE4YmYyYzVkODNjIiwidXNlcl9pZCI6IjRiMDcxZGRhLTVlMDAtNDhmMy04OWY3LWZjYWUyYzljMzViMSJ9.c8qPmZ-vr29HPomD02B1JkrxFBTHCN4TJ8WVprxiD98
+
+### Crear calificacion
+POST http://localhost:8000/api/calificaciones/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODQ3MzgxLCJpYXQiOjE3Nzc4NDM3ODEsImp0aSI6IjU0YjEzMjhiMGRmYjQ3NDE5ZTQzNWE4YmYyYzVkODNjIiwidXNlcl9pZCI6IjRiMDcxZGRhLTVlMDAtNDhmMy04OWY3LWZjYWUyYzljMzViMSJ9.c8qPmZ-vr29HPomD02B1JkrxFBTHCN4TJ8WVprxiD98
+
+{
+  "contrato": "b6bfdcab-6c1c-4638-854c-14aa4948e3f1",
+  "calidad": 5,
+  "comunicacion": 4,
+  "puntualidad": 5,
+  "comentario": "Excelente trabajo!"
+}
+
+### Ver calificaciones de un usuario
+GET http://localhost:8000/api/calificaciones/usuario/<uuid-usuario>/
+
+### Mis calificaciones recibidas
+GET http://localhost:8000/api/calificaciones/mis-calificaciones/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODQ3MzgxLCJpYXQiOjE3Nzc4NDM3ODEsImp0aSI6IjU0YjEzMjhiMGRmYjQ3NDE5ZTQzNWE4YmYyYzVkODNjIiwidXNlcl9pZCI6IjRiMDcxZGRhLTVlMDAtNDhmMy04OWY3LWZjYWUyYzljMzViMSJ9.c8qPmZ-vr29HPomD02B1JkrxFBTHCN4TJ8WVprxiD98
+
+### id User
+GET http://localhost:8000/api/usuarios/perfil/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODQ3MzgxLCJpYXQiOjE3Nzc4NDM3ODEsImp0aSI6IjU0YjEzMjhiMGRmYjQ3NDE5ZTQzNWE4YmYyYzVkODNjIiwidXNlcl9pZCI6IjRiMDcxZGRhLTVlMDAtNDhmMy04OWY3LWZjYWUyYzljMzViMSJ9.c8qPmZ-vr29HPomD02B1JkrxFBTHCN4TJ8WVprxiD98
