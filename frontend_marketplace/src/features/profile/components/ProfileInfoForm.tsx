@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line, RiSaveLine } from "@remixicon/react"
 
 import { Button } from "@/components/ui/button"
@@ -28,6 +29,7 @@ export function ProfileInfoForm({
   isSaving,
   onSave,
 }: ProfileInfoFormProps) {
+  const t = useTranslations("profile.info")
   const [firstName, setFirstName] = useState(perfil.first_name)
   const [lastName, setLastName] = useState(perfil.last_name)
   const [bio, setBio] = useState(perfil.bio)
@@ -51,7 +53,7 @@ export function ProfileInfoForm({
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="first_name">Nombre</Label>
+          <Label htmlFor="first_name">{t("firstName")}</Label>
           <Input
             id="first_name"
             value={firstName}
@@ -60,7 +62,7 @@ export function ProfileInfoForm({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="last_name">Apellido</Label>
+          <Label htmlFor="last_name">{t("lastName")}</Label>
           <Input
             id="last_name"
             value={lastName}
@@ -71,50 +73,50 @@ export function ProfileInfoForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="bio">Biografía</Label>
+        <Label htmlFor="bio">{t("bio")}</Label>
         <Textarea
           id="bio"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          placeholder="Cuéntanos sobre ti, tu experiencia y qué te apasiona..."
+          placeholder={t("bioPlaceholder")}
           className="min-h-28 resize-y"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="telefono">Teléfono</Label>
+          <Label htmlFor="telefono">{t("phone")}</Label>
           <Input
             id="telefono"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
-            placeholder="+57 300 123 4567"
+            placeholder={t("phonePlaceholder")}
             className="h-10"
           />
         </div>
         <div className="space-y-2">
-          <Label>Tipo de usuario</Label>
+          <Label>{t("userType")}</Label>
           <Select value={tipoUsuario} onValueChange={setTipoUsuario}>
             <SelectTrigger className="h-10 w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="freelancer">Freelancer</SelectItem>
-              <SelectItem value="cliente">Cliente</SelectItem>
-              <SelectItem value="ambos">Ambos</SelectItem>
+              <SelectItem value="freelancer">{t("userTypeOptions.freelancer")}</SelectItem>
+              <SelectItem value="cliente">{t("userTypeOptions.cliente")}</SelectItem>
+              <SelectItem value="ambos">{t("userTypeOptions.ambos")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="url_portafolio">URL del portafolio</Label>
+        <Label htmlFor="url_portafolio">{t("portfolioUrl")}</Label>
         <Input
           id="url_portafolio"
           type="url"
           value={urlPortafolio}
           onChange={(e) => setUrlPortafolio(e.target.value)}
-          placeholder="https://miportafolio.com"
+          placeholder={t("portfolioPlaceholder")}
           className="h-10"
         />
       </div>
@@ -129,7 +131,7 @@ export function ProfileInfoForm({
         ) : (
           <RiSaveLine className="size-4" />
         )}
-        {isSaving ? "Guardando..." : "Guardar cambios"}
+        {isSaving ? t("saving") : t("save")}
       </Button>
     </form>
   )

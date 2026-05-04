@@ -34,7 +34,6 @@ class Publicacion(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     tiempo_entrega = models.CharField(max_length=50)
     incluye = models.JSONField(default=list, blank=True)
-    imagen_url = models.URLField(blank=True)
     estado = models.CharField(
         max_length=20,
         choices=Estado.choices,

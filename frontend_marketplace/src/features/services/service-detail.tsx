@@ -1,9 +1,12 @@
 "use client"
 
+import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { RiLoader4Line } from "@remixicon/react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 
 import { Button } from "@/components/ui/button"
+import { PropuestaModal } from "@/features/contracts/components/PropuestaModal"
 import { toServiceDetailProps } from "./adapters"
 import { FreelancerProfileCard } from "./components/FreelancerProfileCard"
 import { ServiceDescription } from "./components/ServiceDescription"
@@ -16,7 +19,9 @@ interface ServiceDetailProps {
 }
 
 export function ServiceDetail({ id }: ServiceDetailProps) {
+  const t = useTranslations("services.detail")
   const { data, isLoading, error } = usePublicacion(id)
+  const [modalOpen, setModalOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -29,9 +34,9 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
   if (error) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <p className="text-sm text-destructive">Error al cargar el servicio: {error}</p>
+        <p className="text-sm text-destructive">{t("loadError", { error })}</p>
         <Link href="/services">
-          <Button variant="outline" size="sm">Volver a servicios</Button>
+          <Button variant="outline" size="sm">{t("back")}</Button>
         </Link>
       </div>
     )
@@ -43,7 +48,6 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
 
   return (
     <div>
-      {/* Two-column layout */}
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Left column */}
         <div className="flex-[3] space-y-8">
@@ -70,9 +74,17 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
             price={s.price}
             includes={s.includes}
             deliveryTime={s.deliveryTime}
+            onContratar={() => setModalOpen(true)}
           />
         </div>
       </div>
+
+      <PropuestaModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        publicacionId={id}
+        precioBase={s.price}
+      />
     </div>
   )
 }

@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { Link, useRouter } from "@/i18n/navigation"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import {
   RiBriefcaseLine,
   RiGoogleFill,
@@ -22,6 +22,7 @@ import {
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 
 export function LoginForm() {
+  const t = useTranslations("auth.login")
   const { login } = useAuth()
   const router = useRouter()
 
@@ -38,7 +39,7 @@ export function LoginForm() {
       await login({ email, password })
       router.push("/dashboard")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Credenciales inválidas")
+      setError(err instanceof Error ? err.message : t("errorDefault"))
     } finally {
       setLoading(false)
     }
@@ -54,10 +55,10 @@ export function LoginForm() {
           </div>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground">
-              Iniciar Sesión
+              {t("title")}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Bienvenido de nuevo a la plataforma
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -74,7 +75,7 @@ export function LoginForm() {
 
               {/* Email */}
               <Field>
-                <FieldLabel htmlFor="login-email">Email</FieldLabel>
+                <FieldLabel htmlFor="login-email">{t("emailLabel")}</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiMailLine className="size-4 text-muted-foreground" />
@@ -82,7 +83,7 @@ export function LoginForm() {
                   <InputGroupInput
                     id="login-email"
                     type="email"
-                    placeholder="ejemplo@correo.com"
+                    placeholder={t("emailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -93,12 +94,12 @@ export function LoginForm() {
               {/* Password */}
               <Field>
                 <div className="flex items-center justify-between">
-                  <FieldLabel htmlFor="login-password">Contraseña</FieldLabel>
+                  <FieldLabel htmlFor="login-password">{t("passwordLabel")}</FieldLabel>
                   <Link
                     href="/forgot-password"
                     className="text-sm font-medium text-primary hover:underline"
                   >
-                    ¿Olvidaste tu contraseña?
+                    {t("forgotPassword")}
                   </Link>
                 </div>
                 <InputGroup>
@@ -123,7 +124,7 @@ export function LoginForm() {
                   className="size-4 rounded border-input accent-primary"
                 />
                 <span className="text-sm text-muted-foreground">
-                  Recordar mi sesión
+                  {t("rememberMe")}
                 </span>
               </label>
 
@@ -134,7 +135,7 @@ export function LoginForm() {
                 className="w-full h-11 text-base font-semibold"
                 disabled={loading}
               >
-                {loading ? "Ingresando..." : "Ingresar"}
+                {loading ? t("submitting") : t("submit")}
               </Button>
             </form>
 
@@ -142,7 +143,7 @@ export function LoginForm() {
             <div className="flex items-center gap-3">
               <div className="h-px flex-1 bg-border" />
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                O continuar con
+                {t("divider")}
               </span>
               <div className="h-px flex-1 bg-border" />
             </div>
@@ -163,23 +164,26 @@ export function LoginForm() {
 
         {/* Register link */}
         <p className="text-sm text-muted-foreground">
-          ¿No tienes cuenta?{" "}
+          {t("noAccount")}{" "}
           <Link href="/signup" className="font-semibold text-primary hover:underline">
-            Regístrate
+            {t("signupLink")}
           </Link>
         </p>
 
         {/* Terms */}
         <p className="text-center text-xs text-muted-foreground">
-          Al ingresar, aceptas nuestros{" "}
-          <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
-            Términos de Servicio
-          </Link>{" "}
-          y{" "}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
-            Política de Privacidad
-          </Link>
-          .
+          {t.rich("terms", {
+            terms: (chunks) => (
+              <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
+                {chunks}
+              </Link>
+            ),
+            privacy: (chunks) => (
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+                {chunks}
+              </Link>
+            ),
+          })}
         </p>
       </div>
     </div>

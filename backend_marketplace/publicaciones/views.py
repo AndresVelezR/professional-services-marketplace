@@ -1,9 +1,12 @@
+from decimal import Decimal, InvalidOperation
+
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
 from .models import Publicacion
+from .services import aplicar_filtros_publicaciones, cerrar_publicacion, crear_publicacion
 from .serializers import (
     PublicacionCreateSerializer,
     PublicacionDetailSerializer,
@@ -38,30 +41,17 @@ class PublicacionListCreateView(generics.ListCreateAPIView):
             return PublicacionCreateSerializer
         return PublicacionListSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        publicacion = crear_publicacion(serializer.validated_data, request.user)
+        response_serializer = PublicacionCreateSerializer(publicacion)
+        headers = self.get_success_headers(response_serializer.data)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def get_queryset(self):
         qs = Publicacion.objects.activas().select_related('creador__perfil').prefetch_related('imagenes')
-
-        q = self.request.query_params.get('q')
-        if q:
-            qs = qs.filter(titulo__icontains=q)
-
-        categoria = self.request.query_params.get('categoria')
-        if categoria:
-            qs = qs.filter(categoria=categoria)
-
-        precio_min = self.request.query_params.get('precio_min')
-        if precio_min:
-            qs = qs.filter(precio__gte=precio_min)
-
-        precio_max = self.request.query_params.get('precio_max')
-        if precio_max:
-            qs = qs.filter(precio__lte=precio_max)
-
-        ordering = self.request.query_params.get('ordering')
-        if ordering in ('precio', '-precio', '-created_at', 'created_at'):
-            qs = qs.order_by(ordering)
-
-        return qs
+        return aplicar_filtros_publicaciones(qs, self.request.query_params)
 
 
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -80,6 +70,5 @@ class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         publicacion = self.get_object()
-        publicacion.estado = 'cerrado'
-        publicacion.save()
+        cerrar_publicacion(publicacion)
         return Response(status=status.HTTP_204_NO_CONTENT)

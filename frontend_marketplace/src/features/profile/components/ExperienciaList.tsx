@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useLocale, useTranslations } from "next-intl"
 import {
   RiAddLine,
   RiBriefcaseLine,
@@ -14,6 +15,12 @@ import { Button } from "@/components/ui/button"
 import type { CreateExperienciaPayload, Experiencia } from "../models"
 import { ExperienciaForm } from "./ExperienciaForm"
 
+function formatDate(dateStr: string, locale: string) {
+  const [y, m] = dateStr.split("-")
+  const date = new Date(Number(y), Number(m) - 1)
+  return date.toLocaleDateString(locale, { month: "short", year: "numeric" })
+}
+
 interface ExperienciaListProps {
   experiencias: Experiencia[]
   isLoading: boolean
@@ -25,15 +32,6 @@ interface ExperienciaListProps {
   onDelete: (id: string) => Promise<void>
 }
 
-function formatDate(dateStr: string) {
-  const [y, m] = dateStr.split("-")
-  const months = [
-    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
-  ]
-  return `${months[Number(m) - 1]} ${y}`
-}
-
 export function ExperienciaList({
   experiencias,
   isLoading,
@@ -41,6 +39,8 @@ export function ExperienciaList({
   onUpdate,
   onDelete,
 }: ExperienciaListProps) {
+  const t = useTranslations("profile.experience")
+  const locale = useLocale()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
 
@@ -85,8 +85,8 @@ export function ExperienciaList({
 
               <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span>
-                  {formatDate(exp.fecha_inicio)} —{" "}
-                  {exp.fecha_fin ? formatDate(exp.fecha_fin) : "Actual"}
+                  {formatDate(exp.fecha_inicio, locale)} —{" "}
+                  {exp.fecha_fin ? formatDate(exp.fecha_fin, locale) : t("present")}
                 </span>
                 {exp.ubicacion && (
                   <span className="flex items-center gap-1">
@@ -137,7 +137,7 @@ export function ExperienciaList({
           className="h-9 gap-2 text-sm"
         >
           <RiAddLine className="size-4" />
-          Agregar experiencia
+          {t("add")}
         </Button>
       )}
     </div>

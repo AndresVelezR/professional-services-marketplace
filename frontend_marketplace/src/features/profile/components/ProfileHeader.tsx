@@ -1,5 +1,7 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+
 import { Badge } from "@/components/ui/badge"
 
 import type { PerfilCompleto } from "../models"
@@ -10,15 +12,16 @@ interface ProfileHeaderProps {
   onPhotoSelect: (file: File) => void
 }
 
-const TIPO_LABELS: Record<string, string> = {
-  freelancer: "Freelancer",
-  cliente: "Cliente",
-  ambos: "Freelancer & Cliente",
-}
-
 export function ProfileHeader({ perfil, onPhotoSelect }: ProfileHeaderProps) {
+  const t = useTranslations("profile.header")
   const initials =
     (perfil.first_name?.[0] ?? "") + (perfil.last_name?.[0] ?? "")
+
+  const tipo = perfil.tipo_usuario
+  const tipoLabel =
+    tipo === "freelancer" || tipo === "cliente" || tipo === "ambos"
+      ? t(`tipo.${tipo}`)
+      : tipo
 
   return (
     <div className="flex items-center gap-6">
@@ -29,11 +32,11 @@ export function ProfileHeader({ perfil, onPhotoSelect }: ProfileHeaderProps) {
       />
       <div className="min-w-0">
         <h1 className="text-2xl font-bold text-foreground">
-          {perfil.nombre_completo || "Sin nombre"}
+          {perfil.nombre_completo || t("noName")}
         </h1>
         <p className="text-sm text-muted-foreground">{perfil.email}</p>
         <Badge variant="secondary" className="mt-2">
-          {TIPO_LABELS[perfil.tipo_usuario] ?? perfil.tipo_usuario}
+          {tipoLabel}
         </Badge>
       </div>
     </div>

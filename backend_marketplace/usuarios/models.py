@@ -85,11 +85,6 @@ class Perfil(models.Model):
     def __str__(self):
         return f'{self.nombre_completo} ({self.tipo_usuario})'
 
-    def actualizar_perfil(self, **datos):
-        for campo, valor in datos.items():
-            setattr(self, campo, valor)
-        self.save()
-
 
 class Experiencia(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
