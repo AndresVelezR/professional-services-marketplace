@@ -7,10 +7,12 @@ import {
   RiBriefcaseLine,
   RiLoader4Line,
   RiStackLine,
+  RiStarLine,
   RiUserLine,
 } from "@remixicon/react"
 
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { PromedioCalificacionesCard } from "@/features/calificaciones/components/PromedioCalificaciones"
 
 import { ExperienciaList } from "./components/ExperienciaList"
 import { ProfileHeader } from "./components/ProfileHeader"
@@ -104,6 +106,14 @@ export function ProfileEditor() {
             {t("photoPending")}
           </p>
         )}
+      </div>
+
+      {/* Calificaciones */}
+      <div className="rounded-xl border border-border bg-card p-6">
+        <SectionTitle icon={RiStarLine} title="Calificaciones" />
+        <div className="mt-5">
+          <PromedioCalificacionesCard usuarioId={perfil.id} />
+        </div>
       </div>
 
       {/* Info */}

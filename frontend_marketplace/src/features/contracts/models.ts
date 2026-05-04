@@ -34,3 +34,23 @@ export interface Contrato {
   estado: "activo" | "completado" | "cancelado"
   created_at: string
 }
+
+export interface ReviewCreate {
+  contrato: string
+  calidad: number
+  comunicacion: number
+  puntualidad: number
+  comentario: string
+}
+
+export interface Review {
+  id: string
+  contrato: string
+  calificador_nombre: string
+  calidad: number
+  comunicacion: number
+  puntualidad: number
+  promedio: number
+  comentario: string
+  created_at: string
+}

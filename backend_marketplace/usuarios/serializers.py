@@ -59,6 +59,7 @@ class ExperienciaSerializer(serializers.ModelSerializer):
 
 
 class PerfilSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(source='usuario.id', read_only=True)  # ← línea nueva
     email = serializers.EmailField(source='usuario.email', read_only=True)
     first_name = serializers.CharField(source='usuario.first_name')
     last_name = serializers.CharField(source='usuario.last_name')
@@ -77,6 +78,7 @@ class PerfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Perfil
         fields = [
+            'id',  # ← agregar aquí
             'email', 'first_name', 'last_name', 'nombre_completo',
             'telefono', 'bio', 'url_portafolio', 'tipo_usuario',
             'foto_perfil', 'foto_perfil_url',

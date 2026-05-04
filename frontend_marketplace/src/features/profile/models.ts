@@ -14,6 +14,7 @@ export interface Experiencia {
 }
 
 export interface PerfilCompleto {
+  id: string
   email: string
   first_name: string
   last_name: string

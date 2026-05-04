@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'publicaciones',
     'contratos',
     'chat',
+    'calificaciones',
     'integrations',
 ]
 

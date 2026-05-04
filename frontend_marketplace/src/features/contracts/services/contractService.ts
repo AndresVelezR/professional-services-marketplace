@@ -1,4 +1,4 @@
-import type { Contrato, Propuesta, PropuestaCreate } from "../models"
+import type { Contrato, Propuesta, PropuestaCreate, Review, ReviewCreate } from "../models"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -98,4 +98,20 @@ export async function updateContratoEstado(
     body: JSON.stringify({ estado }),
   })
   return handleResponse<Contrato>(res)
+}
+
+export async function createReview(
+  payload: ReviewCreate,
+  token: string,
+): Promise<Review> {
+  const res = await fetch(`${API_URL}/api/calificaciones/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+  return handleResponse<Review>(res)
 }
