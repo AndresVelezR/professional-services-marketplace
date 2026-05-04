@@ -2,6 +2,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from rest_framework.test import APIClient, APIRequestFactory
 
+from publicaciones.models import Publicacion
 from usuarios.models import Perfil, Usuario
 from usuarios.serializers import PerfilSerializer
 
@@ -9,6 +10,94 @@ from .adapters.gemini_marketplace_assistant import GeminiMarketplaceAssistantAda
 from .adapters.local_marketplace_assistant import LocalMarketplaceAssistantAdapter
 from .ports import MarketplaceAssistantError
 from .services import get_marketplace_assistant
+
+
+class PublicServicesFeedEndpointTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.creator = Usuario.objects.create_user(
+            email='creator@example.com',
+            password='Demo1234!',
+            first_name='Laura',
+            last_name='Gomez',
+        )
+        Perfil.objects.create(
+            usuario=self.creator,
+            tipo_usuario=Perfil.TipoUsuario.FREELANCER,
+        )
+
+    @override_settings(FRONTEND_PUBLIC_BASE_URL='https://marketplace.example')
+    def test_returns_active_services(self):
+        publicacion = Publicacion.objects.create(
+            titulo='Landing page design',
+            descripcion='Responsive landing page for service businesses.',
+            categoria=Publicacion.Categoria.DESARROLLO,
+            precio='250000.00',
+            tiempo_entrega='5 días',
+            estado=Publicacion.Estado.PUBLICADO,
+            creador=self.creator,
+        )
+
+        response = self.client.get(reverse('public-services-feed'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['id'], str(publicacion.id))
+        self.assertEqual(response.data[0]['title'], publicacion.titulo)
+        self.assertEqual(response.data[0]['price'], '250000.00')
+        self.assertEqual(response.data[0]['creator_name'], 'Laura Gomez')
+        self.assertEqual(
+            response.data[0]['detail_url'],
+            f'https://marketplace.example/es/services/{publicacion.id}',
+        )
+        self.assertIn('created_at', response.data[0])
+
+    def test_does_not_expose_sensitive_fields(self):
+        Publicacion.objects.create(
+            titulo='Logo design',
+            descripcion='Brand identity package. Contact creator@example.com',
+            categoria=Publicacion.Categoria.DISENO,
+            precio='180000.00',
+            tiempo_entrega='3 días',
+            estado=Publicacion.Estado.PUBLICADO,
+            creador=self.creator,
+        )
+
+        response = self.client.get(reverse('public-services-feed'))
+        payload = response.json()
+        serialized_payload = str(payload)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn('email', payload[0])
+        self.assertNotIn('creator@example.com', serialized_payload)
+        self.assertNotIn('is_staff', serialized_payload)
+        self.assertNotIn('permissions', serialized_payload)
+
+    def test_excludes_closed_services(self):
+        Publicacion.objects.create(
+            titulo='Published service',
+            descripcion='Visible service.',
+            categoria=Publicacion.Categoria.MARKETING,
+            precio='300000.00',
+            tiempo_entrega='4 días',
+            estado=Publicacion.Estado.PUBLICADO,
+            creador=self.creator,
+        )
+        Publicacion.objects.create(
+            titulo='Closed service',
+            descripcion='Hidden service.',
+            categoria=Publicacion.Categoria.MARKETING,
+            precio='300000.00',
+            tiempo_entrega='4 días',
+            estado=Publicacion.Estado.CERRADO,
+            creador=self.creator,
+        )
+
+        response = self.client.get(reverse('public-services-feed'))
+        titles = {item['title'] for item in response.data}
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(titles, {'Published service'})
 
 
 class GeminiMarketplaceAssistantAdapterParsingTests(TestCase):
