@@ -104,7 +104,7 @@ Variables opcionales para integraciones externas del backend:
 ```env
 USE_GEMINI=true
 GEMINI_API_KEY=PASTE_REGENERATED_KEY_HERE
-GEMINI_MODEL=gemini-1.5-flash
+GEMINI_MODEL=gemini-2.5-flash
 GEMINI_TIMEOUT_SECONDS=15
 ```
 

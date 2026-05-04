@@ -192,5 +192,5 @@ USE_GEMINI = env_bool('USE_GEMINI', default=False)
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 if GEMINI_API_KEY in {'PASTE_REGENERATED_KEY_HERE', 'PASTE_REAL_KEY_HERE'}:
     GEMINI_API_KEY = ''
-GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-1.5-flash') or 'gemini-1.5-flash'
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash') or 'gemini-2.5-flash'
 GEMINI_TIMEOUT_SECONDS = env_int('GEMINI_TIMEOUT_SECONDS', 15)
