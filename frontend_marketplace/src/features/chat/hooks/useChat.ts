@@ -1,71 +1,75 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
-import { getConversacion } from "../services/chatService"
-import type { Mensaje } from "../models"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
+import type { Mensaje } from "../models";
+import { getConversacion } from "../services/chatService";
 
-const WS_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/^http/, "ws") ?? "ws://localhost:8000"
+const WS_URL =
+  process.env.NEXT_PUBLIC_API_URL?.replace(/^http/, "ws") ??
+  "ws://localhost:8000";
 
 export function useChat(conversacionId: string | null) {
-  const { token } = useAuth()
-  const authFetch = useAuthFetch()
-  const [mensajes, setMensajes] = useState<Mensaje[]>([])
-  const [connected, setConnected] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const wsRef = useRef<WebSocket | null>(null)
+  const { token } = useAuth();
+  const authFetch = useAuthFetch();
+  const [mensajes, setMensajes] = useState<Mensaje[]>([]);
+  const [connected, setConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const wsRef = useRef<WebSocket | null>(null);
 
   const cargarHistorial = useCallback(async () => {
-    if (!conversacionId || !token) return
-    setIsLoading(true)
+    if (!conversacionId || !token) return;
+    setIsLoading(true);
     try {
-      const data = await getConversacion(conversacionId, authFetch)
-      setMensajes(data.mensajes)
+      const data = await getConversacion(conversacionId, authFetch);
+      setMensajes(data.mensajes);
     } catch {
       // silencioso, el WS seguirá funcionando
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [conversacionId, token, authFetch])
+  }, [conversacionId, token, authFetch]);
 
   useEffect(() => {
-    if (!conversacionId || !token) return
+    if (!conversacionId || !token) return;
 
     // Limpiar conexión anterior
-    wsRef.current?.close()
-    setConnected(false)
-    setMensajes([])
+    wsRef.current?.close();
+    setConnected(false);
+    setMensajes([]);
 
-    cargarHistorial()
+    cargarHistorial();
 
-    const ws = new WebSocket(`${WS_URL}/ws/chat/${conversacionId}/?token=${token}`)
-    wsRef.current = ws
+    const ws = new WebSocket(
+      `${WS_URL}/ws/chat/${conversacionId}/?token=${token}`,
+    );
+    wsRef.current = ws;
 
-    ws.onopen = () => setConnected(true)
-    ws.onclose = () => setConnected(false)
-    ws.onerror = () => setConnected(false)
+    ws.onopen = () => setConnected(true);
+    ws.onclose = () => setConnected(false);
+    ws.onerror = () => setConnected(false);
 
     ws.onmessage = (event) => {
       try {
-        const mensaje: Mensaje = JSON.parse(event.data)
-        setMensajes((prev) => [...prev, mensaje])
+        const mensaje: Mensaje = JSON.parse(event.data);
+        setMensajes((prev) => [...prev, mensaje]);
       } catch {
         // ignorar mensajes mal formados
       }
-    }
+    };
 
     return () => {
-      ws.close()
-    }
-  }, [conversacionId, token, cargarHistorial])
+      ws.close();
+    };
+  }, [conversacionId, token, cargarHistorial]);
 
   const sendMessage = useCallback((contenido: string) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ contenido }))
+      wsRef.current.send(JSON.stringify({ contenido }));
     }
-  }, [])
+  }, []);
 
-  return { mensajes, connected, isLoading, sendMessage }
+  return { mensajes, connected, isLoading, sendMessage };
 }

@@ -1,18 +1,22 @@
-"use client"
+"use client";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import type { Conversacion } from "../models"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import type { Conversacion } from "../models";
 
 interface ConversacionItemProps {
-  conversacion: Conversacion
-  isActive: boolean
-  onClick: () => void
+  conversacion: Conversacion;
+  isActive: boolean;
+  onClick: () => void;
 }
 
-export function ConversacionItem({ conversacion, isActive, onClick }: ConversacionItemProps) {
-  const { perfil } = useAuth()
-  const isCliente = perfil?.email === conversacion.cliente.nombre_completo
-  const otherParty = isCliente ? conversacion.freelancer : conversacion.cliente
+export function ConversacionItem({
+  conversacion,
+  isActive,
+  onClick,
+}: ConversacionItemProps) {
+  const { perfil } = useAuth();
+  const isCliente = perfil?.email === conversacion.cliente.nombre_completo;
+  const otherParty = isCliente ? conversacion.freelancer : conversacion.cliente;
 
   return (
     <button
@@ -43,5 +47,5 @@ export function ConversacionItem({ conversacion, isActive, onClick }: Conversaci
         </div>
       </div>
     </button>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 export default function Page() {
-  const { token, isLoading } = useAuth()
-  const router = useRouter()
+  const { token, isLoading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) return
-    router.replace(token ? "/dashboard" : "/login")
-  }, [token, isLoading, router])
+    if (isLoading) return;
+    router.replace(token ? "/dashboard" : "/login");
+  }, [token, isLoading, router]);
 
-  return null
+  return null;
 }

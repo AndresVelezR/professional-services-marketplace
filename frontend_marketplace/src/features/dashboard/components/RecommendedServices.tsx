@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
-
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { getPublicaciones } from "@/features/services/services/publicacionService"
-import type { PublicacionListItem } from "@/features/services/models"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { PublicacionListItem } from "@/features/services/models";
+import { getPublicaciones } from "@/features/services/services/publicacionService";
+import { Link } from "@/i18n/navigation";
 
 const CATEGORIA_COLORS: Record<string, string> = {
   diseno: "bg-blue-600",
@@ -18,30 +17,33 @@ const CATEGORIA_COLORS: Record<string, string> = {
   negocios: "bg-orange-500",
   escritura: "bg-purple-600",
   video: "bg-pink-600",
-}
+};
 
 function categoryColor(categoria: string) {
-  return CATEGORIA_COLORS[categoria.toLowerCase()] ?? "bg-gray-500"
+  return CATEGORIA_COLORS[categoria.toLowerCase()] ?? "bg-gray-500";
 }
 
 export function RecommendedServices() {
-  const t = useTranslations("dashboard.recommendedServices")
-  const tCat = useTranslations("services.form.categorias")
-  const [services, setServices] = useState<PublicacionListItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const t = useTranslations("dashboard.recommendedServices");
+  const tCat = useTranslations("services.form.categorias");
+  const [services, setServices] = useState<PublicacionListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPublicaciones({ page: 1 })
       .then((res) => setServices(res.results.slice(0, 4)))
       .catch(() => {})
-      .finally(() => setIsLoading(false))
-  }, [])
+      .finally(() => setIsLoading(false));
+  }, []);
 
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">{t("title")}</h2>
-        <Link href="/services" className="text-sm font-medium text-primary hover:underline">
+        <Link
+          href="/services"
+          className="text-sm font-medium text-primary hover:underline"
+        >
           {t("viewAll")}
         </Link>
       </div>
@@ -85,7 +87,9 @@ export function RecommendedServices() {
                       {s.creador.iniciales}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm text-muted-foreground">{s.creador.nombre_completo}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {s.creador.nombre_completo}
+                  </span>
                 </div>
 
                 <h3 className="mb-3 text-sm font-semibold leading-tight text-foreground line-clamp-2">
@@ -93,8 +97,12 @@ export function RecommendedServices() {
                 </h3>
 
                 <div className="mb-4 flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{t("from", { price: s.precio })}</span>
-                  <span className="text-xs text-muted-foreground">{s.tiempo_entrega}</span>
+                  <span className="text-muted-foreground">
+                    {t("from", { price: s.precio })}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {s.tiempo_entrega}
+                  </span>
                 </div>
 
                 <Button asChild className="w-full" size="sm">
@@ -106,5 +114,5 @@ export function RecommendedServices() {
         </div>
       )}
     </section>
-  )
+  );
 }

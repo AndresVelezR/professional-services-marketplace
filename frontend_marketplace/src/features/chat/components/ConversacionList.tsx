@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
-import type { Conversacion } from "../models"
-import { ConversacionItem } from "./ConversacionItem"
+import type { Conversacion } from "../models";
+import { ConversacionItem } from "./ConversacionItem";
 
 interface ConversacionListProps {
-  conversaciones: Conversacion[]
-  isLoading: boolean
-  activeId: string | null
-  onSelect: (c: Conversacion) => void
+  conversaciones: Conversacion[];
+  isLoading: boolean;
+  activeId: string | null;
+  onSelect: (c: Conversacion) => void;
 }
 
 export function ConversacionList({
@@ -19,7 +19,7 @@ export function ConversacionList({
   activeId,
   onSelect,
 }: ConversacionListProps) {
-  const t = useTranslations("chat")
+  const t = useTranslations("chat");
   return (
     <div className="flex h-full flex-col border-r border-border">
       <div className="border-b border-border px-5 py-4">
@@ -49,5 +49,5 @@ export function ConversacionList({
         ))}
       </div>
     </div>
-  )
+  );
 }

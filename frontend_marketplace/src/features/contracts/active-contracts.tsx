@@ -1,40 +1,41 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { ContractHeader } from "./components/ContractHeader"
-import { ContractFilters } from "./components/ContractFilters"
-import { ContractList } from "./components/ContractList"
-import { PropuestasEnviadas } from "./components/PropuestasEnviadas"
-import { useContratos } from "./hooks/useContratos"
-import type { Contrato } from "./models"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { ContractFilters } from "./components/ContractFilters";
+import { ContractHeader } from "./components/ContractHeader";
+import { ContractList } from "./components/ContractList";
+import { PropuestasEnviadas } from "./components/PropuestasEnviadas";
+import { useContratos } from "./hooks/useContratos";
+import type { Contrato } from "./models";
 
-type Tab = "contratos" | "propuestas"
-type EstadoFiltro = "todos" | Contrato["estado"]
+type Tab = "contratos" | "propuestas";
+type EstadoFiltro = "todos" | Contrato["estado"];
 
 export function ActiveContracts() {
-  const t = useTranslations("contracts.tabs")
-  const { contratos, isLoading, error } = useContratos()
-  const { perfil } = useAuth()
-  const [tab, setTab] = useState<Tab>("contratos")
-  const [search, setSearch] = useState("")
-  const [estado, setEstado] = useState<EstadoFiltro>("todos")
+  const t = useTranslations("contracts.tabs");
+  const { contratos, isLoading, error } = useContratos();
+  const { perfil } = useAuth();
+  const [tab, setTab] = useState<Tab>("contratos");
+  const [search, setSearch] = useState("");
+  const [estado, setEstado] = useState<EstadoFiltro>("todos");
 
   const filtered = contratos.filter((c) => {
-    if (estado !== "todos" && c.estado !== estado) return false
+    if (estado !== "todos" && c.estado !== estado) return false;
     if (search.trim()) {
-      const q = search.toLowerCase()
-      const otherParty = perfil?.email === c.cliente.email ? c.freelancer : c.cliente
+      const q = search.toLowerCase();
+      const otherParty =
+        perfil?.email === c.cliente.email ? c.freelancer : c.cliente;
       return (
         c.publicacion_titulo.toLowerCase().includes(q) ||
         otherParty.nombre_completo.toLowerCase().includes(q)
-      )
+      );
     }
-    return true
-  })
+    return true;
+  });
 
   return (
     <div className="space-y-6">
@@ -89,5 +90,5 @@ export function ActiveContracts() {
 
       {tab === "propuestas" && <PropuestasEnviadas />}
     </div>
-  )
+  );
 }

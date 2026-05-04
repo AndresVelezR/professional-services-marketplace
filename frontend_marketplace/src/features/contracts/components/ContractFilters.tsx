@@ -1,20 +1,25 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import { RiSearchLine } from "@remixicon/react"
+import { RiSearchLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
-import type { Contrato } from "../models"
+import type { Contrato } from "../models";
 
-type EstadoFiltro = "todos" | Contrato["estado"]
+type EstadoFiltro = "todos" | Contrato["estado"];
 
 interface ContractFiltersProps {
-  search: string
-  estado: EstadoFiltro
-  onSearchChange: (v: string) => void
-  onEstadoChange: (v: EstadoFiltro) => void
+  search: string;
+  estado: EstadoFiltro;
+  onSearchChange: (v: string) => void;
+  onEstadoChange: (v: EstadoFiltro) => void;
 }
 
-const ESTADO_VALUES: EstadoFiltro[] = ["todos", "activo", "completado", "cancelado"]
+const ESTADO_VALUES: EstadoFiltro[] = [
+  "todos",
+  "activo",
+  "completado",
+  "cancelado",
+];
 
 export function ContractFilters({
   search,
@@ -22,10 +27,10 @@ export function ContractFilters({
   onSearchChange,
   onEstadoChange,
 }: ContractFiltersProps) {
-  const t = useTranslations("contracts")
+  const t = useTranslations("contracts");
 
   function labelFor(value: EstadoFiltro) {
-    return value === "todos" ? t("filters.todos") : t(`estado.${value}`)
+    return value === "todos" ? t("filters.todos") : t(`estado.${value}`);
   }
 
   return (
@@ -57,5 +62,5 @@ export function ContractFilters({
         ))}
       </div>
     </div>
-  )
+  );
 }

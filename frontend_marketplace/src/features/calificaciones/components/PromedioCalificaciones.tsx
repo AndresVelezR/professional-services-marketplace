@@ -1,40 +1,40 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { RiStarFill } from "@remixicon/react"
+import { RiStarFill } from "@remixicon/react";
+import { useEffect, useState } from "react";
 import {
   getCalificacionesUsuario,
   type PromedioCalificaciones,
-} from "../services/calificacionService"
+} from "../services/calificacionService";
 
 interface PromedioCalificacionesCardProps {
-  usuarioId: string
+  usuarioId: string;
 }
 
 export function PromedioCalificacionesCard({
   usuarioId,
 }: PromedioCalificacionesCardProps) {
-  const [data, setData] = useState<PromedioCalificaciones | null>(null)
+  const [data, setData] = useState<PromedioCalificaciones | null>(null);
 
   useEffect(() => {
     getCalificacionesUsuario(usuarioId)
       .then(setData)
-      .catch(() => null)
-  }, [usuarioId])
+      .catch(() => null);
+  }, [usuarioId]);
 
   if (!data || data.total === 0) {
     return (
       <p className="text-sm text-muted-foreground">
         Aún no tienes calificaciones.
       </p>
-    )
+    );
   }
 
   const criterios = [
     { label: "Calidad", value: data.promedios.calidad },
     { label: "Comunicación", value: data.promedios.comunicacion },
     { label: "Puntualidad", value: data.promedios.puntualidad },
-  ]
+  ];
 
   return (
     <div className="space-y-4">
@@ -45,11 +45,11 @@ export function PromedioCalificacionesCard({
         </span>
         <div>
           <div className="flex gap-0.5">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {[1, 2, 3, 4, 5].map((star) => (
               <RiStarFill
-                key={i}
+                key={`general-star-${star}`}
                 className={`size-5 ${
-                  i < Math.round(data.promedios.general)
+                  star <= Math.round(data.promedios.general)
                     ? "text-yellow-400"
                     : "text-muted-foreground/30"
                 }`}
@@ -80,5 +80,5 @@ export function PromedioCalificacionesCard({
         ))}
       </div>
     </div>
-  )
+  );
 }

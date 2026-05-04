@@ -1,54 +1,54 @@
-"use client"
+"use client";
 
-import { useMemo, useState } from "react"
-import { RiLoader4Line, RiStarFill } from "@remixicon/react"
-import { Button } from "@/components/ui/button"
+import { RiLoader4Line, RiStarFill } from "@remixicon/react";
+import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { createReview } from "../services/contractService"
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { createReview } from "../services/contractService";
 
 interface ReviewModalProps {
-  open: boolean
-  contractId: string
-  reviewedName: string
-  onClose: () => void
-  onSubmitted: () => Promise<void> | void
+  open: boolean;
+  contractId: string;
+  reviewedName: string;
+  onClose: () => void;
+  onSubmitted: () => Promise<void> | void;
 }
 
 interface Ratings {
-  calidad: number
-  comunicacion: number
-  puntualidad: number
+  calidad: number;
+  comunicacion: number;
+  puntualidad: number;
 }
 
 const CRITERIOS: { key: keyof Ratings; label: string }[] = [
   { key: "calidad", label: "Calidad del trabajo" },
   { key: "comunicacion", label: "Comunicación" },
   { key: "puntualidad", label: "Puntualidad" },
-]
+];
 
 function StarRating({
   label,
   value,
   onChange,
 }: {
-  label: string
-  value: number
-  onChange: (v: number) => void
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
 }) {
   return (
     <div className="space-y-1">
       <p className="text-sm font-medium text-foreground">{label}</p>
       <div className="flex items-center gap-1">
         {Array.from({ length: 5 }).map((_, i) => {
-          const v = i + 1
+          const v = i + 1;
           return (
             <button
               key={v}
@@ -63,14 +63,14 @@ function StarRating({
                 }`}
               />
             </button>
-          )
+          );
         })}
         <span className="ml-2 text-sm text-muted-foreground">
           {value > 0 ? `${value}/5` : "Sin seleccionar"}
         </span>
       </div>
     </div>
-  )
+  );
 }
 
 export function ReviewModal({
@@ -80,27 +80,27 @@ export function ReviewModal({
   onClose,
   onSubmitted,
 }: ReviewModalProps) {
-  const { token } = useAuth()
+  const { token } = useAuth();
   const [ratings, setRatings] = useState<Ratings>({
     calidad: 0,
     comunicacion: 0,
     puntualidad: 0,
-  })
-  const [comment, setComment] = useState("")
-  const [isSaving, setIsSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  });
+  const [comment, setComment] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const canSubmit = useMemo(
     () => Object.values(ratings).every((v) => v >= 1),
     [ratings],
-  )
+  );
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!token || !canSubmit) return
+    e.preventDefault();
+    if (!token || !canSubmit) return;
 
-    setIsSaving(true)
-    setError(null)
+    setIsSaving(true);
+    setError(null);
 
     try {
       await createReview(
@@ -112,23 +112,23 @@ export function ReviewModal({
           comentario: comment.trim(),
         },
         token,
-      )
-      await onSubmitted()
-      handleClose()
+      );
+      await onSubmitted();
+      handleClose();
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Error al enviar calificacion",
-      )
+      );
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
   }
 
   function handleClose() {
-    setRatings({ calidad: 0, comunicacion: 0, puntualidad: 0 })
-    setComment("")
-    setError(null)
-    onClose()
+    setRatings({ calidad: 0, comunicacion: 0, puntualidad: 0 });
+    setComment("");
+    setError(null);
+    onClose();
   }
 
   return (
@@ -148,9 +148,7 @@ export function ReviewModal({
               key={key}
               label={label}
               value={ratings[key]}
-              onChange={(v) =>
-                setRatings((prev) => ({ ...prev, [key]: v }))
-              }
+              onChange={(v) => setRatings((prev) => ({ ...prev, [key]: v }))}
             />
           ))}
 
@@ -200,5 +198,5 @@ export function ReviewModal({
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

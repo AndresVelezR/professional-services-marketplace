@@ -1,5 +1,5 @@
-import { SignupWizard } from "@/features/auth/components/SignupWizard"
+import { SignupWizard } from "@/features/auth/components/SignupWizard";
 
 export default function SignupPage() {
-  return <SignupWizard />
+  return <SignupWizard />;
 }

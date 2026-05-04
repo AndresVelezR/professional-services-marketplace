@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 
 import "../globals.css";
-import { AuthProvider } from "@/infrastructure/auth/AuthContext";
 import { routing } from "@/i18n/routing";
+import { AuthProvider } from "@/infrastructure/auth/AuthContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 

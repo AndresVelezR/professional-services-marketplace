@@ -1,15 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiMoneyDollarCircleLine, RiStarFill, RiTimeLine } from "@remixicon/react"
+import {
+  RiMoneyDollarCircleLine,
+  RiStarFill,
+  RiTimeLine,
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface ServiceFiltersProps {
-  onFilterChange?: (filters: { precio_min?: number; precio_max?: number }) => void
+  onFilterChange?: (filters: {
+    precio_min?: number;
+    precio_max?: number;
+  }) => void;
 }
 
 function FilterSection({
@@ -17,9 +24,9 @@ function FilterSection({
   title,
   children,
 }: {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  children: React.ReactNode
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  children: React.ReactNode;
 }) {
   return (
     <div>
@@ -29,7 +36,7 @@ function FilterSection({
       </h3>
       <div className="space-y-3">{children}</div>
     </div>
-  )
+  );
 }
 
 function FilterCheckbox({
@@ -39,11 +46,11 @@ function FilterCheckbox({
   checked,
   onCheckedChange,
 }: {
-  id: string
-  label: string
-  suffix?: React.ReactNode
-  checked?: boolean
-  onCheckedChange?: (checked: boolean) => void
+  id: string;
+  label: string;
+  suffix?: React.ReactNode;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 }) {
   return (
     <div className="group flex items-center gap-3">
@@ -56,33 +63,33 @@ function FilterCheckbox({
       </Label>
       {suffix}
     </div>
-  )
+  );
 }
 
 const PRICE_RANGES = [
   { id: "price-0-50", label: "$0 - $50", min: 0, max: 50 },
   { id: "price-50-100", label: "$50 - $100", min: 50, max: 100 },
   { id: "price-100", label: "$100+", min: 100, max: undefined },
-] as const
+] as const;
 
 export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
-  const t = useTranslations("services.filters")
-  const [selectedPrice, setSelectedPrice] = useState<string | null>(null)
+  const t = useTranslations("services.filters");
+  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
 
   function handlePriceChange(rangeId: string, checked: boolean) {
-    const next = checked ? rangeId : null
-    setSelectedPrice(next)
+    const next = checked ? rangeId : null;
+    setSelectedPrice(next);
 
-    if (!onFilterChange) return
+    if (!onFilterChange) return;
 
     if (!next) {
-      onFilterChange({ precio_min: undefined, precio_max: undefined })
-      return
+      onFilterChange({ precio_min: undefined, precio_max: undefined });
+      return;
     }
 
-    const range = PRICE_RANGES.find((r) => r.id === next)
+    const range = PRICE_RANGES.find((r) => r.id === next);
     if (range) {
-      onFilterChange({ precio_min: range.min, precio_max: range.max })
+      onFilterChange({ precio_min: range.min, precio_max: range.max });
     }
   }
 
@@ -126,5 +133,5 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
         {t("apply")}
       </Button>
     </div>
-  )
+  );
 }

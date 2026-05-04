@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiCloseLine, RiLoader4Line } from "@remixicon/react"
+import { RiCloseLine, RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-import type { CreateExperienciaPayload, Experiencia } from "../models"
+import type { CreateExperienciaPayload, Experiencia } from "../models";
 
 interface ExperienciaFormProps {
-  initial?: Experiencia | null
-  isLoading: boolean
-  onSubmit: (payload: CreateExperienciaPayload) => Promise<void>
-  onCancel: () => void
+  initial?: Experiencia | null;
+  isLoading: boolean;
+  onSubmit: (payload: CreateExperienciaPayload) => Promise<void>;
+  onCancel: () => void;
 }
 
 export function ExperienciaForm({
@@ -24,18 +24,18 @@ export function ExperienciaForm({
   onSubmit,
   onCancel,
 }: ExperienciaFormProps) {
-  const t = useTranslations("profile.experience")
-  const [empresa, setEmpresa] = useState(initial?.empresa ?? "")
-  const [cargo, setCargo] = useState(initial?.cargo ?? "")
-  const [descripcion, setDescripcion] = useState(initial?.descripcion ?? "")
-  const [fechaInicio, setFechaInicio] = useState(initial?.fecha_inicio ?? "")
-  const [fechaFin, setFechaFin] = useState(initial?.fecha_fin ?? "")
-  const [ubicacion, setUbicacion] = useState(initial?.ubicacion ?? "")
+  const t = useTranslations("profile.experience");
+  const [empresa, setEmpresa] = useState(initial?.empresa ?? "");
+  const [cargo, setCargo] = useState(initial?.cargo ?? "");
+  const [descripcion, setDescripcion] = useState(initial?.descripcion ?? "");
+  const [fechaInicio, setFechaInicio] = useState(initial?.fecha_inicio ?? "");
+  const [fechaFin, setFechaFin] = useState(initial?.fecha_fin ?? "");
+  const [ubicacion, setUbicacion] = useState(initial?.ubicacion ?? "");
 
-  const isValid = empresa && cargo && fechaInicio
+  const isValid = empresa && cargo && fechaInicio;
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     await onSubmit({
       empresa,
       cargo,
@@ -43,7 +43,7 @@ export function ExperienciaForm({
       fecha_inicio: fechaInicio,
       fecha_fin: fechaFin || null,
       ubicacion,
-    })
+    });
   }
 
   return (
@@ -161,5 +161,5 @@ export function ExperienciaForm({
         </div>
       </form>
     </div>
-  )
+  );
 }

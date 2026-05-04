@@ -1,36 +1,38 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
-import { getMisContratos } from "../services/contractService"
-import type { Contrato } from "../models"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
+import type { Contrato } from "../models";
+import { getMisContratos } from "../services/contractService";
 
 export function useContratos() {
-  const { token } = useAuth()
-  const authFetch = useAuthFetch()
-  const [contratos, setContratos] = useState<Contrato[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { token } = useAuth();
+  const authFetch = useAuthFetch();
+  const [contratos, setContratos] = useState<Contrato[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchContratos = useCallback(async () => {
-    if (!token) return
-    setIsLoading(true)
-    setError(null)
+    if (!token) return;
+    setIsLoading(true);
+    setError(null);
     try {
-      const data = await getMisContratos(authFetch)
-      setContratos(data)
+      const data = await getMisContratos(authFetch);
+      setContratos(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al cargar contratos")
+      setError(
+        err instanceof Error ? err.message : "Error al cargar contratos",
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [token, authFetch])
+  }, [token, authFetch]);
 
   useEffect(() => {
-    fetchContratos()
-  }, [fetchContratos])
+    fetchContratos();
+  }, [fetchContratos]);
 
-  return { contratos, isLoading, error, refetch: fetchContratos }
+  return { contratos, isLoading, error, refetch: fetchContratos };
 }

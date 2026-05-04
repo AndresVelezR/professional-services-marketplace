@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import { RiEqualizerLine, RiSearchLine } from "@remixicon/react"
+import { RiEqualizerLine, RiSearchLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group"
-import { ActiveContracts } from "./components/ActiveContracts"
-import { PropuestasRecibidas } from "./components/PropuestasRecibidas"
-import { RecommendedServices } from "./components/RecommendedServices"
+} from "@/components/ui/input-group";
+import { ActiveContracts } from "./components/ActiveContracts";
+import { PropuestasRecibidas } from "./components/PropuestasRecibidas";
+import { RecommendedServices } from "./components/RecommendedServices";
 
 export function Dashboard() {
-  const t = useTranslations("dashboard")
+  const t = useTranslations("dashboard");
   return (
     <div className="space-y-8">
       {/* Search bar */}
@@ -37,5 +37,5 @@ export function Dashboard() {
       <ActiveContracts />
       <RecommendedServices />
     </div>
-  )
+  );
 }

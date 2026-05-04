@@ -1,33 +1,35 @@
-"use client"
+"use client";
 
-import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
-
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { useContratos } from "@/features/contracts/hooks/useContratos"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { useContratos } from "@/features/contracts/hooks/useContratos";
+import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 const ESTADO_STYLES = {
   activo: "bg-blue-100 text-blue-700",
   completado: "bg-green-100 text-green-700",
   cancelado: "bg-red-100 text-red-700",
-}
+};
 
 export function ActiveContracts() {
-  const t = useTranslations("dashboard.activeContracts")
-  const tEstado = useTranslations("contracts.estado")
-  const { perfil } = useAuth()
-  const { contratos, isLoading } = useContratos()
+  const t = useTranslations("dashboard.activeContracts");
+  const tEstado = useTranslations("contracts.estado");
+  const { perfil } = useAuth();
+  const { contratos, isLoading } = useContratos();
 
-  const activos = contratos.filter((c) => c.estado === "activo")
+  const activos = contratos.filter((c) => c.estado === "activo");
 
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">{t("title")}</h2>
-        <Link href="/contracts" className="text-sm font-medium text-primary hover:underline">
+        <Link
+          href="/contracts"
+          className="text-sm font-medium text-primary hover:underline"
+        >
           {t("viewAll")}
         </Link>
       </div>
@@ -53,7 +55,9 @@ export function ActiveContracts() {
                   {t("headerServicio")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  {perfil?.tipo_usuario === "freelancer" ? t("headerCliente") : t("headerFreelancer")}
+                  {perfil?.tipo_usuario === "freelancer"
+                    ? t("headerCliente")
+                    : t("headerFreelancer")}
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   {t("headerEstado")}
@@ -68,14 +72,23 @@ export function ActiveContracts() {
             </thead>
             <tbody>
               {activos.map((c) => {
-                const isCliente = perfil?.email === c.cliente.email
-                const otherParty = isCliente ? c.freelancer : c.cliente
+                const isCliente = perfil?.email === c.cliente.email;
+                const otherParty = isCliente ? c.freelancer : c.cliente;
                 return (
-                  <tr key={c.id} className="border-b border-border last:border-0">
+                  <tr
+                    key={c.id}
+                    className="border-b border-border last:border-0"
+                  >
                     <td className="px-5 py-4">
-                      <p className="font-medium text-foreground">{c.publicacion_titulo}</p>
+                      <p className="font-medium text-foreground">
+                        {c.publicacion_titulo}
+                      </p>
                       <p className="text-xs text-muted-foreground">
-                        {t("from", { date: new Date(c.fecha_inicio).toLocaleDateString("es-CO") })}
+                        {t("from", {
+                          date: new Date(c.fecha_inicio).toLocaleDateString(
+                            "es-CO",
+                          ),
+                        })}
                       </p>
                     </td>
                     <td className="px-5 py-4">
@@ -85,27 +98,39 @@ export function ActiveContracts() {
                             {otherParty.iniciales}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-foreground">{otherParty.nombre_completo}</span>
+                        <span className="text-foreground">
+                          {otherParty.nombre_completo}
+                        </span>
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase ${ESTADO_STYLES[c.estado]}`}>
+                      <span
+                        className={`inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase ${ESTADO_STYLES[c.estado]}`}
+                      >
                         {tEstado(c.estado)}
                       </span>
                     </td>
-                    <td className="px-5 py-4 font-medium text-foreground">${c.precio}</td>
+                    <td className="px-5 py-4 font-medium text-foreground">
+                      ${c.precio}
+                    </td>
                     <td className="px-5 py-4">
-                      <Button asChild size="sm" className="bg-blue-600 text-white hover:bg-blue-700">
-                        <Link href={`/contracts/${c.id}`}>{t("viewDetails")}</Link>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-blue-600 text-white hover:bg-blue-700"
+                      >
+                        <Link href={`/contracts/${c.id}`}>
+                          {t("viewDetails")}
+                        </Link>
                       </Button>
                     </td>
                   </tr>
-                )
+                );
               })}
             </tbody>
           </table>
         </div>
       )}
     </section>
-  )
+  );
 }

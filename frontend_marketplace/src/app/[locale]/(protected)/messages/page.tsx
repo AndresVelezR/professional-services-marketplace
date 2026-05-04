@@ -1,5 +1,5 @@
-import { Chat } from "@/features/chat/chat"
+import { Chat } from "@/features/chat/chat";
 
 export default function MessagesPage() {
-  return <Chat />
+  return <Chat />;
 }

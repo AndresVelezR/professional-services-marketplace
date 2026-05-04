@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { useRouter } from "@/i18n/navigation"
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useRouter } from "@/i18n/navigation";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { CreateServiceForm } from "./components/CreateServiceForm"
-import type { CreatePublicacionPayload } from "./models"
-import { createPublicacion } from "./services/publicacionService"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { CreateServiceForm } from "./components/CreateServiceForm";
+import type { CreatePublicacionPayload } from "./models";
+import { createPublicacion } from "./services/publicacionService";
 
 export function CreateService() {
-  const t = useTranslations("services.create")
-  const router = useRouter()
-  const { token } = useAuth()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const t = useTranslations("services.create");
+  const router = useRouter();
+  const { token } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(payload: CreatePublicacionPayload) {
     if (!token) {
-      setError(t("authError"))
-      return
+      setError(t("authError"));
+      return;
     }
 
-    setIsSubmitting(true)
-    setError(null)
+    setIsSubmitting(true);
+    setError(null);
 
     try {
-      await createPublicacion(payload, token)
-      router.push("/services")
+      await createPublicacion(payload, token);
+      router.push("/services");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("submitError"))
+      setError(err instanceof Error ? err.message : t("submitError"));
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -49,10 +49,10 @@ export function CreateService() {
 
         <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           <div className="border-b border-border bg-muted/30 px-6 py-4">
-            <h2 className="text-sm font-semibold text-foreground">{t("cardTitle")}</h2>
-            <p className="text-xs text-muted-foreground">
-              {t("cardSubtitle")}
-            </p>
+            <h2 className="text-sm font-semibold text-foreground">
+              {t("cardTitle")}
+            </h2>
+            <p className="text-xs text-muted-foreground">{t("cardSubtitle")}</p>
           </div>
           <div className="p-6 sm:p-8">
             <CreateServiceForm
@@ -64,5 +64,5 @@ export function CreateService() {
         </div>
       </div>
     </div>
-  )
+  );
 }
