@@ -1,7 +1,14 @@
 import json
+import re
 from urllib import error, parse, request
 
 from integrations.ports import MarketplaceAssistanceResult, MarketplaceAssistantError
+
+
+DEFAULT_GEMINI_SUGGESTIONS = [
+    'Review the description for clarity.',
+    'Include deliverables, timeline, and expected outcome.',
+]
 
 
 class GeminiMarketplaceAssistantAdapter:
@@ -32,8 +39,11 @@ class GeminiMarketplaceAssistantAdapter:
             ],
             'generationConfig': {
                 'temperature': 0.2,
-                'maxOutputTokens': 300,
+                'maxOutputTokens': 768,
                 'responseMimeType': 'application/json',
+                'thinkingConfig': {
+                    'thinkingBudget': 0,
+                },
             },
         }
 
@@ -52,9 +62,11 @@ class GeminiMarketplaceAssistantAdapter:
         return (
             'You help review professional service marketplace listings. '
             'Use only the title and description below. '
-            'Return JSON with keys "summary" and "suggestions". '
-            '"summary" must be one concise sentence. '
-            '"suggestions" must contain two or three practical suggestions. '
+            'Return only valid JSON. Do not include markdown, code fences, '
+            'or explanatory text. The JSON shape must be: '
+            '{"summary":"short summary in the same language as the input",'
+            '"suggestions":["first practical suggestion",'
+            '"second practical suggestion","third practical suggestion"]}. '
             f'Title: {title}\n'
             f'Description: {description}'
         )
@@ -101,26 +113,118 @@ class GeminiMarketplaceAssistantAdapter:
         return f'Gemini HTTP {exc.code}'
 
     def _extract_text(self, response_data):
-        return response_data['candidates'][0]['content']['parts'][0]['text']
+        candidates = response_data.get('candidates')
+        if not candidates:
+            raise MarketplaceAssistantError('missing response candidate')
+
+        candidate = candidates[0]
+        content = candidate.get('content') if isinstance(candidate, dict) else None
+        parts = content.get('parts') if isinstance(content, dict) else None
+        if not isinstance(parts, list):
+            finish_reason = candidate.get('finishReason', 'unknown')
+            raise MarketplaceAssistantError(
+                f'missing response text: {finish_reason}'
+            )
+
+        text_parts = [
+            part['text']
+            for part in parts
+            if isinstance(part, dict) and isinstance(part.get('text'), str)
+        ]
+        if not text_parts:
+            raise MarketplaceAssistantError('missing response text')
+        return '\n'.join(text_parts)
 
     def _normalize_response(self, text: str) -> MarketplaceAssistanceResult:
-        parsed = json.loads(text)
-        summary = str(parsed['summary']).strip()
-        suggestions = parsed['suggestions']
+        parsed = self._parse_response_object(text)
+        summary = parsed.get('summary')
+        if not isinstance(summary, str) or not summary.strip():
+            raise MarketplaceAssistantError('missing summary')
 
-        if not summary or not isinstance(suggestions, list):
-            raise ValueError('Invalid Gemini response shape.')
-
-        cleaned_suggestions = [
-            str(suggestion).strip()
-            for suggestion in suggestions[:3]
-            if str(suggestion).strip()
-        ]
+        cleaned_suggestions = self._normalize_suggestions(parsed.get('suggestions'))
         if not cleaned_suggestions:
-            raise ValueError('Gemini response did not include suggestions.')
+            cleaned_suggestions = DEFAULT_GEMINI_SUGGESTIONS
 
         return MarketplaceAssistanceResult(
-            summary=summary,
+            summary=summary.strip(),
             suggestions=cleaned_suggestions,
             provider=self.provider,
         )
+
+    def _parse_response_object(self, text: str) -> dict:
+        for candidate in self._json_candidates(text):
+            try:
+                parsed = json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(parsed, dict):
+                return parsed
+            raise MarketplaceAssistantError('JSON root must be an object')
+
+        raise MarketplaceAssistantError('JSON parsing failed')
+
+    def _json_candidates(self, text: str):
+        cleaned = text.strip()
+        if cleaned:
+            yield cleaned
+
+        for match in re.finditer(r'```(?:json)?\s*(.*?)\s*```', cleaned, re.DOTALL | re.I):
+            fenced = match.group(1).strip()
+            if fenced:
+                yield fenced
+
+        balanced = self._first_balanced_json_object(cleaned)
+        if balanced:
+            yield balanced
+
+    def _first_balanced_json_object(self, text: str) -> str:
+        start = text.find('{')
+        if start == -1:
+            return ''
+
+        depth = 0
+        in_string = False
+        escaped = False
+
+        for index in range(start, len(text)):
+            char = text[index]
+
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif char == '\\':
+                    escaped = True
+                elif char == '"':
+                    in_string = False
+                continue
+
+            if char == '"':
+                in_string = True
+            elif char == '{':
+                depth += 1
+            elif char == '}':
+                depth -= 1
+                if depth == 0:
+                    return text[start : index + 1]
+
+        return ''
+
+    def _normalize_suggestions(self, suggestions) -> list[str]:
+        if isinstance(suggestions, str):
+            values = [suggestions]
+        elif isinstance(suggestions, list):
+            values = suggestions
+        else:
+            return []
+
+        cleaned = []
+        for suggestion in values:
+            if isinstance(suggestion, (dict, list)):
+                continue
+            text = str(suggestion).strip()
+            if text:
+                cleaned.append(text)
+            if len(cleaned) == 3:
+                break
+
+        return cleaned
