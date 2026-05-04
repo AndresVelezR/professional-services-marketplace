@@ -1,0 +1,177 @@
+from django.test import TestCase, override_settings
+from django.urls import reverse
+from rest_framework.test import APIClient, APIRequestFactory
+
+from usuarios.models import Perfil, Usuario
+from usuarios.serializers import PerfilSerializer
+
+from .adapters.local_marketplace_assistant import LocalMarketplaceAssistantAdapter
+from .services import get_marketplace_assistant
+
+
+class LocalMarketplaceAssistantAdapterTests(TestCase):
+    def test_returns_stable_normalized_output(self):
+        adapter = LocalMarketplaceAssistantAdapter()
+
+        first = adapter.summarize_service(
+            title='Landing page design',
+            description='I will design a responsive landing page. Includes review.',
+        )
+        second = adapter.summarize_service(
+            title='Landing page design',
+            description='I will design a responsive landing page. Includes review.',
+        )
+
+        self.assertEqual(first, second)
+        self.assertEqual(first.provider, 'local')
+        self.assertTrue(first.summary)
+        self.assertIsInstance(first.suggestions, list)
+        self.assertTrue(first.disclaimer)
+
+    def test_returns_different_summaries_for_different_inputs(self):
+        adapter = LocalMarketplaceAssistantAdapter()
+
+        first = adapter.summarize_service(
+            title='Landing page design',
+            description='Responsive page for restaurants with menu sections.',
+        )
+        second = adapter.summarize_service(
+            title='Backend API development',
+            description='Build authenticated endpoints for inventory reports.',
+        )
+
+        self.assertNotEqual(first.summary, second.summary)
+        self.assertIn('Landing page design', first.summary)
+        self.assertIn('Backend API development', second.summary)
+
+    def test_returns_contextual_suggestions_for_short_input(self):
+        adapter = LocalMarketplaceAssistantAdapter()
+
+        result = adapter.summarize_service(
+            title='Logo',
+            description='Simple logo.',
+        )
+
+        self.assertEqual(result.provider, 'local')
+        self.assertTrue(
+            any('detail' in suggestion.lower() for suggestion in result.suggestions)
+        )
+
+
+class MarketplaceAssistantFactoryTests(TestCase):
+    @override_settings(USE_GEMINI=False, GEMINI_API_KEY='unused')
+    def test_selects_local_adapter_when_gemini_is_disabled(self):
+        service = get_marketplace_assistant()
+        result = service.summarize_service(
+            title='Service',
+            description='Description for a service.',
+        )
+
+        self.assertEqual(result.provider, 'local')
+
+    @override_settings(
+        USE_GEMINI=True,
+        GEMINI_API_KEY='test-key',
+        GEMINI_MODEL='gemini-1.5-flash',
+        GEMINI_TIMEOUT_SECONDS=15,
+    )
+    def test_selects_gemini_adapter_when_enabled_and_key_exists(self):
+        service = get_marketplace_assistant()
+
+        self.assertEqual(service.assistant.provider, 'gemini')
+
+    @override_settings(USE_GEMINI=True, GEMINI_API_KEY='')
+    def test_selects_local_adapter_when_gemini_key_is_missing(self):
+        service = get_marketplace_assistant()
+        result = service.summarize_service(
+            title='Service',
+            description='Description for a service.',
+        )
+
+        self.assertEqual(result.provider, 'local')
+
+
+class SummarizeServiceEndpointTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = Usuario.objects.create_user(
+            email='user@example.com',
+            password='Demo1234!',
+        )
+        Perfil.objects.create(usuario=self.user, tipo_usuario=Perfil.TipoUsuario.CLIENTE)
+
+    @override_settings(USE_GEMINI=False, GEMINI_API_KEY='')
+    def test_authenticated_user_can_summarize_service_with_local_provider(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(
+            reverse('summarize-service'),
+            {
+                'title': 'Landing page design',
+                'description': 'I will design a responsive landing page.',
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['provider'], 'local')
+        self.assertTrue(response.data['summary'])
+        self.assertIsInstance(response.data['suggestions'], list)
+
+    def test_rejects_invalid_text(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(
+            reverse('summarize-service'),
+            {
+                'title': ['Landing page design'],
+                'description': '',
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('title', response.data)
+        self.assertIn('description', response.data)
+
+
+class DiceBearAvatarFallbackTests(TestCase):
+    def test_profile_without_image_returns_deterministic_dicebear_url(self):
+        user = Usuario.objects.create_user(
+            email='avatar@example.com',
+            password='Demo1234!',
+        )
+        profile = Perfil.objects.create(
+            usuario=user,
+            tipo_usuario=Perfil.TipoUsuario.CLIENTE,
+        )
+
+        first = PerfilSerializer(profile).data['foto_perfil_url']
+        second = PerfilSerializer(profile).data['foto_perfil_url']
+
+        self.assertEqual(first, second)
+        self.assertIn('https://api.dicebear.com/9.x/initials/svg', first)
+        self.assertIn(f'seed={profile.id}', first)
+        self.assertNotIn(user.email, first)
+
+    def test_profile_with_image_preserves_uploaded_image_behavior(self):
+        request = APIRequestFactory().get('/api/usuarios/perfil/')
+        user = Usuario.objects.create_user(
+            email='uploaded@example.com',
+            password='Demo1234!',
+        )
+        profile = Perfil.objects.create(
+            usuario=user,
+            tipo_usuario=Perfil.TipoUsuario.CLIENTE,
+            foto_perfil='perfiles/avatar.png',
+        )
+
+        with_request = PerfilSerializer(
+            profile,
+            context={'request': request},
+        ).data['foto_perfil_url']
+        without_request = PerfilSerializer(profile).data['foto_perfil_url']
+
+        self.assertEqual(
+            with_request,
+            'http://testserver/media/perfiles/avatar.png',
+        )
+        self.assertIsNone(without_request)
