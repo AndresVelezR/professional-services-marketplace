@@ -125,7 +125,45 @@ Variable de entorno necesaria en `frontend_marketplace/.env.local`:
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_PARTNER_API_URL=
 ```
+
+## Consumo de API aliada
+
+La página de servicios aliados consume un JSON público de otro equipo y muestra los servicios externos dentro del frontend sin crear endpoints backend adicionales.
+
+URLs de la página:
+
+- `/es/partner-services`
+- `/en/partner-services`
+
+Variable de entorno del frontend:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=
+```
+
+Ejemplo local:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=http://localhost:8001/api/public-services-feed/
+```
+
+Ejemplo de producción:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=https://partner-team-domain.tk/api/public-services-feed/
+```
+
+Validación durante clase:
+
+1. Pedir al equipo anterior su URL pública JSON.
+2. Poner esa URL en el `.env` del frontend.
+3. Reiniciar el contenedor o servidor de desarrollo del frontend.
+4. Abrir `/es/partner-services`.
+5. Confirmar que aparecen tarjetas o un estado de error claro.
+
+El adaptador acepta respuestas con forma de arreglo directo, `{ results: [...] }` o `{ data: [...] }`. También es defensivo con nombres de campos comunes como `title`, `nombre`, `descripcion`, `precio`, `detail_url`, `provider` y otros alias, por lo que no asume un contrato exacto del equipo aliado.
 
 ## Estructura
 
