@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
 import { obtenerOCrearConversacion } from "@/features/chat/services/chatService"
 import { getContrato, updateContratoEstado } from "./services/contractService"
+import { ReviewModal } from "./components/ReviewModal"
 import type { Contrato } from "./models"
 
 const ESTADO_STYLES: Record<Contrato["estado"], string> = {
@@ -34,6 +35,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
+  const [reviewOpen, setReviewOpen] = useState(false)
 
   async function handleAbrirChat() {
     if (!token) return
@@ -64,6 +66,10 @@ export function ContractDetail({ id }: ContractDetailProps) {
       setActionLoading(false)
     }
   }
+
+  // El cliente puede calificar si el contrato está completado
+  const esCliente = perfil?.email === contrato?.cliente.email
+  const puedeCalificar = contrato?.estado === "completado" && esCliente
 
   if (isLoading) {
     return (
@@ -155,6 +161,13 @@ export function ContractDetail({ id }: ContractDetailProps) {
         Abrir chat
       </Button>
 
+      {/* Calificar */}
+      {puedeCalificar && (
+        <Button className="w-full" onClick={() => setReviewOpen(true)}>
+          ⭐ Calificar freelancer
+        </Button>
+      )}
+
       {/* Actions */}
       {contrato.estado === "activo" && (
         <div className="flex gap-3">
@@ -176,6 +189,20 @@ export function ContractDetail({ id }: ContractDetailProps) {
             Cancelar contrato
           </Button>
         </div>
+      )}
+
+      {/* Review Modal */}
+      {contrato && (
+        <ReviewModal
+          open={reviewOpen}
+          contractId={contrato.id}
+          reviewedName={contrato.freelancer.nombre_completo}
+          onClose={() => setReviewOpen(false)}
+          onSubmitted={async () => {
+            const updated = await getContrato(id, token!)
+            setContrato(updated)
+          }}
+        />
       )}
     </div>
   )
