@@ -1,8 +1,13 @@
 from django.urls import path
 
-from .views import SummarizeServiceView
+from .views import PublicServicesFeedView, SummarizeServiceView
 
 urlpatterns = [
+    path(
+        'public-services-feed/',
+        PublicServicesFeedView.as_view(),
+        name='public-services-feed',
+    ),
     path(
         'summarize-service/',
         SummarizeServiceView.as_view(),

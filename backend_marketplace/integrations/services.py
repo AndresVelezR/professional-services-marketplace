@@ -2,6 +2,8 @@ import logging
 
 from django.conf import settings
 
+from publicaciones.models import Publicacion
+
 from .adapters.gemini_marketplace_assistant import GeminiMarketplaceAssistantAdapter
 from .adapters.local_marketplace_assistant import LocalMarketplaceAssistantAdapter
 from .ports import (
@@ -12,6 +14,15 @@ from .ports import (
 
 
 logger = logging.getLogger(__name__)
+
+
+def get_public_services_feed_queryset():
+    return Publicacion.objects.activas().select_related('creador__perfil')
+
+
+def build_public_service_detail_url(publicacion_id):
+    base_url = settings.FRONTEND_PUBLIC_BASE_URL.rstrip('/')
+    return f'{base_url}/es/services/{publicacion_id}'
 
 
 class MarketplaceAssistantService:

@@ -77,6 +77,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
 
+FRONTEND_PUBLIC_BASE_URL = (
+    os.getenv('FRONTEND_PUBLIC_BASE_URL', 'http://localhost:3000')
+    or 'http://localhost:3000'
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',

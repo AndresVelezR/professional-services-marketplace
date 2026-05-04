@@ -1,13 +1,24 @@
-from rest_framework import status
+from rest_framework import generics, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .services import get_marketplace_assistant
+from .serializers import PublicServiceFeedSerializer
+from .services import get_marketplace_assistant, get_public_services_feed_queryset
 
 
 TITLE_MAX_LENGTH = 200
 DESCRIPTION_MAX_LENGTH = 3000
+
+
+class PublicServicesFeedView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = PublicServiceFeedSerializer
+    pagination_class = None
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        return get_public_services_feed_queryset()
 
 
 class SummarizeServiceView(APIView):
