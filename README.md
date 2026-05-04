@@ -102,11 +102,14 @@ Luego editar `backend_marketplace/.env`. Para usar Gemini, cambiar `USE_GEMINI=t
 Variables opcionales para integraciones externas del backend:
 
 ```env
+FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
 USE_GEMINI=true
 GEMINI_API_KEY=PASTE_REGENERATED_KEY_HERE
 GEMINI_MODEL=gemini-2.5-flash
 GEMINI_TIMEOUT_SECONDS=15
 ```
+
+El feed público para equipos aliados está disponible en `GET /api/integrations/public-services-feed/`. Devuelve publicaciones activas sin requerir autenticación y construye `detail_url` con `FRONTEND_PUBLIC_BASE_URL`; en producción esa variable debe apuntar al dominio público del frontend.
 
 El fallback de avatar usa URLs determinísticas de DiceBear cuando un perfil no tiene `foto_perfil`. El asistente de publicaciones corre sólo en el backend en `POST /api/integrations/summarize-service/`; si Gemini no está habilitado o no hay credenciales, responde con el adaptador local sin hacer llamadas de red. Las pruebas no requieren credenciales de Gemini.
 
