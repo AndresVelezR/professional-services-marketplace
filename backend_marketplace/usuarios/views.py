@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Experiencia, Habilidad
+from .services import actualizar_perfil, crear_experiencia, crear_usuario_con_perfil
 from .serializers import (
     ExperienciaSerializer,
     HabilidadSerializer,
@@ -19,7 +20,7 @@ class RegistroView(APIView):
     def post(self, request):
         serializer = RegistroSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            crear_usuario_con_perfil(serializer.validated_data)
             return Response(
                 {'mensaje': 'Usuario creado exitosamente.'},
                 status=status.HTTP_201_CREATED,
@@ -45,8 +46,12 @@ class PerfilView(APIView):
             context={'request': request},
         )
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            perfil = actualizar_perfil(request.user.perfil, serializer.validated_data)
+            response_serializer = PerfilSerializer(
+                perfil,
+                context={'request': request},
+            )
+            return Response(response_serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -63,7 +68,10 @@ class ExperienciaListCreateView(generics.ListCreateAPIView):
         return self.request.user.perfil.experiencias.all()
 
     def perform_create(self, serializer):
-        serializer.save(perfil=self.request.user.perfil)
+        serializer.instance = crear_experiencia(
+            self.request.user.perfil,
+            serializer.validated_data,
+        )
 
 
 class ExperienciaDetailView(generics.RetrieveUpdateDestroyAPIView):
