@@ -5,8 +5,95 @@ from rest_framework.test import APIClient, APIRequestFactory
 from usuarios.models import Perfil, Usuario
 from usuarios.serializers import PerfilSerializer
 
+from .adapters.gemini_marketplace_assistant import GeminiMarketplaceAssistantAdapter
 from .adapters.local_marketplace_assistant import LocalMarketplaceAssistantAdapter
+from .ports import MarketplaceAssistantError
 from .services import get_marketplace_assistant
+
+
+class GeminiMarketplaceAssistantAdapterParsingTests(TestCase):
+    def setUp(self):
+        self.adapter = GeminiMarketplaceAssistantAdapter(
+            api_key='test-key',
+            model='gemini-2.5-flash',
+            timeout_seconds=15,
+        )
+
+    def test_parses_exact_json(self):
+        result = self.adapter._normalize_response(
+            '{"summary":"Clear service summary.","suggestions":["Add timeline.","List deliverables."]}'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertEqual(result.summary, 'Clear service summary.')
+        self.assertEqual(result.suggestions, ['Add timeline.', 'List deliverables.'])
+
+    def test_parses_markdown_fenced_json(self):
+        result = self.adapter._normalize_response(
+            '```json\n'
+            '{"summary":"Fenced summary.","suggestions":["One.","Two."]}\n'
+            '```'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertEqual(result.summary, 'Fenced summary.')
+
+    def test_parses_fenced_json_without_language(self):
+        result = self.adapter._normalize_response(
+            '```\n'
+            '{"summary":"Plain fenced summary.","suggestions":["One.","Two."]}\n'
+            '```'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertEqual(result.summary, 'Plain fenced summary.')
+
+    def test_parses_json_with_extra_text(self):
+        result = self.adapter._normalize_response(
+            'Here is the result:\n'
+            '{"summary":"Embedded summary.","suggestions":["One.","Two.","Three."]}\n'
+            'Review before use.'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertEqual(result.summary, 'Embedded summary.')
+
+    def test_rejects_invalid_text_with_controlled_error(self):
+        with self.assertRaises(MarketplaceAssistantError) as ctx:
+            self.adapter._normalize_response('This is useful text but not JSON.')
+
+        self.assertIn('JSON parsing failed', str(ctx.exception))
+
+    def test_normalizes_suggestions_string_to_list(self):
+        result = self.adapter._normalize_response(
+            '{"summary":"Summary.","suggestions":"Add a delivery timeline."}'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertEqual(result.suggestions, ['Add a delivery timeline.'])
+
+    def test_uses_default_suggestions_when_summary_exists(self):
+        result = self.adapter._normalize_response(
+            '{"summary":"Summary.","suggestions":[]}'
+        )
+
+        self.assertEqual(result.provider, 'gemini')
+        self.assertTrue(result.suggestions)
+
+    def test_missing_response_text_raises_controlled_error(self):
+        with self.assertRaises(MarketplaceAssistantError) as ctx:
+            self.adapter._extract_text(
+                {
+                    'candidates': [
+                        {
+                            'content': {},
+                            'finishReason': 'MAX_TOKENS',
+                        },
+                    ],
+                }
+            )
+
+        self.assertIn('missing response text', str(ctx.exception))
 
 
 class LocalMarketplaceAssistantAdapterTests(TestCase):
@@ -72,7 +159,7 @@ class MarketplaceAssistantFactoryTests(TestCase):
     @override_settings(
         USE_GEMINI=True,
         GEMINI_API_KEY='test-key',
-        GEMINI_MODEL='gemini-1.5-flash',
+        GEMINI_MODEL='gemini-2.5-flash',
         GEMINI_TIMEOUT_SECONDS=15,
     )
     def test_selects_gemini_adapter_when_enabled_and_key_exists(self):
