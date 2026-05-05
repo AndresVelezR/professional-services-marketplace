@@ -4,6 +4,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from infrastructure.emails.email_service import EmailService
+
 from .models import Experiencia, Habilidad
 from .services import actualizar_perfil, crear_experiencia, crear_usuario_con_perfil
 from .serializers import (
@@ -20,7 +22,7 @@ class RegistroView(APIView):
     def post(self, request):
         serializer = RegistroSerializer(data=request.data)
         if serializer.is_valid():
-            crear_usuario_con_perfil(serializer.validated_data)
+            crear_usuario_con_perfil(serializer.validated_data, EmailService())
             return Response(
                 {'mensaje': 'Usuario creado exitosamente.'},
                 status=status.HTTP_201_CREATED,
