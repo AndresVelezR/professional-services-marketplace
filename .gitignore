@@ -26,7 +26,7 @@ media/
 # Environment variables
 # ==========================
 .env
-.env.*
+.env.production
 
 # ==========================
 # PostgreSQL
