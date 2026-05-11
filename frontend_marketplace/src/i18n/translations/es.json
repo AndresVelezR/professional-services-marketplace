@@ -313,6 +313,23 @@
     "seeMore": "ver más",
     "seeLess": "ver menos"
   },
+  "partners": {
+    "eyebrow": "Servicios aliados",
+    "title": "Servicios de equipos aliados",
+    "description": "Explora servicios publicados por otro equipo desde su API pública. La información se normaliza antes de mostrarse para evitar fallos por formatos inesperados.",
+    "loading": "Cargando servicios aliados...",
+    "missingConfigTitle": "API aliada no configurada",
+    "missingConfigDescription": "Configura NEXT_PUBLIC_PARTNER_API_URL en el entorno del frontend y reinicia la aplicación para consultar servicios aliados.",
+    "errorTitle": "No se pudieron cargar los servicios aliados",
+    "errorDescription": "La API respondió con un error o no está disponible. Detalle: {message}",
+    "emptyTitle": "No hay servicios aliados para mostrar",
+    "emptyDescription": "La API respondió sin servicios compatibles. Puedes revisar que entregue un arreglo, results o data.",
+    "card": {
+      "source": "Origen",
+      "price": "Precio",
+      "open": "Abrir servicio"
+    }
+  },
   "profile": {
     "loadError": "Error al cargar perfil",
     "photoPending": "Foto seleccionada — se guardará al hacer clic en \"Guardar cambios\"",

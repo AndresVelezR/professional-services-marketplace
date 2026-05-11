@@ -313,6 +313,23 @@
     "seeMore": "see more",
     "seeLess": "see less"
   },
+  "partners": {
+    "eyebrow": "Partner services",
+    "title": "Partner team services",
+    "description": "Explore services published by another team through their public API. The data is normalized before rendering so unexpected formats do not break the page.",
+    "loading": "Loading partner services...",
+    "missingConfigTitle": "Partner API is not configured",
+    "missingConfigDescription": "Set NEXT_PUBLIC_PARTNER_API_URL in the frontend environment and restart the application to load partner services.",
+    "errorTitle": "Partner services could not be loaded",
+    "errorDescription": "The API returned an error or is unavailable. Detail: {message}",
+    "emptyTitle": "No partner services to show",
+    "emptyDescription": "The API responded without compatible services. Check that it returns an array, results, or data.",
+    "card": {
+      "source": "Source",
+      "price": "Price",
+      "open": "Open service"
+    }
+  },
   "profile": {
     "loadError": "Error loading profile",
     "photoPending": "Photo selected — it will be saved when you click \"Save changes\"",
