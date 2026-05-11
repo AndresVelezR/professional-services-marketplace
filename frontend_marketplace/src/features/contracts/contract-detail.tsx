@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
 import { obtenerOCrearConversacion } from "@/features/chat/services/chatService"
 import { getContrato, updateContratoEstado } from "./services/contractService"
 import type { Contrato } from "./models"
@@ -29,6 +30,7 @@ interface ContractDetailProps {
 
 export function ContractDetail({ id }: ContractDetailProps) {
   const { token, perfil } = useAuth()
+  const authFetch = useAuthFetch()
   const router = useRouter()
   const [contrato, setContrato] = useState<Contrato | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -37,14 +39,14 @@ export function ContractDetail({ id }: ContractDetailProps) {
 
   async function handleAbrirChat() {
     if (!token) return
-    await obtenerOCrearConversacion(id, token)
+    await obtenerOCrearConversacion(id, authFetch)
     router.push("/messages")
   }
 
   useEffect(() => {
     if (!token) return
     setIsLoading(true)
-    getContrato(id, token)
+    getContrato(id, authFetch)
       .then(setContrato)
       .catch((err) =>
         setError(err instanceof Error ? err.message : "Error al cargar contrato"),
@@ -56,7 +58,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
     if (!token) return
     setActionLoading(true)
     try {
-      const updated = await updateContratoEstado(id, estado, token)
+      const updated = await updateContratoEstado(id, estado, authFetch)
       setContrato(updated)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al actualizar contrato")
