@@ -16,4 +16,5 @@ dependencies = [
     "pillow==11.2.1",
     "psycopg2-binary==2.9.11",
     "python-dotenv==1.2.1",
+    "resend>=2.30.0",
 ]

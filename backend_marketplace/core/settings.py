@@ -200,3 +200,7 @@ if GEMINI_API_KEY in {'PASTE_REGENERATED_KEY_HERE', 'PASTE_REAL_KEY_HERE'}:
     GEMINI_API_KEY = ''
 GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash') or 'gemini-2.5-flash'
 GEMINI_TIMEOUT_SECONDS = env_int('GEMINI_TIMEOUT_SECONDS', 15)
+
+# Resend (email provider)
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
+RESEND_FROM_EMAIL = os.getenv('RESEND_FROM_EMAIL', 'onboarding@resend.dev')
