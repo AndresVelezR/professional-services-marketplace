@@ -62,3 +62,6 @@ htmlcov/
 
 
 schema.dbml
+
+# Core dumps
+core.[0-9]*
