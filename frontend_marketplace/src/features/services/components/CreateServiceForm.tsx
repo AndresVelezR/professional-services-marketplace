@@ -93,7 +93,6 @@ export function CreateServiceForm({
     useState<AssistantSummaryResult | null>(null);
   const [assistantError, setAssistantError] = useState<string | null>(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [copiedSummary, setCopiedSummary] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const summarizeRequestRef = useRef(0);
 
@@ -150,7 +149,6 @@ export function CreateServiceForm({
   function resetAssistantState() {
     setAssistantResult(null);
     setAssistantError(null);
-    setCopiedSummary(false);
   }
 
   async function handleSummarize() {
@@ -161,8 +159,6 @@ export function CreateServiceForm({
     setIsSummarizing(true);
     setAssistantError(null);
     setAssistantResult(null);
-    setCopiedSummary(false);
-
     try {
       const result = await summarizeService(authFetch, {
         title: trimmedTitle,
@@ -180,12 +176,6 @@ export function CreateServiceForm({
         setIsSummarizing(false);
       }
     }
-  }
-
-  async function handleCopySummary() {
-    if (!assistantResult?.summary || !navigator.clipboard) return;
-    await navigator.clipboard.writeText(assistantResult.summary);
-    setCopiedSummary(true);
   }
 
   function providerLabel(provider: string) {
@@ -345,23 +335,10 @@ export function CreateServiceForm({
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-3 border-t border-border pt-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="border-t border-border pt-3">
                     <p className="text-xs leading-relaxed text-muted-foreground">
                       {t("assistant.disclaimer")}
                     </p>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={handleCopySummary}
-                      disabled={!assistantResult.summary}
-                      className="shrink-0 gap-1.5 text-xs"
-                    >
-                      <RiCheckLine className="size-3.5" />
-                      {copiedSummary
-                        ? t("assistant.copied")
-                        : t("assistant.copySummary")}
-                    </Button>
                   </div>
                 </div>
               )}
