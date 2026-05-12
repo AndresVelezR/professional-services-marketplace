@@ -1,20 +1,16 @@
-"use client";
+"use client"
 
+import { useState } from "react"
+import { useTranslations } from "next-intl"
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
   RiEqualizerLine,
   RiLoader4Line,
   RiSearchLine,
-} from "@remixicon/react";
-import { useTranslations } from "next-intl";
+} from "@remixicon/react"
 
-import { Button } from "@/components/ui/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
@@ -22,21 +18,26 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { toServiceCardProps } from "./adapters";
-import { ServiceCard } from "./components/ServiceCard";
-import { ServiceFilters } from "./components/ServiceFilters";
-import { usePublicaciones } from "./hooks/usePublicaciones";
+} from "@/components/ui/select"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { toServiceCardProps } from "./adapters"
+import { ServiceCard } from "./components/ServiceCard"
+import { ServiceFilters } from "./components/ServiceFilters"
+import { usePublicaciones } from "./hooks/usePublicaciones"
 
 const ORDERING_MAP: Record<string, string> = {
   relevancia: "",
   "precio-bajo": "precio",
   "mejor-calificados": "-created_at",
   nuevos: "-created_at",
-};
+}
 
 export function ServicesExplorer() {
-  const t = useTranslations("services.explorer");
+  const t = useTranslations("services.explorer")
   const {
     results,
     count,
@@ -46,27 +47,28 @@ export function ServicesExplorer() {
     currentPage,
     updateFilter,
     setPage,
-  } = usePublicaciones();
+  } = usePublicaciones()
+
+  const [priceFilter, setPriceFilter] = useState<{ min?: number; max?: number }>({})
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    updateFilter("q", e.target.value);
+    updateFilter("q", e.target.value)
   }
 
   function handleOrdering(value: string) {
-    updateFilter("ordering", ORDERING_MAP[value] || "");
+    updateFilter("ordering", ORDERING_MAP[value] || "")
   }
 
-  function handlePriceFilter(filters: {
-    precio_min?: number;
-    precio_max?: number;
-  }) {
-    if (filters.precio_min != null)
-      updateFilter("precio_min", filters.precio_min);
-    else updateFilter("precio_min", undefined);
-    if (filters.precio_max != null)
-      updateFilter("precio_max", filters.precio_max);
-    else updateFilter("precio_max", undefined);
+  function handlePriceFilter(filters: { precio_min?: number; precio_max?: number }) {
+    setPriceFilter({ min: filters.precio_min, max: filters.precio_max })
   }
+
+  const filteredResults = results.filter((item) => {
+    const precio = parseFloat(item.precio)
+    if (priceFilter.min != null && precio < priceFilter.min) return false
+    if (priceFilter.max != null && precio > priceFilter.max) return false
+    return true
+  })
 
   return (
     <div className="flex gap-8">
@@ -101,15 +103,9 @@ export function ServicesExplorer() {
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={4} align="end">
                 <SelectGroup>
-                  <SelectItem value="relevancia">
-                    {t("ordering.relevancia")}
-                  </SelectItem>
-                  <SelectItem value="precio-bajo">
-                    {t("ordering.precioBajo")}
-                  </SelectItem>
-                  <SelectItem value="mejor-calificados">
-                    {t("ordering.mejorCalificados")}
-                  </SelectItem>
+                  <SelectItem value="relevancia">{t("ordering.relevancia")}</SelectItem>
+                  <SelectItem value="precio-bajo">{t("ordering.precioBajo")}</SelectItem>
+                  <SelectItem value="mejor-calificados">{t("ordering.mejorCalificados")}</SelectItem>
                   <SelectItem value="nuevos">{t("ordering.nuevos")}</SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -119,9 +115,7 @@ export function ServicesExplorer() {
 
         {/* Results info */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-foreground">
-            {t("heading")}
-          </h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("heading")}</h2>
           <p className="text-sm text-muted-foreground">
             {t("count", { count })}
           </p>
@@ -137,28 +131,28 @@ export function ServicesExplorer() {
         {/* Error */}
         {error && !isLoading && (
           <div className="flex min-h-[300px] items-center justify-center">
-            <p className="text-sm text-destructive">
-              {t("loadError", { error })}
-            </p>
+            <p className="text-sm text-destructive">{t("loadError", { error })}</p>
           </div>
         )}
 
         {/* Empty state */}
-        {!isLoading && !error && results.length === 0 && (
+        {!isLoading && !error && filteredResults.length === 0 && (
           <div className="flex min-h-[300px] flex-col items-center justify-center gap-2">
             <p className="text-sm font-medium text-muted-foreground">
               {t("emptyTitle")}
             </p>
-            <p className="text-xs text-muted-foreground">{t("emptyHint")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("emptyHint")}
+            </p>
           </div>
         )}
 
         {/* Grid */}
-        {!isLoading && !error && results.length > 0 && (
+        {!isLoading && !error && filteredResults.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 2xl:grid-cols-3">
-            {results.map((item) => {
-              const props = toServiceCardProps(item);
-              return <ServiceCard key={item.id} {...props} />;
+            {filteredResults.map((item) => {
+              const props = toServiceCardProps(item)
+              return <ServiceCard key={item.id} {...props} />
             })}
           </div>
         )}
@@ -175,20 +169,19 @@ export function ServicesExplorer() {
             >
               <RiArrowLeftSLine className="size-5" />
             </Button>
-            {Array.from(
-              { length: Math.min(totalPages, 5) },
-              (_, i) => i + 1,
-            ).map((page) => (
-              <Button
-                key={page}
-                variant={page === currentPage ? "default" : "outline"}
-                size="icon"
-                className="size-10"
-                onClick={() => setPage(page)}
-              >
-                {page}
-              </Button>
-            ))}
+            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(
+              (page) => (
+                <Button
+                  key={page}
+                  variant={page === currentPage ? "default" : "outline"}
+                  size="icon"
+                  className="size-10"
+                  onClick={() => setPage(page)}
+                >
+                  {page}
+                </Button>
+              ),
+            )}
             {totalPages > 5 && (
               <span className="flex size-10 items-center justify-center text-muted-foreground">
                 ...
@@ -207,5 +200,5 @@ export function ServicesExplorer() {
         )}
       </section>
     </div>
-  );
+  )
 }

@@ -35,7 +35,6 @@ def env_int(name, default):
         return default
     return value
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,7 +48,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-me#0qlbo*ez@xo$zv(msf2t@84
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -76,11 +75,6 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
-
-FRONTEND_PUBLIC_BASE_URL = (
-    os.getenv('FRONTEND_PUBLIC_BASE_URL', 'http://localhost:3000')
-    or 'http://localhost:3000'
-)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -192,6 +186,11 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
+
+FRONTEND_PUBLIC_BASE_URL = (
+    os.getenv('FRONTEND_PUBLIC_BASE_URL', 'http://localhost:3000')
+    or 'http://localhost:3000'
+)
 
 # External integrations
 USE_GEMINI = env_bool('USE_GEMINI', default=False)
