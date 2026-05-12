@@ -35,6 +35,10 @@ services:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL}
+      - USE_GEMINI=${USE_GEMINI}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
+      - GEMINI_TIMEOUT_SECONDS=${GEMINI_TIMEOUT_SECONDS}
     command: bash /app/entrypoint.sh
     depends_on:
       db:
