@@ -1,17 +1,14 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import {
-  RiNotification3Line,
-  RiSettings4Line,
-} from "@remixicon/react"
+import { RiNotification3Line, RiSettings4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 export function TopBar() {
-  const t = useTranslations("nav")
-  const { perfil } = useAuth()
+  const t = useTranslations("nav");
+  const { perfil } = useAuth();
 
   return (
     <header className="flex items-center justify-between border-b border-border bg-white px-8 py-3">
@@ -25,11 +22,14 @@ export function TopBar() {
           <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-blue-600" />
         </Button>
 
-        <Button variant="ghost" className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2 text-sm text-muted-foreground"
+        >
           {t("settings")}
           <RiSettings4Line className="size-5" />
         </Button>
       </div>
     </header>
-  )
+  );
 }

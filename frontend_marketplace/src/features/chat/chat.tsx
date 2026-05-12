@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiMessage3Line } from "@remixicon/react"
-
-import { ConversacionList } from "./components/ConversacionList"
-import { ChatWindow } from "./components/ChatWindow"
-import { useConversaciones } from "./hooks/useConversaciones"
-import type { Conversacion } from "./models"
+import { RiMessage3Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { ChatWindow } from "./components/ChatWindow";
+import { ConversacionList } from "./components/ConversacionList";
+import { useConversaciones } from "./hooks/useConversaciones";
+import type { Conversacion } from "./models";
 
 export function Chat() {
-  const t = useTranslations("chat")
-  const { conversaciones, isLoading } = useConversaciones()
-  const [active, setActive] = useState<Conversacion | null>(null)
+  const t = useTranslations("chat");
+  const { conversaciones, isLoading } = useConversaciones();
+  const [active, setActive] = useState<Conversacion | null>(null);
 
   return (
     <div className="flex h-[calc(100vh-8rem)] overflow-hidden rounded-xl border border-border bg-white">
@@ -38,5 +37,5 @@ export function Chat() {
         )}
       </div>
     </div>
-  )
+  );
 }

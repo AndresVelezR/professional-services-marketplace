@@ -1,5 +1,5 @@
-import { ActiveContracts } from "@/features/contracts/active-contracts"
+import { ActiveContracts } from "@/features/contracts/active-contracts";
 
 export default function ContractsPage() {
-    return <ActiveContracts />
+  return <ActiveContracts />;
 }

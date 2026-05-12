@@ -8,6 +8,8 @@
     "messages": "Messages",
     "profile": "Profile",
     "logout": "Log out",
+    "avatarAlt": "Avatar for {name}",
+    "avatarAltFallback": "User avatar",
     "greeting": "Hi, {name} 👋",
     "settings": "Settings",
     "userType": {
@@ -245,6 +247,27 @@
       "descripcion": "Description",
       "descripcionPlaceholder": "Describe your service, your experience and workflow...",
       "descripcionHint": "Include your experience, process and what sets you apart",
+      "assistant": {
+        "title": "Assistant suggestion",
+        "description": "Generate a short summary and practical suggestions from the title and description.",
+        "button": "Summarize with assistant",
+        "loading": "Generating summary...",
+        "resultTitle": "Assistant suggestion",
+        "summaryLabel": "Summary",
+        "suggestionsLabel": "Suggestions",
+        "providerGemini": "Provider: Gemini",
+        "providerLocal": "Provider: local mode",
+        "providerOther": "Provider: {provider}",
+        "disclaimer": "This is an assistant-generated suggestion. Review it before using it.",
+        "emptyHint": "Enter a title and description to use the assistant.",
+        "titleTooLong": "The title cannot exceed 200 characters.",
+        "descriptionTooLong": "The description cannot exceed 3000 characters.",
+        "error": "The summary could not be generated. Try again.",
+        "emptySummary": "No summary was received.",
+        "emptySuggestions": "No suggestions were received.",
+        "copySummary": "Copy summary",
+        "copied": "Summary copied"
+      },
       "section2Title": "Category and price",
       "section2Description": "Help clients find your service",
       "categoria": "Category",
@@ -289,6 +312,23 @@
     "waitingConnection": "Waiting for connection...",
     "seeMore": "see more",
     "seeLess": "see less"
+  },
+  "partners": {
+    "eyebrow": "Partner services",
+    "title": "Partner team services",
+    "description": "Explore services published by another team through their public API. The data is normalized before rendering so unexpected formats do not break the page.",
+    "loading": "Loading partner services...",
+    "missingConfigTitle": "Partner API is not configured",
+    "missingConfigDescription": "Set NEXT_PUBLIC_PARTNER_API_URL in the frontend environment and restart the application to load partner services.",
+    "errorTitle": "Partner services could not be loaded",
+    "errorDescription": "The API returned an error or is unavailable. Detail: {message}",
+    "emptyTitle": "No partner services to show",
+    "emptyDescription": "The API responded without compatible services. Check that it returns an array, results, or data.",
+    "card": {
+      "source": "Source",
+      "price": "Price",
+      "open": "Open service"
+    }
   },
   "profile": {
     "loadError": "Error loading profile",

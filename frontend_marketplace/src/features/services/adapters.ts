@@ -1,5 +1,5 @@
-import type { ServiceCardProps } from "./components/ServiceCard"
-import type { PublicacionDetail, PublicacionListItem } from "./models"
+import type { ServiceCardProps } from "./components/ServiceCard";
+import type { PublicacionDetail, PublicacionListItem } from "./models";
 
 const CATEGORIA_LABELS: Record<string, string> = {
   diseno: "Diseño Gráfico",
@@ -8,10 +8,10 @@ const CATEGORIA_LABELS: Record<string, string> = {
   redaccion: "Redacción",
   video: "Video y Animación",
   otro: "Otro",
-}
+};
 
 export function categoriaLabel(key: string): string {
-  return CATEGORIA_LABELS[key] ?? key
+  return CATEGORIA_LABELS[key] ?? key;
 }
 
 export function toServiceCardProps(
@@ -29,7 +29,7 @@ export function toServiceCardProps(
       initials: item.creador.iniciales,
     },
     imageUrl: item.imagenes?.[0]?.url || undefined,
-  }
+  };
 }
 
 export function toServiceDetailProps(detail: PublicacionDetail) {
@@ -44,8 +44,11 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     freelancer: {
       name: detail.creador.nombre_completo,
       initials: detail.creador.iniciales,
-      title: detail.creador.tipo_usuario === "freelancer" ? "Freelancer" : "Profesional",
+      title:
+        detail.creador.tipo_usuario === "freelancer"
+          ? "Freelancer"
+          : "Profesional",
       bio: detail.creador.bio,
     },
-  }
+  };
 }

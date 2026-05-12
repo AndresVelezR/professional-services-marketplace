@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useLocale, useTranslations } from "next-intl"
 import {
   RiAddLine,
   RiBriefcaseLine,
   RiDeleteBinLine,
   RiEditLine,
   RiMapPinLine,
-} from "@remixicon/react"
+} from "@remixicon/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
-import type { CreateExperienciaPayload, Experiencia } from "../models"
-import { ExperienciaForm } from "./ExperienciaForm"
+import type { CreateExperienciaPayload, Experiencia } from "../models";
+import { ExperienciaForm } from "./ExperienciaForm";
 
 function formatDate(dateStr: string, locale: string) {
-  const [y, m] = dateStr.split("-")
-  const date = new Date(Number(y), Number(m) - 1)
-  return date.toLocaleDateString(locale, { month: "short", year: "numeric" })
+  const [y, m] = dateStr.split("-");
+  const date = new Date(Number(y), Number(m) - 1);
+  return date.toLocaleDateString(locale, { month: "short", year: "numeric" });
 }
 
 interface ExperienciaListProps {
-  experiencias: Experiencia[]
-  isLoading: boolean
-  onCreate: (payload: CreateExperienciaPayload) => Promise<void>
+  experiencias: Experiencia[];
+  isLoading: boolean;
+  onCreate: (payload: CreateExperienciaPayload) => Promise<void>;
   onUpdate: (
     id: string,
     payload: Partial<CreateExperienciaPayload>,
-  ) => Promise<void>
-  onDelete: (id: string) => Promise<void>
+  ) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
 }
 
 export function ExperienciaList({
@@ -39,22 +39,22 @@ export function ExperienciaList({
   onUpdate,
   onDelete,
 }: ExperienciaListProps) {
-  const t = useTranslations("profile.experience")
-  const locale = useLocale()
-  const [showForm, setShowForm] = useState(false)
-  const [editingId, setEditingId] = useState<string | null>(null)
+  const t = useTranslations("profile.experience");
+  const locale = useLocale();
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   async function handleCreate(payload: CreateExperienciaPayload) {
-    await onCreate(payload)
-    setShowForm(false)
+    await onCreate(payload);
+    setShowForm(false);
   }
 
   async function handleUpdate(
     id: string,
     payload: Partial<CreateExperienciaPayload>,
   ) {
-    await onUpdate(id, payload)
-    setEditingId(null)
+    await onUpdate(id, payload);
+    setEditingId(null);
   }
 
   return (
@@ -86,7 +86,9 @@ export function ExperienciaList({
               <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span>
                   {formatDate(exp.fecha_inicio, locale)} —{" "}
-                  {exp.fecha_fin ? formatDate(exp.fecha_fin, locale) : t("present")}
+                  {exp.fecha_fin
+                    ? formatDate(exp.fecha_fin, locale)
+                    : t("present")}
                 </span>
                 {exp.ubicacion && (
                   <span className="flex items-center gap-1">
@@ -141,5 +143,5 @@ export function ExperienciaList({
         </Button>
       )}
     </div>
-  )
+  );
 }

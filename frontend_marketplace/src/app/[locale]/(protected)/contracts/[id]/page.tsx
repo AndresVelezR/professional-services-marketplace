@@ -1,10 +1,10 @@
-import { ContractDetail } from "@/features/contracts/contract-detail"
+import { ContractDetail } from "@/features/contracts/contract-detail";
 
 export default async function ContractDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params
-  return <ContractDetail id={id} />
+  const { id } = await params;
+  return <ContractDetail id={id} />;
 }

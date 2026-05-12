@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiAddLine, RiCloseLine } from "@remixicon/react"
+import { RiAddLine, RiCloseLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-import type { Habilidad } from "../models"
+import type { Habilidad } from "../models";
 
 interface SkillsSelectorProps {
-  selected: Habilidad[]
-  catalog: Habilidad[]
-  onChange: (ids: string[]) => void
+  selected: Habilidad[];
+  catalog: Habilidad[];
+  onChange: (ids: string[]) => void;
 }
 
 export function SkillsSelector({
@@ -21,23 +21,23 @@ export function SkillsSelector({
   catalog,
   onChange,
 }: SkillsSelectorProps) {
-  const t = useTranslations("profile.skills")
-  const [search, setSearch] = useState("")
-  const selectedIds = new Set(selected.map((h) => h.id))
+  const t = useTranslations("profile.skills");
+  const [search, setSearch] = useState("");
+  const selectedIds = new Set(selected.map((h) => h.id));
 
   const filtered = catalog.filter(
     (h) =>
       !selectedIds.has(h.id) &&
       h.nombre.toLowerCase().includes(search.toLowerCase()),
-  )
+  );
 
   function add(skill: Habilidad) {
-    onChange([...Array.from(selectedIds), skill.id])
-    setSearch("")
+    onChange([...Array.from(selectedIds), skill.id]);
+    setSearch("");
   }
 
   function remove(id: string) {
-    onChange(Array.from(selectedIds).filter((sid) => sid !== id))
+    onChange(Array.from(selectedIds).filter((sid) => sid !== id));
   }
 
   return (
@@ -95,10 +95,8 @@ export function SkillsSelector({
       </div>
 
       {selected.length === 0 && !search && (
-        <p className="text-xs text-muted-foreground">
-          {t("hint")}
-        </p>
+        <p className="text-xs text-muted-foreground">{t("hint")}</p>
       )}
     </div>
-  )
+  );
 }

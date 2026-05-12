@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { RiLoader4Line, RiMessage3Line } from "@remixicon/react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { RiLoader4Line, RiMessage3Line } from "@remixicon/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/infrastructure/auth/AuthContext"
@@ -16,16 +16,16 @@ const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   activo: "bg-blue-100 text-blue-700",
   completado: "bg-green-100 text-green-700",
   cancelado: "bg-red-100 text-red-700",
-}
+};
 
 const ESTADO_LABEL: Record<Contrato["estado"], string> = {
   activo: "Activo",
   completado: "Completado",
   cancelado: "Cancelado",
-}
+};
 
 interface ContractDetailProps {
-  id: string
+  id: string;
 }
 
 export function ContractDetail({ id }: ContractDetailProps) {
@@ -49,21 +49,25 @@ export function ContractDetail({ id }: ContractDetailProps) {
     getContrato(id, authFetch)
       .then(setContrato)
       .catch((err) =>
-        setError(err instanceof Error ? err.message : "Error al cargar contrato"),
+        setError(
+          err instanceof Error ? err.message : "Error al cargar contrato",
+        ),
       )
-      .finally(() => setIsLoading(false))
-  }, [id, token])
+      .finally(() => setIsLoading(false));
+  }, [id, token, authFetch]);
 
   async function handleEstado(estado: "completado" | "cancelado") {
-    if (!token) return
-    setActionLoading(true)
+    if (!token) return;
+    setActionLoading(true);
     try {
       const updated = await updateContratoEstado(id, estado, authFetch)
       setContrato(updated)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al actualizar contrato")
+      setError(
+        err instanceof Error ? err.message : "Error al actualizar contrato",
+      );
     } finally {
-      setActionLoading(false)
+      setActionLoading(false);
     }
   }
 
@@ -72,7 +76,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
       <div className="flex min-h-[400px] items-center justify-center">
         <RiLoader4Line className="size-8 animate-spin text-muted-foreground" />
       </div>
-    )
+    );
   }
 
   if (error || !contrato) {
@@ -82,10 +86,12 @@ export function ContractDetail({ id }: ContractDetailProps) {
           {error ?? "Contrato no encontrado"}
         </p>
         <Link href="/contracts">
-          <Button variant="outline" size="sm">Volver a contratos</Button>
+          <Button variant="outline" size="sm">
+            Volver a contratos
+          </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -109,7 +115,9 @@ export function ContractDetail({ id }: ContractDetailProps) {
       <div className="rounded-xl border border-border bg-white p-6 space-y-5">
         <div>
           <p className="text-xs text-muted-foreground mb-1">Precio acordado</p>
-          <p className="text-3xl font-bold text-foreground">${contrato.precio}</p>
+          <p className="text-3xl font-bold text-foreground">
+            ${contrato.precio}
+          </p>
         </div>
 
         {contrato.publicacion_titulo && (
@@ -180,5 +188,5 @@ export function ContractDetail({ id }: ContractDetailProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useRef, useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiCameraLine } from "@remixicon/react"
+import { RiCameraLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { ProfileAvatar } from "@/shared/components/ProfileAvatar";
 
 interface PhotoUploadProps {
-  currentUrl: string | null
-  initials: string
-  onSelect: (file: File) => void
+  currentUrl: string | null;
+  initials: string;
+  onSelect: (file: File) => void;
 }
 
 export function PhotoUpload({
@@ -17,19 +17,19 @@ export function PhotoUpload({
   initials,
   onSelect,
 }: PhotoUploadProps) {
-  const t = useTranslations("profile")
-  const fileRef = useRef<HTMLInputElement>(null)
-  const [preview, setPreview] = useState<string | null>(null)
+  const t = useTranslations("profile");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setPreview(URL.createObjectURL(file))
-    onSelect(file)
-    if (fileRef.current) fileRef.current.value = ""
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
+    onSelect(file);
+    if (fileRef.current) fileRef.current.value = "";
   }
 
-  const src = preview ?? currentUrl
+  const src = preview ?? currentUrl;
 
   return (
     <div className="relative">
@@ -38,12 +38,13 @@ export function PhotoUpload({
         onClick={() => fileRef.current?.click()}
         className="group relative"
       >
-        <Avatar className="size-24 text-2xl">
-          {src ? (
-            <AvatarImage src={src} alt={t("photoAlt")} />
-          ) : null}
-          <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
-        </Avatar>
+        <ProfileAvatar
+          src={src}
+          initials={initials}
+          alt={t("photoAlt")}
+          className="size-24 text-2xl"
+          fallbackClassName="text-2xl"
+        />
         <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 text-white opacity-0 transition-opacity group-hover:opacity-100">
           <RiCameraLine className="size-6" />
         </span>
@@ -56,5 +57,5 @@ export function PhotoUpload({
         className="hidden"
       />
     </div>
-  )
+  );
 }

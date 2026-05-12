@@ -1,13 +1,13 @@
-import { RiStarFill } from "@remixicon/react"
+import { RiStarFill } from "@remixicon/react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface ReviewCardProps {
-  name: string
-  initials: string
-  date: string
-  rating: number
-  comment: string
+  name: string;
+  initials: string;
+  date: string;
+  rating: number;
+  comment: string;
 }
 
 export function ReviewCard({
@@ -32,11 +32,11 @@ export function ReviewCard({
           </div>
         </div>
         <div className="flex gap-0.5">
-          {Array.from({ length: 5 }).map((_, i) => (
+          {[1, 2, 3, 4, 5].map((star) => (
             <RiStarFill
-              key={`review-star-${name}-${i}`}
+              key={`review-star-${name}-${star}`}
               className={`size-3.5 ${
-                i < rating ? "text-yellow-400" : "text-muted-foreground/30"
+                star <= rating ? "text-yellow-400" : "text-muted-foreground/30"
               }`}
             />
           ))}
@@ -44,5 +44,5 @@ export function ReviewCard({
       </div>
       <p className="text-sm leading-relaxed text-muted-foreground">{comment}</p>
     </div>
-  )
+  );
 }

@@ -1,25 +1,24 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import { RiHeartLine, RiStarFill } from "@remixicon/react"
-import { Link } from "@/i18n/navigation"
-
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { RiHeartLine, RiStarFill } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export interface ServiceCardProps {
-  id: string
-  title: string
-  category: string
-  price: number
-  rating: number
-  reviews: number
+  id: string;
+  title: string;
+  category: string;
+  price: number;
+  rating: number;
+  reviews: number;
   freelancer: {
-    name: string
-    initials: string
-  }
-  imageUrl?: string
+    name: string;
+    initials: string;
+  };
+  imageUrl?: string;
 }
 
 export function ServiceCard({
@@ -32,8 +31,8 @@ export function ServiceCard({
   freelancer,
   imageUrl,
 }: ServiceCardProps) {
-  const t = useTranslations("services.card")
-  const tCat = useTranslations("services.form.categorias")
+  const t = useTranslations("services.card");
+  const tCat = useTranslations("services.form.categorias");
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:shadow-xl">
       {/* Image */}
@@ -101,5 +100,5 @@ export function ServiceCard({
         </Button>
       </div>
     </div>
-  )
+  );
 }
