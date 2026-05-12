@@ -18,6 +18,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+def env_bool(name, default=False):
+    value = os.getenv(name)
+    if value is None or value.strip() == '':
+        return default
+    return value.strip().lower() in {'true', '1', 'yes'}
+
+
+def env_int(name, default):
+    try:
+        value = int(os.getenv(name, default))
+    except (TypeError, ValueError):
+        return default
+    if value <= 0:
+        return default
+    return value
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,6 +69,7 @@ INSTALLED_APPS = [
     'contratos',
     'chat',
     'calificaciones',
+    'integrations',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -168,3 +186,20 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
+
+FRONTEND_PUBLIC_BASE_URL = (
+    os.getenv('FRONTEND_PUBLIC_BASE_URL', 'http://localhost:3000')
+    or 'http://localhost:3000'
+)
+
+# External integrations
+USE_GEMINI = env_bool('USE_GEMINI', default=False)
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
+if GEMINI_API_KEY in {'PASTE_REGENERATED_KEY_HERE', 'PASTE_REAL_KEY_HERE'}:
+    GEMINI_API_KEY = ''
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash') or 'gemini-2.5-flash'
+GEMINI_TIMEOUT_SECONDS = env_int('GEMINI_TIMEOUT_SECONDS', 15)
+
+# Resend (email provider)
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
+RESEND_FROM_EMAIL = os.getenv('RESEND_FROM_EMAIL', 'onboarding@resend.dev')
