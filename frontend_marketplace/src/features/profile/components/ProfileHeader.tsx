@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
+import { useTranslations } from "next-intl";
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 
-import type { PerfilCompleto } from "../models"
-import { PhotoUpload } from "./PhotoUpload"
+import type { PerfilCompleto } from "../models";
+import { PhotoUpload } from "./PhotoUpload";
 
 interface ProfileHeaderProps {
-  perfil: PerfilCompleto
-  onPhotoSelect: (file: File) => void
+  perfil: PerfilCompleto;
+  onPhotoSelect: (file: File) => void;
 }
 
 export function ProfileHeader({ perfil, onPhotoSelect }: ProfileHeaderProps) {
-  const t = useTranslations("profile.header")
+  const t = useTranslations("profile.header");
   const initials =
-    (perfil.first_name?.[0] ?? "") + (perfil.last_name?.[0] ?? "")
+    (perfil.first_name?.[0] ?? "") + (perfil.last_name?.[0] ?? "");
 
-  const tipo = perfil.tipo_usuario
+  const tipo = perfil.tipo_usuario;
   const tipoLabel =
     tipo === "freelancer" || tipo === "cliente" || tipo === "ambos"
       ? t(`tipo.${tipo}`)
-      : tipo
+      : tipo;
 
   return (
     <div className="flex items-center gap-6">
@@ -40,5 +40,5 @@ export function ProfileHeader({ perfil, onPhotoSelect }: ProfileHeaderProps) {
         </Badge>
       </div>
     </div>
-  )
+  );
 }

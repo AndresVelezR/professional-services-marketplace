@@ -1,10 +1,10 @@
-import { ServiceDetail } from "@/features/services/service-detail"
+import { ServiceDetail } from "@/features/services/service-detail";
 
 export default async function ServiceDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params
-  return <ServiceDetail id={id} />
+  const { id } = await params;
+  return <ServiceDetail id={id} />;
 }

@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
 import {
   RiCheckLine,
   RiHeartLine,
   RiShieldCheckLine,
   RiTimeLine,
-} from "@remixicon/react"
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface ServicePricingCardProps {
-  title: string
-  author: string
-  price: number
-  includes: string[]
-  deliveryTime: string
-  onContratar?: () => void
+  title: string;
+  author: string;
+  price: number;
+  includes: string[];
+  deliveryTime: string;
+  onContratar?: () => void;
 }
 
 export function ServicePricingCard({
@@ -29,7 +29,7 @@ export function ServicePricingCard({
   deliveryTime,
   onContratar,
 }: ServicePricingCardProps) {
-  const t = useTranslations("services.pricing")
+  const t = useTranslations("services.pricing");
   return (
     <Card>
       <CardContent className="p-6">
@@ -78,7 +78,9 @@ export function ServicePricingCard({
 
         {/* CTAs */}
         <div className="space-y-2">
-          <Button className="w-full font-semibold" onClick={onContratar}>{t("hire")}</Button>
+          <Button className="w-full font-semibold" onClick={onContratar}>
+            {t("hire")}
+          </Button>
           <Button variant="outline" className="w-full">
             <RiHeartLine className="size-4" />
             {t("favorite")}
@@ -90,11 +92,9 @@ export function ServicePricingCard({
         {/* Guarantee */}
         <div className="flex items-start gap-2 text-center">
           <RiShieldCheckLine className="mt-0.5 size-4 shrink-0 text-green-500" />
-          <p className="text-xs text-muted-foreground">
-            {t("guarantee")}
-          </p>
+          <p className="text-xs text-muted-foreground">{t("guarantee")}</p>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

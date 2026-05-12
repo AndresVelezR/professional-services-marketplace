@@ -23,6 +23,10 @@ services:
       context: ./backend_marketplace
       dockerfile: Dockerfile
     container_name: marketplace-backend
+    env_file:
+      - path: ./backend_marketplace/.env.example
+      - path: ./backend_marketplace/.env
+        required: false
     ports:
       - "8000:8000"
     volumes:
@@ -55,6 +59,7 @@ services:
       - /app/.next
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_PARTNER_API_URL=${NEXT_PUBLIC_PARTNER_API_URL:-}
     depends_on:
       - backend
     networks:

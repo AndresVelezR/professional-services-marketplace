@@ -1,49 +1,58 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiSendPlaneLine, RiWifiLine, RiWifiOffLine } from "@remixicon/react"
+import { RiSendPlaneLine, RiWifiLine, RiWifiOffLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { useChat } from "../hooks/useChat"
-import type { Conversacion } from "../models"
-import { MessageBubble } from "./MessageBubble"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { useChat } from "../hooks/useChat";
+import type { Conversacion } from "../models";
+import { MessageBubble } from "./MessageBubble";
 
 interface ChatWindowProps {
-  conversacion: Conversacion
+  conversacion: Conversacion;
 }
 
 export function ChatWindow({ conversacion }: ChatWindowProps) {
-  const t = useTranslations("chat")
-  const { perfil } = useAuth()
-  const { mensajes, connected, isLoading, sendMessage } = useChat(conversacion.id)
-  const [input, setInput] = useState("")
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const t = useTranslations("chat");
+  const { perfil } = useAuth();
+  const { mensajes, connected, isLoading, sendMessage } = useChat(
+    conversacion.id,
+  );
+  const [input, setInput] = useState("");
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const messageCount = mensajes.length;
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [mensajes])
+    if (messageCount >= 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messageCount]);
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const text = input.trim()
-    if (!text || !connected) return
-    sendMessage(text)
-    setInput("")
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || !connected) return;
+    sendMessage(text);
+    setInput("");
   }
 
   const otherParty =
     perfil?.email === conversacion.cliente.nombre_completo
       ? conversacion.freelancer
-      : conversacion.cliente
+      : conversacion.cliente;
 
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <div>
-          <p className="font-semibold text-foreground">{conversacion.publicacion_titulo}</p>
-          <p className="text-xs text-muted-foreground">{otherParty.nombre_completo}</p>
+          <p className="font-semibold text-foreground">
+            {conversacion.publicacion_titulo}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {otherParty.nombre_completo}
+          </p>
         </div>
         <div className="flex items-center gap-1.5 text-xs">
           {connected ? (
@@ -63,7 +72,9 @@ export function ChatWindow({ conversacion }: ChatWindowProps) {
       {/* Mensajes */}
       <div className="flex-1 space-y-3 overflow-y-auto p-5">
         {isLoading && (
-          <p className="text-center text-xs text-muted-foreground">{t("loading")}</p>
+          <p className="text-center text-xs text-muted-foreground">
+            {t("loading")}
+          </p>
         )}
         {!isLoading && mensajes.length === 0 && (
           <p className="text-center text-xs text-muted-foreground">
@@ -89,7 +100,9 @@ export function ChatWindow({ conversacion }: ChatWindowProps) {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={connected ? t("inputPlaceholder") : t("waitingConnection")}
+          placeholder={
+            connected ? t("inputPlaceholder") : t("waitingConnection")
+          }
           disabled={!connected}
           className="flex-1 rounded-lg border border-border bg-white px-4 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 disabled:bg-muted disabled:text-muted-foreground"
         />
@@ -102,5 +115,5 @@ export function ChatWindow({ conversacion }: ChatWindowProps) {
         </button>
       </form>
     </div>
-  )
+  );
 }

@@ -1,31 +1,31 @@
-"use client"
+"use client";
 
-import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
-import { usePropuestasEnviadas } from "../hooks/usePropuestasEnviadas"
+import { usePropuestasEnviadas } from "../hooks/usePropuestasEnviadas";
 
 const ESTADO_STYLES = {
   pendiente: "bg-orange-100 text-orange-700",
   aceptada: "bg-green-100 text-green-700",
   rechazada: "bg-red-100 text-red-700",
-}
+};
 
 export function PropuestasEnviadas() {
-  const t = useTranslations("contracts.propuestasEnviadas")
-  const { propuestas, isLoading, error } = usePropuestasEnviadas()
+  const t = useTranslations("contracts.propuestasEnviadas");
+  const { propuestas, isLoading, error } = usePropuestasEnviadas();
 
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
         <RiLoader4Line className="size-8 animate-spin text-muted-foreground" />
       </div>
-    )
+    );
   }
 
   if (error) {
-    return <p className="text-sm text-destructive">{error}</p>
+    return <p className="text-sm text-destructive">{error}</p>;
   }
 
   if (propuestas.length === 0) {
@@ -33,7 +33,7 @@ export function PropuestasEnviadas() {
       <p className="py-12 text-center text-sm text-muted-foreground">
         {t("empty")}
       </p>
-    )
+    );
   }
 
   return (
@@ -69,11 +69,15 @@ export function PropuestasEnviadas() {
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               {p.fecha_limite && (
                 <span>
-                  {t("limite", { date: new Date(p.fecha_limite).toLocaleDateString("es-CO") })}
+                  {t("limite", {
+                    date: new Date(p.fecha_limite).toLocaleDateString("es-CO"),
+                  })}
                 </span>
               )}
               <span>
-                {t("enviada", { date: new Date(p.created_at).toLocaleDateString("es-CO") })}
+                {t("enviada", {
+                  date: new Date(p.created_at).toLocaleDateString("es-CO"),
+                })}
               </span>
             </div>
 
@@ -86,5 +90,5 @@ export function PropuestasEnviadas() {
         </div>
       ))}
     </div>
-  )
+  );
 }

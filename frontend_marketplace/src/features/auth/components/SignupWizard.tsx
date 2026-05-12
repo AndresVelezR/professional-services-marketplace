@@ -1,8 +1,5 @@
-"use client"
+"use client";
 
-import { Link, useRouter } from "@/i18n/navigation"
-import { useState } from "react"
-import { useTranslations } from "next-intl"
 import {
   RiArrowLeftLine,
   RiBriefcaseLine,
@@ -11,38 +8,45 @@ import {
   RiMailLine,
   RiSearchLine,
   RiUserLine,
-} from "@remixicon/react"
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { registro } from "@/features/auth/services/authService"
-import type { TipoUsuario } from "@/features/auth/models"
+} from "@/components/ui/input-group";
+import type { TipoUsuario } from "@/features/auth/models";
+import { registro } from "@/features/auth/services/authService";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 const accountTypeIcons: Record<TipoUsuario, React.ElementType> = {
   freelancer: RiBriefcaseLine,
   cliente: RiSearchLine,
   ambos: RiCodeLine,
-}
+};
 
-const accountTypeIds: TipoUsuario[] = ["freelancer", "cliente", "ambos"]
+const accountTypeIds: TipoUsuario[] = ["freelancer", "cliente", "ambos"];
 
 interface BasicData {
-  first_name: string
-  last_name: string
-  email: string
-  password: string
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
 }
 
 export function SignupWizard() {
-  const [step, setStep] = useState(0)
-  const [basicData, setBasicData] = useState<BasicData>({ first_name: "", last_name: "", email: "", password: "" })
+  const [step, setStep] = useState(0);
+  const [basicData, setBasicData] = useState<BasicData>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+  });
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -62,34 +66,31 @@ export function SignupWizard() {
           <StepBasicData
             initial={basicData}
             onNext={(data) => {
-              setBasicData(data)
-              setStep(1)
+              setBasicData(data);
+              setStep(1);
             }}
           />
         )}
         {step === 1 && (
-          <StepAccountType
-            basicData={basicData}
-            onBack={() => setStep(0)}
-          />
+          <StepAccountType basicData={basicData} onBack={() => setStep(0)} />
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function StepBasicData({
   initial,
   onNext,
 }: {
-  initial: BasicData
-  onNext: (data: BasicData) => void
+  initial: BasicData;
+  onNext: (data: BasicData) => void;
 }) {
-  const t = useTranslations("auth.signup")
-  const [first_name, setFirstName] = useState(initial.first_name)
-  const [last_name, setLastName] = useState(initial.last_name)
-  const [email, setEmail] = useState(initial.email)
-  const [password, setPassword] = useState(initial.password)
+  const t = useTranslations("auth.signup");
+  const [first_name, setFirstName] = useState(initial.first_name);
+  const [last_name, setLastName] = useState(initial.last_name);
+  const [email, setEmail] = useState(initial.email);
+  const [password, setPassword] = useState(initial.password);
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-8">
@@ -111,13 +112,15 @@ function StepBasicData({
           <form
             className="flex flex-col gap-5"
             onSubmit={(e) => {
-              e.preventDefault()
-              onNext({ first_name, last_name, email, password })
+              e.preventDefault();
+              onNext({ first_name, last_name, email, password });
             }}
           >
             <div className="grid grid-cols-2 gap-3">
               <Field>
-                <FieldLabel htmlFor="signup-first-name">{t("firstNameLabel")}</FieldLabel>
+                <FieldLabel htmlFor="signup-first-name">
+                  {t("firstNameLabel")}
+                </FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiUserLine className="size-4 text-muted-foreground" />
@@ -133,7 +136,9 @@ function StepBasicData({
                 </InputGroup>
               </Field>
               <Field>
-                <FieldLabel htmlFor="signup-last-name">{t("lastNameLabel")}</FieldLabel>
+                <FieldLabel htmlFor="signup-last-name">
+                  {t("lastNameLabel")}
+                </FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <RiUserLine className="size-4 text-muted-foreground" />
@@ -168,7 +173,9 @@ function StepBasicData({
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="signup-password">{t("passwordLabel")}</FieldLabel>
+              <FieldLabel htmlFor="signup-password">
+                {t("passwordLabel")}
+              </FieldLabel>
               <InputGroup>
                 <InputGroupAddon>
                   <RiLockLine className="size-4 text-muted-foreground" />
@@ -186,7 +193,11 @@ function StepBasicData({
               <FieldDescription>{t("passwordHint")}</FieldDescription>
             </Field>
 
-            <Button type="submit" size="lg" className="w-full h-11 text-base font-semibold">
+            <Button
+              type="submit"
+              size="lg"
+              className="w-full h-11 text-base font-semibold"
+            >
               {t("continue")}
             </Button>
           </form>
@@ -195,7 +206,10 @@ function StepBasicData({
 
       <p className="text-sm text-muted-foreground">
         {t("hasAccount")}{" "}
-        <Link href="/login" className="font-semibold text-primary hover:underline">
+        <Link
+          href="/login"
+          className="font-semibold text-primary hover:underline"
+        >
           {t("loginLink")}
         </Link>
       </p>
@@ -203,44 +217,50 @@ function StepBasicData({
       <p className="text-center text-xs text-muted-foreground">
         {t.rich("terms", {
           terms: (chunks) => (
-            <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
+            <Link
+              href="/terms"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
               {chunks}
             </Link>
           ),
           privacy: (chunks) => (
-            <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+            <Link
+              href="/privacy"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
               {chunks}
             </Link>
           ),
         })}
       </p>
     </div>
-  )
+  );
 }
 
 function StepAccountType({
   basicData,
   onBack,
 }: {
-  basicData: BasicData
-  onBack: () => void
+  basicData: BasicData;
+  onBack: () => void;
 }) {
-  const t = useTranslations("auth.signup.accountType")
-  const { login } = useAuth()
-  const router = useRouter()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const t = useTranslations("auth.signup.accountType");
+  const { login } = useAuth();
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSelect(tipo: TipoUsuario) {
-    setError("")
-    setLoading(true)
+    setError("");
+    setLoading(true);
     try {
-      await registro({ ...basicData, tipo_usuario: tipo })
-      await login({ email: basicData.email, password: basicData.password })
-      router.push("/dashboard")
+      await registro({ ...basicData, tipo_usuario: tipo });
+      await login({ email: basicData.email, password: basicData.password });
+      router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorDefault"))
-      setLoading(false)
+      setError(err instanceof Error ? err.message : t("errorDefault"));
+      setLoading(false);
     }
   }
 
@@ -262,7 +282,7 @@ function StepAccountType({
 
       <div className="grid gap-6 md:grid-cols-3">
         {accountTypeIds.map((id) => {
-          const Icon = accountTypeIcons[id]
+          const Icon = accountTypeIcons[id];
           return (
             <Card
               key={id}
@@ -289,7 +309,7 @@ function StepAccountType({
                 </Button>
               </CardContent>
             </Card>
-          )
+          );
         })}
       </div>
 
@@ -300,5 +320,5 @@ function StepAccountType({
         </Button>
       </div>
     </div>
-  )
+  );
 }

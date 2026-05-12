@@ -1,26 +1,26 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Dialog as DialogPrimitive } from "radix-ui"
+import { Dialog as DialogPrimitive } from "radix-ui";
+import type * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
 function DialogTrigger({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
 function DialogPortal({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
-  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
 function DialogOverlay({
@@ -36,7 +36,7 @@ function DialogOverlay({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function DialogContent({
@@ -58,7 +58,7 @@ function DialogContent({
         {children}
       </DialogPrimitive.Content>
     </DialogPortal>
-  )
+  );
 }
 
 function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
@@ -68,7 +68,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("mb-4 flex flex-col gap-1", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DialogTitle({
@@ -81,7 +81,7 @@ function DialogTitle({
       className={cn("text-lg font-semibold text-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DialogDescription({
@@ -94,7 +94,7 @@ function DialogDescription({
       className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -104,4 +104,4 @@ export {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-}
+};

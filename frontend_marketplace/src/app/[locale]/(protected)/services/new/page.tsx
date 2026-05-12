@@ -1,5 +1,5 @@
-import { CreateService } from "@/features/services/create-service"
+import { CreateService } from "@/features/services/create-service";
 
 export default function CreateServicePage() {
-  return <CreateService />
+  return <CreateService />;
 }

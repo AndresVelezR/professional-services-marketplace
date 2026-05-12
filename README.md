@@ -91,8 +91,27 @@ uv run python manage.py seed_habilidades
 uv run python manage.py runserver
 ```
 
-Requiere PostgreSQL corriendo localmente. Configurar variables de entorno:
-`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
+Requiere PostgreSQL corriendo localmente. Para preparar variables locales:
+
+```bash
+cp backend_marketplace/.env.example backend_marketplace/.env
+```
+
+Luego editar `backend_marketplace/.env`. Para usar Gemini, cambiar `USE_GEMINI=true` y pegar la clave regenerada en `GEMINI_API_KEY`.
+
+Variables opcionales para integraciones externas del backend:
+
+```env
+FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
+USE_GEMINI=true
+GEMINI_API_KEY=PASTE_REGENERATED_KEY_HERE
+GEMINI_MODEL=gemini-2.5-flash
+GEMINI_TIMEOUT_SECONDS=15
+```
+
+El feed público para equipos aliados está disponible en `GET /api/integrations/public-services-feed/`. Devuelve publicaciones activas sin requerir autenticación y construye `detail_url` con `FRONTEND_PUBLIC_BASE_URL`; en producción esa variable debe apuntar al dominio público del frontend.
+
+El fallback de avatar usa URLs determinísticas de DiceBear cuando un perfil no tiene `foto_perfil`. El asistente de publicaciones corre sólo en el backend en `POST /api/integrations/summarize-service/`; si Gemini no está habilitado o no hay credenciales, responde con el adaptador local sin hacer llamadas de red. Las pruebas no requieren credenciales de Gemini.
 
 ### Frontend
 
@@ -106,7 +125,45 @@ Variable de entorno necesaria en `frontend_marketplace/.env.local`:
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_PARTNER_API_URL=
 ```
+
+## Consumo de API aliada
+
+La página de servicios aliados consume un JSON público de otro equipo y muestra los servicios externos dentro del frontend sin crear endpoints backend adicionales.
+
+URLs de la página:
+
+- `/es/partner-services`
+- `/en/partner-services`
+
+Variable de entorno del frontend:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=
+```
+
+Ejemplo local:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=http://localhost:8001/api/public-services-feed/
+```
+
+Ejemplo de producción:
+
+```env
+NEXT_PUBLIC_PARTNER_API_URL=https://partner-team-domain.tk/api/public-services-feed/
+```
+
+Validación durante clase:
+
+1. Pedir al equipo anterior su URL pública JSON.
+2. Poner esa URL en el `.env` del frontend.
+3. Reiniciar el contenedor o servidor de desarrollo del frontend.
+4. Abrir `/es/partner-services`.
+5. Confirmar que aparecen tarjetas o un estado de error claro.
+
+El adaptador acepta respuestas con forma de arreglo directo, `{ results: [...] }` o `{ data: [...] }`. También es defensivo con nombres de campos comunes como `title`, `nombre`, `descripcion`, `precio`, `detail_url`, `provider` y otros alias, por lo que no asume un contrato exacto del equipo aliado.
 
 ## Estructura
 
@@ -116,6 +173,7 @@ professional-services-marketplace/
 │   ├── core/                   # Settings, URLs
 │   ├── usuarios/               # Auth, perfiles, habilidades, experiencia
 │   ├── publicaciones/          # Servicios publicados
+│   ├── integrations/           # Integraciones externas y fallback local
 │   ├── entrypoint.sh           # Arranque del backend en Docker
 │   └── demo_data.sql           # Datos ficticios exportados
 ├── frontend_marketplace/

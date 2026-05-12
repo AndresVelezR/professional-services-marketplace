@@ -1,34 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line } from "@remixicon/react"
-import { Link } from "@/i18n/navigation"
-
-import { Button } from "@/components/ui/button"
-import { PropuestaModal } from "@/features/contracts/components/PropuestaModal"
-import { toServiceDetailProps } from "./adapters"
-import { FreelancerProfileCard } from "./components/FreelancerProfileCard"
-import { ServiceDescription } from "./components/ServiceDescription"
-import { ServiceGallery } from "./components/ServiceGallery"
-import { ServicePricingCard } from "./components/ServicePricingCard"
-import { usePublicacion } from "./hooks/usePublicacion"
+import { RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { PropuestaModal } from "@/features/contracts/components/PropuestaModal";
+import { Link } from "@/i18n/navigation";
+import { toServiceDetailProps } from "./adapters";
+import { FreelancerProfileCard } from "./components/FreelancerProfileCard";
+import { ServiceDescription } from "./components/ServiceDescription";
+import { ServiceGallery } from "./components/ServiceGallery";
+import { ServicePricingCard } from "./components/ServicePricingCard";
+import { usePublicacion } from "./hooks/usePublicacion";
 
 interface ServiceDetailProps {
-  id: string
+  id: string;
 }
 
 export function ServiceDetail({ id }: ServiceDetailProps) {
-  const t = useTranslations("services.detail")
-  const { data, isLoading, error } = usePublicacion(id)
-  const [modalOpen, setModalOpen] = useState(false)
+  const t = useTranslations("services.detail");
+  const { data, isLoading, error } = usePublicacion(id);
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (isLoading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <RiLoader4Line className="size-8 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -36,15 +35,17 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
         <p className="text-sm text-destructive">{t("loadError", { error })}</p>
         <Link href="/services">
-          <Button variant="outline" size="sm">{t("back")}</Button>
+          <Button variant="outline" size="sm">
+            {t("back")}
+          </Button>
         </Link>
       </div>
-    )
+    );
   }
 
-  if (!data) return null
+  if (!data) return null;
 
-  const s = toServiceDetailProps(data)
+  const s = toServiceDetailProps(data);
 
   return (
     <div>
@@ -86,5 +87,5 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
         precioBase={s.price}
       />
     </div>
-  )
+  );
 }

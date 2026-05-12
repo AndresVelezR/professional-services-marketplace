@@ -1,39 +1,41 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import type { Mensaje } from "../models"
+import type { Mensaje } from "../models";
 
-const MAX_CHARS = 300
+const MAX_CHARS = 300;
 
 interface MessageBubbleProps {
-  mensaje: Mensaje
-  isOwn: boolean
+  mensaje: Mensaje;
+  isOwn: boolean;
 }
 
 export function MessageBubble({ mensaje, isOwn }: MessageBubbleProps) {
-  const t = useTranslations("chat")
-  const [expanded, setExpanded] = useState(false)
+  const t = useTranslations("chat");
+  const [expanded, setExpanded] = useState(false);
 
   const time = new Date(mensaje.created_at).toLocaleTimeString("es-CO", {
     hour: "2-digit",
     minute: "2-digit",
-  })
+  });
 
-  const isLong = mensaje.contenido.length > MAX_CHARS
+  const isLong = mensaje.contenido.length > MAX_CHARS;
   const displayText =
     isLong && !expanded
       ? mensaje.contenido.slice(0, MAX_CHARS) + "..."
-      : mensaje.contenido
+      : mensaje.contenido;
 
   const linkClass = isOwn
     ? "text-blue-200 hover:text-white"
-    : "text-blue-600 hover:text-blue-800"
+    : "text-blue-600 hover:text-blue-800";
 
   return (
     <div className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>
-      <div className={`max-w-[70%] ${isOwn ? "items-end" : "items-start"} flex flex-col gap-1`}>
+      <div
+        className={`max-w-[70%] ${isOwn ? "items-end" : "items-start"} flex flex-col gap-1`}
+      >
         {!isOwn && (
           <span className="text-[11px] font-medium text-muted-foreground">
             {mensaje.emisor.nombre_completo}
@@ -60,5 +62,5 @@ export function MessageBubble({ mensaje, isOwn }: MessageBubbleProps) {
         <span className="text-[10px] text-muted-foreground">{time}</span>
       </div>
     </div>
-  )
+  );
 }

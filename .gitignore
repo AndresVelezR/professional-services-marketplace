@@ -8,7 +8,7 @@ __pycache__/
 # Virtual environments
 venv/
 .env/
-.env.*
+.env.production
 .venv/
 
 # ==========================
@@ -60,3 +60,6 @@ htmlcov/
 
 
 schema.dbml
+
+# Core dumps
+core.[0-9]*

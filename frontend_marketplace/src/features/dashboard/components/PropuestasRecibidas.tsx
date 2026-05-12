@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { RiCheckLine, RiCloseLine, RiLoader4Line } from "@remixicon/react"
-import { useState } from "react"
-import { useTranslations } from "next-intl"
+import { RiCheckLine, RiCloseLine, RiLoader4Line } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { usePropuestasRecibidas } from "@/features/contracts/hooks/usePropuestasRecibidas"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { usePropuestasRecibidas } from "@/features/contracts/hooks/usePropuestasRecibidas";
 
 export function PropuestasRecibidas() {
-  const t = useTranslations("dashboard.propuestasRecibidas")
-  const { propuestas, isLoading, error, responder } = usePropuestasRecibidas()
-  const [loadingId, setLoadingId] = useState<string | null>(null)
+  const t = useTranslations("dashboard.propuestasRecibidas");
+  const { propuestas, isLoading, error, responder } = usePropuestasRecibidas();
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
   async function handleResponder(id: string, estado: "aceptada" | "rechazada") {
-    setLoadingId(id)
+    setLoadingId(id);
     try {
-      await responder(id, estado)
+      await responder(id, estado);
     } finally {
-      setLoadingId(null)
+      setLoadingId(null);
     }
   }
 
@@ -30,10 +30,10 @@ export function PropuestasRecibidas() {
           <RiLoader4Line className="size-6 animate-spin text-muted-foreground" />
         </div>
       </section>
-    )
+    );
   }
 
-  if (propuestas.length === 0) return null
+  if (propuestas.length === 0) return null;
 
   return (
     <section>
@@ -58,7 +58,10 @@ export function PropuestasRecibidas() {
               {/* Left: info */}
               <div className="min-w-0 flex-1">
                 <p className="mb-1 text-xs text-muted-foreground">
-                  {t("for")} <span className="font-medium text-foreground">{p.publicacion_titulo}</span>
+                  {t("for")}{" "}
+                  <span className="font-medium text-foreground">
+                    {p.publicacion_titulo}
+                  </span>
                 </p>
 
                 <div className="mb-3 flex items-center gap-2">
@@ -72,16 +75,24 @@ export function PropuestasRecibidas() {
                   </span>
                 </div>
 
-                <p className="mb-3 line-clamp-2 text-sm text-muted-foreground">{p.mensaje}</p>
+                <p className="mb-3 line-clamp-2 text-sm text-muted-foreground">
+                  {p.mensaje}
+                </p>
 
                 <div className="flex flex-wrap gap-4 text-sm">
                   <div>
-                    <span className="text-xs text-muted-foreground">{t("precioPropuesto")}</span>
-                    <p className="font-semibold text-foreground">${p.precio_propuesto}</p>
+                    <span className="text-xs text-muted-foreground">
+                      {t("precioPropuesto")}
+                    </span>
+                    <p className="font-semibold text-foreground">
+                      ${p.precio_propuesto}
+                    </p>
                   </div>
                   {p.fecha_limite && (
                     <div>
-                      <span className="text-xs text-muted-foreground">{t("fechaLimite")}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("fechaLimite")}
+                      </span>
                       <p className="font-medium text-foreground">
                         {new Date(p.fecha_limite).toLocaleDateString("es-CO")}
                       </p>
@@ -117,5 +128,5 @@ export function PropuestasRecibidas() {
         ))}
       </div>
     </section>
-  )
+  );
 }

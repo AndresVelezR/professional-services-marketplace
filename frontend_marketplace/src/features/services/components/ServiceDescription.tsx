@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
+import { useTranslations } from "next-intl";
 
 interface ServiceDescriptionProps {
-  description: string
-  includes: string[]
+  description: string;
+  includes: string[];
 }
 
 export function ServiceDescription({
   description,
   includes,
 }: ServiceDescriptionProps) {
-  const t = useTranslations("services.description")
+  const t = useTranslations("services.description");
   return (
     <div className="space-y-6">
       <div>
@@ -30,7 +30,10 @@ export function ServiceDescription({
           </h3>
           <ul className="space-y-2">
             {includes.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+              <li
+                key={item}
+                className="flex items-start gap-2 text-sm text-muted-foreground"
+              >
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
                 {item}
               </li>
@@ -39,5 +42,5 @@ export function ServiceDescription({
         </div>
       )}
     </div>
-  )
+  );
 }

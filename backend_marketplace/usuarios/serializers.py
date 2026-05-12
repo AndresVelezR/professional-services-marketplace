@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from rest_framework import serializers
 
+from integrations.adapters.dicebear_avatar_provider import dicebear_avatar_url
+
 from .models import Experiencia, Habilidad, Perfil, Usuario
 
 
@@ -88,9 +90,11 @@ class PerfilSerializer(serializers.ModelSerializer):
 
     def get_foto_perfil_url(self, obj):
         request = self.context.get('request')
-        if request and obj.foto_perfil:
-            return request.build_absolute_uri(obj.foto_perfil.url)
-        return None
+        if obj.foto_perfil:
+            if request:
+                return request.build_absolute_uri(obj.foto_perfil.url)
+            return None
+        return dicebear_avatar_url(str(obj.id))
 
     def update(self, instance, validated_data):
         usuario_data = validated_data.pop('usuario', {})

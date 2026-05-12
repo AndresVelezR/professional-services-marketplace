@@ -1,47 +1,46 @@
-"use client"
+"use client";
 
-import { Link, useRouter } from "@/i18n/navigation"
-import { useState } from "react"
-import { useTranslations } from "next-intl"
 import {
   RiBriefcaseLine,
   RiGoogleFill,
   RiLinkedinFill,
   RiLockLine,
   RiMailLine,
-} from "@remixicon/react"
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Field, FieldLabel } from "@/components/ui/field"
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Field, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
+} from "@/components/ui/input-group";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 export function LoginForm() {
-  const t = useTranslations("auth.login")
-  const { login } = useAuth()
-  const router = useRouter()
+  const t = useTranslations("auth.login");
+  const { login } = useAuth();
+  const router = useRouter();
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError("")
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
-      await login({ email, password })
-      router.push("/dashboard")
+      await login({ email, password });
+      router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorDefault"))
+      setError(err instanceof Error ? err.message : t("errorDefault"));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -54,9 +53,7 @@ export function LoginForm() {
             <RiBriefcaseLine className="size-7" />
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("title")}
-            </h1>
+            <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               {t("subtitle")}
             </p>
@@ -94,7 +91,9 @@ export function LoginForm() {
               {/* Password */}
               <Field>
                 <div className="flex items-center justify-between">
-                  <FieldLabel htmlFor="login-password">{t("passwordLabel")}</FieldLabel>
+                  <FieldLabel htmlFor="login-password">
+                    {t("passwordLabel")}
+                  </FieldLabel>
                   <Link
                     href="/forgot-password"
                     className="text-sm font-medium text-primary hover:underline"
@@ -165,7 +164,10 @@ export function LoginForm() {
         {/* Register link */}
         <p className="text-sm text-muted-foreground">
           {t("noAccount")}{" "}
-          <Link href="/signup" className="font-semibold text-primary hover:underline">
+          <Link
+            href="/signup"
+            className="font-semibold text-primary hover:underline"
+          >
             {t("signupLink")}
           </Link>
         </p>
@@ -174,12 +176,18 @@ export function LoginForm() {
         <p className="text-center text-xs text-muted-foreground">
           {t.rich("terms", {
             terms: (chunks) => (
-              <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">
+              <Link
+                href="/terms"
+                className="underline underline-offset-2 hover:text-foreground"
+              >
                 {chunks}
               </Link>
             ),
             privacy: (chunks) => (
-              <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+              <Link
+                href="/privacy"
+                className="underline underline-offset-2 hover:text-foreground"
+              >
                 {chunks}
               </Link>
             ),
@@ -187,5 +195,5 @@ export function LoginForm() {
         </p>
       </div>
     </div>
-  )
+  );
 }

@@ -8,6 +8,8 @@
     "messages": "Mensajes",
     "profile": "Perfil",
     "logout": "Cerrar sesión",
+    "avatarAlt": "Avatar de {name}",
+    "avatarAltFallback": "Avatar del usuario",
     "greeting": "Hola, {name} 👋",
     "settings": "Configuración",
     "userType": {
@@ -245,6 +247,27 @@
       "descripcion": "Descripción",
       "descripcionPlaceholder": "Describe tu servicio, tu experiencia y proceso de trabajo...",
       "descripcionHint": "Incluye tu experiencia, proceso y qué te diferencia",
+      "assistant": {
+        "title": "Sugerencia del asistente",
+        "description": "Genera un resumen breve y sugerencias prácticas a partir del título y la descripción.",
+        "button": "Resumir con asistente",
+        "loading": "Generando resumen...",
+        "resultTitle": "Sugerencia del asistente",
+        "summaryLabel": "Resumen",
+        "suggestionsLabel": "Sugerencias",
+        "providerGemini": "Proveedor: Gemini",
+        "providerLocal": "Proveedor: modo local",
+        "providerOther": "Proveedor: {provider}",
+        "disclaimer": "Esta es una sugerencia generada por el asistente. Revísala antes de usarla.",
+        "emptyHint": "Escribe un título y una descripción para usar el asistente.",
+        "titleTooLong": "El título no puede superar 200 caracteres.",
+        "descriptionTooLong": "La descripción no puede superar 3000 caracteres.",
+        "error": "No se pudo generar el resumen. Inténtalo nuevamente.",
+        "emptySummary": "No se recibió resumen.",
+        "emptySuggestions": "No se recibieron sugerencias.",
+        "copySummary": "Copiar resumen",
+        "copied": "Resumen copiado"
+      },
       "section2Title": "Categoría y precio",
       "section2Description": "Ayuda a los clientes a encontrar tu servicio",
       "categoria": "Categoría",
@@ -289,6 +312,23 @@
     "waitingConnection": "Esperando conexión...",
     "seeMore": "ver más",
     "seeLess": "ver menos"
+  },
+  "partners": {
+    "eyebrow": "Servicios aliados",
+    "title": "Servicios de equipos aliados",
+    "description": "Explora servicios publicados por otro equipo desde su API pública. La información se normaliza antes de mostrarse para evitar fallos por formatos inesperados.",
+    "loading": "Cargando servicios aliados...",
+    "missingConfigTitle": "API aliada no configurada",
+    "missingConfigDescription": "Configura NEXT_PUBLIC_PARTNER_API_URL en el entorno del frontend y reinicia la aplicación para consultar servicios aliados.",
+    "errorTitle": "No se pudieron cargar los servicios aliados",
+    "errorDescription": "La API respondió con un error o no está disponible. Detalle: {message}",
+    "emptyTitle": "No hay servicios aliados para mostrar",
+    "emptyDescription": "La API respondió sin servicios compatibles. Puedes revisar que entregue un arreglo, results o data.",
+    "card": {
+      "source": "Origen",
+      "price": "Precio",
+      "open": "Abrir servicio"
+    }
   },
   "profile": {
     "loadError": "Error al cargar perfil",

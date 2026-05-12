@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiImageLine } from "@remixicon/react"
+import { RiImageLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 interface ServiceGalleryProps {
-  category: string
-  images?: string[]
+  category: string;
+  images?: string[];
 }
 
 export function ServiceGallery({ category, images }: ServiceGalleryProps) {
-  const t = useTranslations("services.gallery")
-  const tCat = useTranslations("services.form.categorias")
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const t = useTranslations("services.gallery");
+  const tCat = useTranslations("services.form.categorias");
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const hasImages = images && images.length > 0
+  const hasImages = images && images.length > 0;
 
   return (
     <div className="space-y-3">
@@ -58,5 +58,5 @@ export function ServiceGallery({ category, images }: ServiceGalleryProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

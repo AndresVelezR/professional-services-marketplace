@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import { RiStarFill } from "@remixicon/react"
+import { RiStarFill } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 
 interface RatingBreakdown {
-  stars: number
-  percentage: number
+  stars: number;
+  percentage: number;
 }
 
 interface ReviewsSummaryProps {
-  averageRating: number
-  totalReviews: number
-  breakdown: RatingBreakdown[]
+  averageRating: number;
+  totalReviews: number;
+  breakdown: RatingBreakdown[];
 }
 
 export function ReviewsSummary({
@@ -19,7 +19,7 @@ export function ReviewsSummary({
   totalReviews,
   breakdown,
 }: ReviewsSummaryProps) {
-  const t = useTranslations("services.reviews")
+  const t = useTranslations("services.reviews");
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
       {/* Average score */}
@@ -28,11 +28,11 @@ export function ReviewsSummary({
           {averageRating}
         </span>
         <div className="flex gap-0.5">
-          {Array.from({ length: 5 }).map((_, i) => (
+          {[1, 2, 3, 4, 5].map((star) => (
             <RiStarFill
-              key={`avg-star-${i}`}
+              key={`avg-star-${star}`}
               className={`size-4 ${
-                i < Math.round(averageRating)
+                star <= Math.round(averageRating)
                   ? "text-yellow-400"
                   : "text-muted-foreground/30"
               }`}
@@ -47,7 +47,10 @@ export function ReviewsSummary({
       {/* Breakdown bars */}
       <div className="flex-1 space-y-2">
         {breakdown.map((item) => (
-          <div key={`breakdown-${item.stars}`} className="flex items-center gap-3">
+          <div
+            key={`breakdown-${item.stars}`}
+            className="flex items-center gap-3"
+          >
             <span className="w-8 text-right text-sm font-medium text-muted-foreground">
               {item.stars}★
             </span>
@@ -64,5 +67,5 @@ export function ReviewsSummary({
         ))}
       </div>
     </div>
-  )
+  );
 }

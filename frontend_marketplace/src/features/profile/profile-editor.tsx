@@ -1,7 +1,5 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { useTranslations } from "next-intl"
 import {
   RiAlertLine,
   RiBriefcaseLine,
@@ -9,75 +7,75 @@ import {
   RiStackLine,
   RiStarLine,
   RiUserLine,
-} from "@remixicon/react"
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { PromedioCalificacionesCard } from "@/features/calificaciones/components/PromedioCalificaciones";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { PromedioCalificacionesCard } from "@/features/calificaciones/components/PromedioCalificaciones"
-
-import { ExperienciaList } from "./components/ExperienciaList"
-import { ProfileHeader } from "./components/ProfileHeader"
-import { ProfileInfoForm } from "./components/ProfileInfoForm"
-import { SkillsSelector } from "./components/SkillsSelector"
-import { useExperiencias } from "./hooks/useExperiencias"
-import { useHabilidades } from "./hooks/useHabilidades"
-import { usePerfil } from "./hooks/usePerfil"
-import type { UpdatePerfilPayload } from "./models"
+import { ExperienciaList } from "./components/ExperienciaList";
+import { ProfileHeader } from "./components/ProfileHeader";
+import { ProfileInfoForm } from "./components/ProfileInfoForm";
+import { SkillsSelector } from "./components/SkillsSelector";
+import { useExperiencias } from "./hooks/useExperiencias";
+import { useHabilidades } from "./hooks/useHabilidades";
+import { usePerfil } from "./hooks/usePerfil";
+import type { UpdatePerfilPayload } from "./models";
 
 function SectionTitle({
   icon: Icon,
   title,
 }: {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
 }) {
   return (
     <div className="flex items-center gap-2">
       <Icon className="size-5 text-primary" />
       <h2 className="text-lg font-bold text-foreground">{title}</h2>
     </div>
-  )
+  );
 }
 
 export function ProfileEditor() {
-  const t = useTranslations("profile")
-  const { token } = useAuth()
-  const { perfil, isLoading, error, isSaving, save, refetch } = usePerfil()
-  const { habilidades: catalog } = useHabilidades()
-  const experienciasHook = useExperiencias()
-  const [pendingPhoto, setPendingPhoto] = useState<File | null>(null)
-  const initializedRef = useRef(false)
+  const t = useTranslations("profile");
+  const { perfil, isLoading, error, isSaving, save } = usePerfil();
+  const { habilidades: catalog } = useHabilidades();
+  const experienciasHook = useExperiencias();
+  const syncExperiencias = experienciasHook.sync;
+  const [pendingPhoto, setPendingPhoto] = useState<File | null>(null);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     if (perfil && !initializedRef.current) {
-      experienciasHook.sync(perfil.experiencias)
-      initializedRef.current = true
+      syncExperiencias(perfil.experiencias);
+      initializedRef.current = true;
     }
-  }, [perfil])
+  }, [perfil, syncExperiencias]);
 
   const handleSaveInfo = useCallback(
     async (payload: UpdatePerfilPayload) => {
       if (pendingPhoto) {
-        payload.foto_perfil = pendingPhoto
+        payload.foto_perfil = pendingPhoto;
       }
-      await save(payload)
-      setPendingPhoto(null)
+      await save(payload);
+      setPendingPhoto(null);
     },
     [save, pendingPhoto],
-  )
+  );
 
   const handleSkillsChange = useCallback(
     async (ids: string[]) => {
-      await save({ habilidad_ids: ids })
+      await save({ habilidad_ids: ids });
     },
     [save],
-  )
+  );
 
   if (isLoading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <RiLoader4Line className="size-8 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   if (error && !perfil) {
@@ -91,10 +89,10 @@ export function ProfileEditor() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  if (!perfil) return null
+  if (!perfil) return null;
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 pb-12">
@@ -126,9 +124,7 @@ export function ProfileEditor() {
             onSave={handleSaveInfo}
           />
         </div>
-        {error && (
-          <p className="mt-3 text-sm text-destructive">{error}</p>
-        )}
+        {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
       </div>
 
       {/* Skills */}
@@ -157,5 +153,5 @@ export function ProfileEditor() {
         </div>
       </div>
     </div>
-  )
+  );
 }

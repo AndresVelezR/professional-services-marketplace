@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import type { Contrato } from "../models"
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import type { Contrato } from "../models";
 
 interface ContractCardProps {
-  contract: Contrato
+  contract: Contrato;
 }
 
 const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   activo: "bg-blue-100 text-blue-700",
   completado: "bg-green-100 text-green-700",
   cancelado: "bg-red-100 text-red-700",
-}
+};
 
 export function ContractCard({ contract }: ContractCardProps) {
-  const t = useTranslations("contracts")
-  const { perfil } = useAuth()
+  const t = useTranslations("contracts");
+  const { perfil } = useAuth();
 
-  const isCliente = perfil?.email === contract.cliente.email
-  const otherParty = isCliente ? contract.freelancer : contract.cliente
-  const otherLabel = isCliente ? t("card.freelancer") : t("card.cliente")
+  const isCliente = perfil?.email === contract.cliente.email;
+  const otherParty = isCliente ? contract.freelancer : contract.cliente;
+  const otherLabel = isCliente ? t("card.freelancer") : t("card.cliente");
 
   return (
     <div className="rounded-xl border border-border bg-white p-5 transition-shadow hover:shadow-md">
@@ -45,7 +45,8 @@ export function ContractCard({ contract }: ContractCardProps) {
 
       {/* Dates */}
       <p className="mb-4 text-xs text-muted-foreground">
-        {t("card.inicio")}: {new Date(contract.fecha_inicio).toLocaleDateString("es-CO")}
+        {t("card.inicio")}:{" "}
+        {new Date(contract.fecha_inicio).toLocaleDateString("es-CO")}
         {contract.fecha_fin &&
           ` · ${t("card.fin")}: ${new Date(contract.fecha_fin).toLocaleDateString("es-CO")}`}
       </p>
@@ -72,5 +73,5 @@ export function ContractCard({ contract }: ContractCardProps) {
         </Link>
       </div>
     </div>
-  )
+  );
 }

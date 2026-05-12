@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { RiLoader4Line, RiSaveLine } from "@remixicon/react"
+import { RiLoader4Line, RiSaveLine } from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
-import type { PerfilCompleto, UpdatePerfilPayload } from "../models"
+import type { PerfilCompleto, UpdatePerfilPayload } from "../models";
 
 interface ProfileInfoFormProps {
-  perfil: PerfilCompleto
-  isSaving: boolean
-  onSave: (payload: UpdatePerfilPayload) => Promise<void>
+  perfil: PerfilCompleto;
+  isSaving: boolean;
+  onSave: (payload: UpdatePerfilPayload) => Promise<void>;
 }
 
 export function ProfileInfoForm({
@@ -29,16 +29,16 @@ export function ProfileInfoForm({
   isSaving,
   onSave,
 }: ProfileInfoFormProps) {
-  const t = useTranslations("profile.info")
-  const [firstName, setFirstName] = useState(perfil.first_name)
-  const [lastName, setLastName] = useState(perfil.last_name)
-  const [bio, setBio] = useState(perfil.bio)
-  const [telefono, setTelefono] = useState(perfil.telefono)
-  const [urlPortafolio, setUrlPortafolio] = useState(perfil.url_portafolio)
-  const [tipoUsuario, setTipoUsuario] = useState(perfil.tipo_usuario)
+  const t = useTranslations("profile.info");
+  const [firstName, setFirstName] = useState(perfil.first_name);
+  const [lastName, setLastName] = useState(perfil.last_name);
+  const [bio, setBio] = useState(perfil.bio);
+  const [telefono, setTelefono] = useState(perfil.telefono);
+  const [urlPortafolio, setUrlPortafolio] = useState(perfil.url_portafolio);
+  const [tipoUsuario, setTipoUsuario] = useState(perfil.tipo_usuario);
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     onSave({
       first_name: firstName,
       last_name: lastName,
@@ -46,7 +46,7 @@ export function ProfileInfoForm({
       telefono,
       url_portafolio: urlPortafolio,
       tipo_usuario: tipoUsuario,
-    })
+    });
   }
 
   return (
@@ -101,9 +101,15 @@ export function ProfileInfoForm({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="freelancer">{t("userTypeOptions.freelancer")}</SelectItem>
-              <SelectItem value="cliente">{t("userTypeOptions.cliente")}</SelectItem>
-              <SelectItem value="ambos">{t("userTypeOptions.ambos")}</SelectItem>
+              <SelectItem value="freelancer">
+                {t("userTypeOptions.freelancer")}
+              </SelectItem>
+              <SelectItem value="cliente">
+                {t("userTypeOptions.cliente")}
+              </SelectItem>
+              <SelectItem value="ambos">
+                {t("userTypeOptions.ambos")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -134,5 +140,5 @@ export function ProfileInfoForm({
         {isSaving ? t("saving") : t("save")}
       </Button>
     </form>
-  )
+  );
 }

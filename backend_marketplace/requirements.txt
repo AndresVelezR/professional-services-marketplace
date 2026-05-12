@@ -12,3 +12,4 @@ faker==40.11.0
 sqlparse==0.5.5
 channels==4.3.2
 daphne==4.2.1
+resend==2.30.0

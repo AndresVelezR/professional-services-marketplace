@@ -1,38 +1,49 @@
-import type { Contrato, Propuesta, PropuestaCreate, Review, ReviewCreate } from "../models"
+import type {
+  Contrato,
+  Propuesta,
+  PropuestaCreate,
+  Review,
+  ReviewCreate,
+} from "../models";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function handleResponse<T>(res: Response): Promise<T> {
-  let data: unknown
+  let data: unknown;
   try {
-    data = await res.json()
+    data = await res.json();
   } catch {
-    if (res.ok) return {} as T
-    throw new Error(`Error del servidor (${res.status})`)
+    if (res.ok) return {} as T;
+    throw new Error(`Error del servidor (${res.status})`);
   }
 
   if (!res.ok) {
     const message =
       typeof data === "object" && data !== null
         ? Object.values(data).flat().join(" ")
-        : "Error desconocido"
-    throw new Error(message)
+        : "Error desconocido";
+    throw new Error(message);
   }
-  return data as T
+  return data as T;
 }
 
-export async function getMisContratos(fetcher: typeof fetch): Promise<Contrato[]> {
+export async function getMisContratos(
+  fetcher: typeof fetch,
+): Promise<Contrato[]> {
   const res = await fetcher(`${API_URL}/api/contratos/contratos/`, {
     headers: { Accept: "application/json" },
-  })
-  return handleResponse<Contrato[]>(res)
+  });
+  return handleResponse<Contrato[]>(res);
 }
 
-export async function getContrato(id: string, fetcher: typeof fetch): Promise<Contrato> {
+export async function getContrato(
+  id: string,
+  fetcher: typeof fetch,
+): Promise<Contrato> {
   const res = await fetcher(`${API_URL}/api/contratos/contratos/${id}/`, {
     headers: { Accept: "application/json" },
-  })
-  return handleResponse<Contrato>(res)
+  });
+  return handleResponse<Contrato>(res);
 }
 
 export async function createPropuesta(
@@ -50,22 +61,26 @@ export async function createPropuesta(
       },
       body: JSON.stringify(payload),
     },
-  )
-  return handleResponse<Propuesta>(res)
+  );
+  return handleResponse<Propuesta>(res);
 }
 
-export async function getMisPropuestasEnviadas(fetcher: typeof fetch): Promise<Propuesta[]> {
+export async function getMisPropuestasEnviadas(
+  fetcher: typeof fetch,
+): Promise<Propuesta[]> {
   const res = await fetcher(`${API_URL}/api/contratos/propuestas/enviadas/`, {
     headers: { Accept: "application/json" },
-  })
-  return handleResponse<Propuesta[]>(res)
+  });
+  return handleResponse<Propuesta[]>(res);
 }
 
-export async function getMisPropuestasRecibidas(fetcher: typeof fetch): Promise<Propuesta[]> {
+export async function getMisPropuestasRecibidas(
+  fetcher: typeof fetch,
+): Promise<Propuesta[]> {
   const res = await fetcher(`${API_URL}/api/contratos/propuestas/recibidas/`, {
     headers: { Accept: "application/json" },
-  })
-  return handleResponse<Propuesta[]>(res)
+  });
+  return handleResponse<Propuesta[]>(res);
 }
 
 export async function responderPropuesta(
@@ -80,8 +95,8 @@ export async function responderPropuesta(
       Accept: "application/json",
     },
     body: JSON.stringify({ estado }),
-  })
-  return handleResponse<Propuesta>(res)
+  });
+  return handleResponse<Propuesta>(res);
 }
 
 export async function updateContratoEstado(
@@ -96,8 +111,8 @@ export async function updateContratoEstado(
       Accept: "application/json",
     },
     body: JSON.stringify({ estado }),
-  })
-  return handleResponse<Contrato>(res)
+  });
+  return handleResponse<Contrato>(res);
 }
 
 export async function createReview(
@@ -112,6 +127,6 @@ export async function createReview(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
-  })
-  return handleResponse<Review>(res)
+  });
+  return handleResponse<Review>(res);
 }
