@@ -41,6 +41,8 @@ services:
       - GEMINI_MODEL=${GEMINI_MODEL}
       - GEMINI_TIMEOUT_SECONDS=${GEMINI_TIMEOUT_SECONDS}
     command: bash /app/entrypoint.sh
+    volumes:
+      - media:/app/media
     depends_on:
       db:
         condition: service_healthy
@@ -64,6 +66,7 @@ services:
 
 volumes:
   pgdata:
+  media:
 
 networks:
   marketplace:
