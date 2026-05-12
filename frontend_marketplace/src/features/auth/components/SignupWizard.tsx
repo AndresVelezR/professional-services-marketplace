@@ -47,6 +47,7 @@ export function SignupWizard() {
     email: "",
     password: "",
   });
+  const [registrationError, setRegistrationError] = useState("");
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -65,14 +66,23 @@ export function SignupWizard() {
         {step === 0 && (
           <StepBasicData
             initial={basicData}
+            error={registrationError}
             onNext={(data) => {
+              setRegistrationError("");
               setBasicData(data);
               setStep(1);
             }}
           />
         )}
         {step === 1 && (
-          <StepAccountType basicData={basicData} onBack={() => setStep(0)} />
+          <StepAccountType
+            basicData={basicData}
+            onBack={() => setStep(0)}
+            onError={(msg) => {
+              setRegistrationError(msg);
+              setStep(0);
+            }}
+          />
         )}
       </div>
     </div>
@@ -81,9 +91,11 @@ export function SignupWizard() {
 
 function StepBasicData({
   initial,
+  error,
   onNext,
 }: {
   initial: BasicData;
+  error?: string;
   onNext: (data: BasicData) => void;
 }) {
   const t = useTranslations("auth.signup");
@@ -106,6 +118,12 @@ function StepBasicData({
           </p>
         </div>
       </div>
+
+      {error && (
+        <p className="w-full rounded-md bg-destructive/10 px-4 py-2 text-sm text-destructive">
+          {error}
+        </p>
+      )}
 
       <Card className="w-full">
         <CardContent className="flex flex-col gap-5">
@@ -241,26 +259,25 @@ function StepBasicData({
 function StepAccountType({
   basicData,
   onBack,
+  onError,
 }: {
   basicData: BasicData;
   onBack: () => void;
+  onError: (msg: string) => void;
 }) {
   const t = useTranslations("auth.signup.accountType");
   const { login } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSelect(tipo: TipoUsuario) {
-    setError("");
     setLoading(true);
     try {
       await registro({ ...basicData, tipo_usuario: tipo });
       await login({ email: basicData.email, password: basicData.password });
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorDefault"));
-      setLoading(false);
+      onError(err instanceof Error ? err.message : t("errorDefault"));
     }
   }
 
@@ -273,11 +290,6 @@ function StepAccountType({
         <p className="mx-auto mt-3 max-w-lg text-base text-muted-foreground">
           {t("subtitle")}
         </p>
-        {error && (
-          <p className="mt-4 rounded-md bg-destructive/10 px-4 py-2 text-sm text-destructive">
-            {error}
-          </p>
-        )}
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
