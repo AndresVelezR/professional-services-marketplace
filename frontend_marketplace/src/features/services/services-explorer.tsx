@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useTranslations } from "next-intl"
 import {
   RiArrowLeftSLine,
@@ -48,6 +49,8 @@ export function ServicesExplorer() {
     setPage,
   } = usePublicaciones()
 
+  const [priceFilter, setPriceFilter] = useState<{ min?: number; max?: number }>({})
+
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     updateFilter("q", e.target.value)
   }
@@ -57,11 +60,15 @@ export function ServicesExplorer() {
   }
 
   function handlePriceFilter(filters: { precio_min?: number; precio_max?: number }) {
-    if (filters.precio_min != null) updateFilter("precio_min", filters.precio_min)
-    else updateFilter("precio_min", undefined)
-    if (filters.precio_max != null) updateFilter("precio_max", filters.precio_max)
-    else updateFilter("precio_max", undefined)
+    setPriceFilter({ min: filters.precio_min, max: filters.precio_max })
   }
+
+  const filteredResults = results.filter((item) => {
+    const precio = parseFloat(item.precio)
+    if (priceFilter.min != null && precio < priceFilter.min) return false
+    if (priceFilter.max != null && precio > priceFilter.max) return false
+    return true
+  })
 
   return (
     <div className="flex gap-8">
@@ -129,7 +136,7 @@ export function ServicesExplorer() {
         )}
 
         {/* Empty state */}
-        {!isLoading && !error && results.length === 0 && (
+        {!isLoading && !error && filteredResults.length === 0 && (
           <div className="flex min-h-[300px] flex-col items-center justify-center gap-2">
             <p className="text-sm font-medium text-muted-foreground">
               {t("emptyTitle")}
@@ -141,9 +148,9 @@ export function ServicesExplorer() {
         )}
 
         {/* Grid */}
-        {!isLoading && !error && results.length > 0 && (
+        {!isLoading && !error && filteredResults.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 2xl:grid-cols-3">
-            {results.map((item) => {
+            {filteredResults.map((item) => {
               const props = toServiceCardProps(item)
               return <ServiceCard key={item.id} {...props} />
             })}
