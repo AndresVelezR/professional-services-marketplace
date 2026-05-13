@@ -1,6 +1,6 @@
 "use client";
 
-import { RiHeartLine, RiStarFill } from "@remixicon/react";
+import { RiStarFill } from "@remixicon/react";
 import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -54,13 +54,6 @@ export function ServiceCard({
         >
           {tCat(category)}
         </Badge>
-        <Button
-          variant="ghost"
-          size="icon-xs"
-          className="absolute right-3 top-3 bg-white/90 text-muted-foreground shadow-sm backdrop-blur hover:text-destructive"
-        >
-          <RiHeartLine className="size-4" />
-        </Button>
       </div>
 
       {/* Content */}
