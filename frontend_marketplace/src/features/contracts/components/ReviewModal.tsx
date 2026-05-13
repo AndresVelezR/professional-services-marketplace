@@ -1,6 +1,7 @@
 "use client";
 
 import { RiLoader4Line, RiStarFill } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,19 +29,15 @@ interface Ratings {
   puntualidad: number;
 }
 
-const CRITERIOS: { key: keyof Ratings; label: string }[] = [
-  { key: "calidad", label: "Calidad del trabajo" },
-  { key: "comunicacion", label: "Comunicación" },
-  { key: "puntualidad", label: "Puntualidad" },
-];
-
 function StarRating({
   label,
   value,
+  unselectedLabel,
   onChange,
 }: {
   label: string;
   value: number;
+  unselectedLabel: string;
   onChange: (v: number) => void;
 }) {
   return (
@@ -55,7 +52,7 @@ function StarRating({
               type="button"
               className="rounded-md p-1 transition-colors hover:bg-muted"
               onClick={() => onChange(v)}
-              aria-label={`${label} ${v} estrellas`}
+              aria-label={`${label} ${v}`}
             >
               <RiStarFill
                 className={`size-6 ${
@@ -66,7 +63,7 @@ function StarRating({
           );
         })}
         <span className="ml-2 text-sm text-muted-foreground">
-          {value > 0 ? `${value}/5` : "Sin seleccionar"}
+          {value > 0 ? `${value}/5` : unselectedLabel}
         </span>
       </div>
     </div>
@@ -80,6 +77,7 @@ export function ReviewModal({
   onClose,
   onSubmitted,
 }: ReviewModalProps) {
+  const t = useTranslations("contracts.review");
   const { token } = useAuth();
   const [ratings, setRatings] = useState<Ratings>({
     calidad: 0,
@@ -89,6 +87,12 @@ export function ReviewModal({
   const [comment, setComment] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const criterios: { key: keyof Ratings; label: string }[] = [
+    { key: "calidad", label: t("calidad") },
+    { key: "comunicacion", label: t("comunicacion") },
+    { key: "puntualidad", label: t("puntualidad") },
+  ];
 
   const canSubmit = useMemo(
     () => Object.values(ratings).every((v) => v >= 1),
@@ -116,9 +120,7 @@ export function ReviewModal({
       await onSubmitted();
       handleClose();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Error al enviar calificacion",
-      );
+      setError(err instanceof Error ? err.message : t("error"));
     } finally {
       setIsSaving(false);
     }
@@ -135,19 +137,19 @@ export function ReviewModal({
     <Dialog open={open} onOpenChange={(v) => !v && handleClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Calificar contrato</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            Evalúa tu experiencia con {reviewedName}. Esta calificación será
-            visible en su perfil.
+            {t("description", { name: reviewedName })}
           </DialogDescription>
         </DialogHeader>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {CRITERIOS.map(({ key, label }) => (
+          {criterios.map(({ key, label }) => (
             <StarRating
               key={key}
               label={label}
               value={ratings[key]}
+              unselectedLabel={t("unselected")}
               onChange={(v) => setRatings((prev) => ({ ...prev, [key]: v }))}
             />
           ))}
@@ -157,14 +159,14 @@ export function ReviewModal({
               className="text-sm font-medium text-foreground"
               htmlFor="review-comment"
             >
-              Comentario (opcional)
+              {t("commentLabel")}
             </label>
             <Textarea
               id="review-comment"
               rows={3}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="Comparte cómo fue trabajar con esta persona"
+              placeholder={t("commentPlaceholder")}
             />
           </div>
 
@@ -178,7 +180,7 @@ export function ReviewModal({
               onClick={handleClose}
               disabled={isSaving}
             >
-              Cancelar
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
@@ -188,10 +190,10 @@ export function ReviewModal({
               {isSaving ? (
                 <>
                   <RiLoader4Line className="size-4 animate-spin" />
-                  Enviando...
+                  {t("submitting")}
                 </>
               ) : (
-                "Enviar calificación"
+                t("submit")
               )}
             </Button>
           </div>
