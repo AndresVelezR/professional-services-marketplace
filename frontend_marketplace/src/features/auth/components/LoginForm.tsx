@@ -7,7 +7,7 @@ import {
   RiLockLine,
   RiMailLine,
 } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,6 +22,7 @@ import { useAuth } from "@/infrastructure/auth/AuthContext";
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
+  const locale = useLocale();
   const { login } = useAuth();
   const router = useRouter();
 
@@ -35,10 +36,10 @@ export function LoginForm() {
     setError("");
     setLoading(true);
     try {
-      await login({ email, password });
+      await login({ email, password }, locale);
       router.push("/dashboard");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorDefault"));
+    } catch {
+      setError(t("errorDefault"));
     } finally {
       setLoading(false);
     }
