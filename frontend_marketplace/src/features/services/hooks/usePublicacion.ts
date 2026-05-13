@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from "react";
 
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
 import type { PublicacionDetail } from "../models";
 import { getPublicacion } from "../services/publicacionService";
 
 export function usePublicacion(id: string) {
+  const { token } = useAuth();
+  const authFetch = useAuthFetch();
   const [data, setData] = useState<PublicacionDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +19,9 @@ export function usePublicacion(id: string) {
     setIsLoading(true);
     setError(null);
 
-    getPublicacion(id)
+    const fetcher = token ? authFetch : fetch;
+
+    getPublicacion(id, fetcher)
       .then((result) => {
         if (!cancelled) setData(result);
       })
@@ -29,7 +35,7 @@ export function usePublicacion(id: string) {
     return () => {
       cancelled = true;
     };
-  }, [id]);
+  }, [id, token, authFetch]);
 
   return { data, isLoading, error };
 }

@@ -47,16 +47,49 @@ class PublicacionListSerializer(serializers.ModelSerializer):
         ]
 
 
+class MisPublicacionesSerializer(serializers.ModelSerializer):
+    creador = CreadorResumenSerializer(read_only=True)
+    imagenes = ImagenPublicacionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Publicacion
+        fields = [
+            'id', 'titulo', 'categoria', 'precio',
+            'tiempo_entrega', 'estado', 'creador', 'imagenes', 'created_at',
+        ]
+
+
 class PublicacionDetailSerializer(serializers.ModelSerializer):
     creador = CreadorDetalleSerializer(read_only=True)
     imagenes = ImagenPublicacionSerializer(many=True, read_only=True)
+    is_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = Publicacion
         fields = [
             'id', 'titulo', 'descripcion', 'categoria', 'precio',
             'tiempo_entrega', 'incluye', 'estado',
-            'creador', 'imagenes', 'created_at', 'updated_at',
+            'creador', 'imagenes', 'created_at', 'updated_at', 'is_owner',
+        ]
+
+    def get_is_owner(self, obj):
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            return obj.creador_id == request.user.pk
+        return False
+
+
+class PublicacionUpdateSerializer(serializers.ModelSerializer):
+    incluye = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+    )
+
+    class Meta:
+        model = Publicacion
+        fields = [
+            'titulo', 'descripcion', 'categoria', 'precio',
+            'tiempo_entrega', 'incluye',
         ]
 
 

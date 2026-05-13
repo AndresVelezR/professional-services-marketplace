@@ -39,6 +39,20 @@ export interface PublicacionDetail extends PublicacionListItem {
     tipo_usuario: string;
   };
   updated_at: string;
+  is_owner: boolean;
+}
+
+export interface MisPublicacionesItem extends PublicacionListItem {
+  estado: string;
+}
+
+export interface UpdatePublicacionPayload {
+  titulo?: string;
+  descripcion?: string;
+  categoria?: string;
+  precio?: number;
+  tiempo_entrega?: string;
+  incluye?: string[];
 }
 
 export interface CreatePublicacionPayload {
