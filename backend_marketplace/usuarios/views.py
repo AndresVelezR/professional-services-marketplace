@@ -1,3 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -14,6 +16,18 @@ from .serializers import (
     PerfilSerializer,
     RegistroSerializer,
 )
+
+
+class ValidarPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        password = request.data.get('password', '')
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            return Response({'errors': e.messages}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RegistroView(APIView):
