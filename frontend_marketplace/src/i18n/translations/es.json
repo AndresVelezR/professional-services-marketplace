@@ -46,6 +46,7 @@
       "emailPlaceholder": "correo@ejemplo.com",
       "passwordLabel": "Contraseña",
       "passwordHint": "Mínimo 8 caracteres",
+      "validating": "Verificando...",
       "continue": "Continuar →",
       "hasAccount": "¿Ya tienes cuenta?",
       "loginLink": "Iniciar sesión",

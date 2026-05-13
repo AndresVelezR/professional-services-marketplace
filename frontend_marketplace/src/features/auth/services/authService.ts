@@ -16,6 +16,20 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return data as T;
 }
 
+export async function validarPassword(password: string, locale: string): Promise<string[]> {
+  const res = await fetch(`${API_URL}/api/usuarios/validar-password/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept-Language": locale,
+    },
+    body: JSON.stringify({ password }),
+  });
+  if (res.status === 204) return [];
+  const data = await res.json();
+  return (data.errors as string[]) ?? [];
+}
+
 export async function login(payload: LoginPayload): Promise<TokenResponse> {
   const res = await fetch(`${API_URL}/api/auth/login/`, {
     method: "POST",

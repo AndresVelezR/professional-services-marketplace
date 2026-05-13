@@ -9,7 +9,7 @@ import {
   RiSearchLine,
   RiUserLine,
 } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +20,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import type { TipoUsuario } from "@/features/auth/models";
-import { registro } from "@/features/auth/services/authService";
+import { registro, validarPassword } from "@/features/auth/services/authService";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/infrastructure/auth/AuthContext";
 
@@ -99,10 +99,31 @@ function StepBasicData({
   onNext: (data: BasicData) => void;
 }) {
   const t = useTranslations("auth.signup");
+  const locale = useLocale();
   const [first_name, setFirstName] = useState(initial.first_name);
   const [last_name, setLastName] = useState(initial.last_name);
   const [email, setEmail] = useState(initial.email);
   const [password, setPassword] = useState(initial.password);
+  const [passwordError, setPasswordError] = useState("");
+  const [validating, setValidating] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPasswordError("");
+    setValidating(true);
+    try {
+      const errors = await validarPassword(password, locale);
+      if (errors.length > 0) {
+        setPasswordError(errors.join(" "));
+        return;
+      }
+      onNext({ first_name, last_name, email, password });
+    } catch {
+      onNext({ first_name, last_name, email, password });
+    } finally {
+      setValidating(false);
+    }
+  }
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-8">
@@ -129,10 +150,7 @@ function StepBasicData({
         <CardContent className="flex flex-col gap-5">
           <form
             className="flex flex-col gap-5"
-            onSubmit={(e) => {
-              e.preventDefault();
-              onNext({ first_name, last_name, email, password });
-            }}
+            onSubmit={handleSubmit}
           >
             <div className="grid grid-cols-2 gap-3">
               <Field>
@@ -208,15 +226,20 @@ function StepBasicData({
                   required
                 />
               </InputGroup>
-              <FieldDescription>{t("passwordHint")}</FieldDescription>
+              {passwordError ? (
+                <p className="mt-1 text-sm text-destructive">{passwordError}</p>
+              ) : (
+                <FieldDescription>{t("passwordHint")}</FieldDescription>
+              )}
             </Field>
 
             <Button
               type="submit"
               size="lg"
+              disabled={validating}
               className="w-full h-11 text-base font-semibold"
             >
-              {t("continue")}
+              {validating ? t("validating") : t("continue")}
             </Button>
           </form>
         </CardContent>

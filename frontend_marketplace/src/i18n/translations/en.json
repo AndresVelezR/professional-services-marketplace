@@ -46,6 +46,7 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordHint": "At least 8 characters",
+      "validating": "Validating...",
       "continue": "Continue →",
       "hasAccount": "Already have an account?",
       "loginLink": "Sign in",
