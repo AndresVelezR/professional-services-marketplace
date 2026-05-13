@@ -32,6 +32,7 @@ export interface Contrato {
   fecha_inicio: string;
   fecha_fin: string | null;
   estado: "activo" | "completado" | "cancelado";
+  ya_calificado?: boolean;
   created_at: string;
 }
 

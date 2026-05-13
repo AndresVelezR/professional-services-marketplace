@@ -146,7 +146,22 @@
       "fechaFin": "End date",
       "abrirChat": "Open chat",
       "markCompleted": "Mark as completed",
-      "cancel": "Cancel contract"
+      "cancel": "Cancel contract",
+      "calificar": "Rate"
+    },
+    "review": {
+      "title": "Rate contract",
+      "description": "Share your experience with {name}. This rating will be visible on their profile.",
+      "calidad": "Work quality",
+      "comunicacion": "Communication",
+      "puntualidad": "Punctuality",
+      "unselected": "Not selected",
+      "commentLabel": "Comment (optional)",
+      "commentPlaceholder": "Share what it was like working with this person",
+      "cancel": "Cancel",
+      "submit": "Submit rating",
+      "submitting": "Submitting...",
+      "error": "Error submitting rating"
     },
     "propuestaModal": {
       "title": "Send proposal",
@@ -338,7 +353,15 @@
     "sections": {
       "info": "Personal information",
       "skills": "Skills",
-      "experience": "Experience"
+      "experience": "Experience",
+      "calificaciones": "Ratings"
+    },
+    "calificaciones": {
+      "empty": "You don't have any ratings yet.",
+      "reviews": "{total, plural, one {# review} other {# reviews}}",
+      "calidad": "Quality",
+      "comunicacion": "Communication",
+      "puntualidad": "Punctuality"
     },
     "header": {
       "noName": "No name",

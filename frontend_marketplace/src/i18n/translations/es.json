@@ -146,7 +146,22 @@
       "fechaFin": "Fecha fin",
       "abrirChat": "Abrir chat",
       "markCompleted": "Marcar como completado",
-      "cancel": "Cancelar contrato"
+      "cancel": "Cancelar contrato",
+      "calificar": "Calificar"
+    },
+    "review": {
+      "title": "Calificar contrato",
+      "description": "Evalúa tu experiencia con {name}. Esta calificación será visible en su perfil.",
+      "calidad": "Calidad del trabajo",
+      "comunicacion": "Comunicación",
+      "puntualidad": "Puntualidad",
+      "unselected": "Sin seleccionar",
+      "commentLabel": "Comentario (opcional)",
+      "commentPlaceholder": "Comparte cómo fue trabajar con esta persona",
+      "cancel": "Cancelar",
+      "submit": "Enviar calificación",
+      "submitting": "Enviando...",
+      "error": "Error al enviar calificación"
     },
     "propuestaModal": {
       "title": "Enviar propuesta",
@@ -338,7 +353,15 @@
     "sections": {
       "info": "Información personal",
       "skills": "Habilidades",
-      "experience": "Experiencia"
+      "experience": "Experiencia",
+      "calificaciones": "Calificaciones"
+    },
+    "calificaciones": {
+      "empty": "Aún no tienes calificaciones.",
+      "reviews": "{total, plural, one {# reseña} other {# reseñas}}",
+      "calidad": "Calidad",
+      "comunicacion": "Comunicación",
+      "puntualidad": "Puntualidad"
     },
     "header": {
       "noName": "Sin nombre",
