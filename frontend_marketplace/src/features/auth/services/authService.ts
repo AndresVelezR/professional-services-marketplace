@@ -30,19 +30,19 @@ export async function validarPassword(password: string, locale: string): Promise
   return (data.errors as string[]) ?? [];
 }
 
-export async function login(payload: LoginPayload): Promise<TokenResponse> {
+export async function login(payload: LoginPayload, locale: string): Promise<TokenResponse> {
   const res = await fetch(`${API_URL}/api/auth/login/`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Accept-Language": locale },
     body: JSON.stringify(payload),
   });
   return handleResponse<TokenResponse>(res);
 }
 
-export async function registro(payload: RegistroPayload): Promise<void> {
+export async function registro(payload: RegistroPayload, locale: string): Promise<void> {
   const res = await fetch(`${API_URL}/api/usuarios/registro/`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Accept-Language": locale },
     body: JSON.stringify(payload),
   });
   await handleResponse<unknown>(res);

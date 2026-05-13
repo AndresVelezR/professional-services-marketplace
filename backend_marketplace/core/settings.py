@@ -77,6 +77,19 @@ CORS_ALLOWED_ORIGINS = os.getenv(
     'http://localhost:3000'
 ).split(',')
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
