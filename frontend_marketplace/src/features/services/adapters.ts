@@ -14,6 +14,10 @@ export function categoriaLabel(key: string): string {
   return CATEGORIA_LABELS[key] ?? key;
 }
 
+function serviceImageFallback(id: string): string {
+  return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(id)}&backgroundColor=f1f5f9`;
+}
+
 export function toServiceCardProps(
   item: PublicacionListItem,
 ): ServiceCardProps {
@@ -28,11 +32,12 @@ export function toServiceCardProps(
       name: item.creador.nombre_completo,
       initials: item.creador.iniciales,
     },
-    imageUrl: item.imagenes?.[0]?.url || undefined,
+    imageUrl: item.imagenes?.[0]?.url || serviceImageFallback(item.id),
   };
 }
 
 export function toServiceDetailProps(detail: PublicacionDetail) {
+  const realImages = detail.imagenes.map((img) => img.url).filter(Boolean);
   return {
     title: detail.titulo,
     category: detail.categoria,
@@ -40,7 +45,7 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     deliveryTime: detail.tiempo_entrega,
     includes: detail.incluye,
     description: detail.descripcion,
-    images: detail.imagenes.map((img) => img.url),
+    images: realImages.length > 0 ? realImages : [serviceImageFallback(detail.id)],
     rating: detail.rating_promedio ?? 0,
     reviews: detail.rating_total,
     freelancer: {
