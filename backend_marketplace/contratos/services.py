@@ -133,12 +133,15 @@ def get_contrato_usuario(pk, usuario):
 
 
 @transaction.atomic
-def actualizar_contrato(contrato, nuevo_estado):
+def actualizar_contrato(contrato, usuario, nuevo_estado):
     if nuevo_estado not in (Contrato.Estado.COMPLETADO, Contrato.Estado.CANCELADO):
         raise ValidationError({'detail': 'Estado inválido. Use "completado" o "cancelado".'})
 
     if contrato.estado != Contrato.Estado.ACTIVO:
         raise ValidationError({'detail': 'Este contrato ya fue finalizado.'})
+
+    if contrato.cliente != usuario:
+        raise PermissionDenied('Solo el cliente puede completar o cancelar el contrato.')
 
     contrato.estado = nuevo_estado
     contrato.save(update_fields=['estado'])

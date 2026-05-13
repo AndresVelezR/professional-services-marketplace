@@ -53,6 +53,20 @@ class ContratoListSerializer(serializers.ModelSerializer):
 
 class ContratoDetailSerializer(ContratoListSerializer):
     propuesta = PropuestaListSerializer()
+    is_client = serializers.SerializerMethodField()
+    is_freelancer = serializers.SerializerMethodField()
 
     class Meta(ContratoListSerializer.Meta):
-        fields = ContratoListSerializer.Meta.fields + ['propuesta']
+        fields = ContratoListSerializer.Meta.fields + ['propuesta', 'is_client', 'is_freelancer']
+
+    def get_is_client(self, obj):
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            return obj.cliente_id == request.user.pk
+        return False
+
+    def get_is_freelancer(self, obj):
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            return obj.freelancer_id == request.user.pk
+        return False

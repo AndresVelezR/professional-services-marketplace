@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/infrastructure/auth/AuthContext"
-import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch"
-import { obtenerOCrearConversacion } from "@/features/chat/services/chatService"
-import { getContrato, updateContratoEstado } from "./services/contractService"
-import type { Contrato } from "./models"
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
+import { obtenerOCrearConversacion } from "@/features/chat/services/chatService";
+import { getContrato, updateContratoEstado } from "./services/contractService";
+import type { Contrato } from "./models";
 
 const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   activo: "bg-blue-100 text-blue-700",
@@ -29,23 +29,24 @@ interface ContractDetailProps {
 }
 
 export function ContractDetail({ id }: ContractDetailProps) {
-  const { token, perfil } = useAuth()
-  const authFetch = useAuthFetch()
-  const router = useRouter()
-  const [contrato, setContrato] = useState<Contrato | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [actionLoading, setActionLoading] = useState(false)
+  const { token } = useAuth();
+  const authFetch = useAuthFetch();
+  const router = useRouter();
+  const [contrato, setContrato] = useState<Contrato | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   async function handleAbrirChat() {
-    if (!token) return
-    await obtenerOCrearConversacion(id, authFetch)
-    router.push("/messages")
+    if (!token) return;
+    await obtenerOCrearConversacion(id, authFetch);
+    router.push("/messages");
   }
 
   useEffect(() => {
-    if (!token) return
-    setIsLoading(true)
+    if (!token) return;
+    setIsLoading(true);
     getContrato(id, authFetch)
       .then(setContrato)
       .catch((err) =>
@@ -59,11 +60,12 @@ export function ContractDetail({ id }: ContractDetailProps) {
   async function handleEstado(estado: "completado" | "cancelado") {
     if (!token) return;
     setActionLoading(true);
+    setActionError(null);
     try {
-      const updated = await updateContratoEstado(id, estado, authFetch)
-      setContrato(updated)
+      const updated = await updateContratoEstado(id, estado, authFetch);
+      setContrato(updated);
     } catch (err) {
-      setError(
+      setActionError(
         err instanceof Error ? err.message : "Error al actualizar contrato",
       );
     } finally {
@@ -93,6 +95,8 @@ export function ContractDetail({ id }: ContractDetailProps) {
       </div>
     );
   }
+
+  const isClient = contrato.is_client === true;
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -165,10 +169,13 @@ export function ContractDetail({ id }: ContractDetailProps) {
         Abrir chat
       </Button>
 
-      {/* Actions */}
-      {contrato.estado === "activo" && (
-        <div className="flex gap-3">
-          {perfil?.email === contrato.freelancer.email && (
+      {/* Actions — visible only to the client */}
+      {contrato.estado === "activo" && isClient && (
+        <div className="space-y-3">
+          {actionError && (
+            <p className="text-sm text-destructive">{actionError}</p>
+          )}
+          <div className="flex gap-3">
             <Button
               className="flex-1"
               onClick={() => handleEstado("completado")}
@@ -176,15 +183,15 @@ export function ContractDetail({ id }: ContractDetailProps) {
             >
               Marcar como completado
             </Button>
-          )}
-          <Button
-            variant="outline"
-            className="flex-1 text-destructive hover:text-destructive"
-            onClick={() => handleEstado("cancelado")}
-            disabled={actionLoading}
-          >
-            Cancelar contrato
-          </Button>
+            <Button
+              variant="outline"
+              className="flex-1 text-destructive hover:text-destructive"
+              onClick={() => handleEstado("cancelado")}
+              disabled={actionLoading}
+            >
+              Cancelar contrato
+            </Button>
+          </div>
         </div>
       )}
     </div>
