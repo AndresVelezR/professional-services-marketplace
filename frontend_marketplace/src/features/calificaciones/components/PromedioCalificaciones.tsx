@@ -1,6 +1,7 @@
 "use client";
 
 import { RiStarFill } from "@remixicon/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   getCalificacionesUsuario,
@@ -14,6 +15,7 @@ interface PromedioCalificacionesCardProps {
 export function PromedioCalificacionesCard({
   usuarioId,
 }: PromedioCalificacionesCardProps) {
+  const t = useTranslations("profile.calificaciones");
   const [data, setData] = useState<PromedioCalificaciones | null>(null);
 
   useEffect(() => {
@@ -24,16 +26,14 @@ export function PromedioCalificacionesCard({
 
   if (!data || data.total === 0) {
     return (
-      <p className="text-sm text-muted-foreground">
-        Aún no tienes calificaciones.
-      </p>
+      <p className="text-sm text-muted-foreground">{t("empty")}</p>
     );
   }
 
   const criterios = [
-    { label: "Calidad", value: data.promedios.calidad },
-    { label: "Comunicación", value: data.promedios.comunicacion },
-    { label: "Puntualidad", value: data.promedios.puntualidad },
+    { label: t("calidad"), value: data.promedios.calidad },
+    { label: t("comunicacion"), value: data.promedios.comunicacion },
+    { label: t("puntualidad"), value: data.promedios.puntualidad },
   ];
 
   return (
@@ -57,7 +57,7 @@ export function PromedioCalificacionesCard({
             ))}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
-            {data.total} {data.total === 1 ? "reseña" : "reseñas"}
+            {t("reviews", { total: data.total })}
           </p>
         </div>
       </div>

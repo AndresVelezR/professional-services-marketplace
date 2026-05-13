@@ -35,6 +35,7 @@ export interface Contrato {
   created_at: string;
   is_client?: boolean;
   is_freelancer?: boolean;
+  ya_calificado?: boolean;
 }
 
 export interface ReviewCreate {

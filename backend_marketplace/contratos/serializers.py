@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from calificaciones.models import Calificacion
 from publicaciones.serializers import CreadorResumenSerializer
 
 from .models import Contrato, Propuesta
@@ -55,9 +56,12 @@ class ContratoDetailSerializer(ContratoListSerializer):
     propuesta = PropuestaListSerializer()
     is_client = serializers.SerializerMethodField()
     is_freelancer = serializers.SerializerMethodField()
+    ya_calificado = serializers.SerializerMethodField()
 
     class Meta(ContratoListSerializer.Meta):
-        fields = ContratoListSerializer.Meta.fields + ['propuesta', 'is_client', 'is_freelancer']
+        fields = ContratoListSerializer.Meta.fields + [
+            'propuesta', 'is_client', 'is_freelancer', 'ya_calificado',
+        ]
 
     def get_is_client(self, obj):
         request = self.context.get('request')
@@ -70,3 +74,9 @@ class ContratoDetailSerializer(ContratoListSerializer):
         if request and request.user and request.user.is_authenticated:
             return obj.freelancer_id == request.user.pk
         return False
+
+    def get_ya_calificado(self, obj):
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return False
+        return Calificacion.objects.filter(contrato=obj, calificador=request.user).exists()

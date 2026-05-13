@@ -108,7 +108,7 @@ export function ProfileEditor() {
 
       {/* Calificaciones */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <SectionTitle icon={RiStarLine} title="Calificaciones" />
+        <SectionTitle icon={RiStarLine} title={t("sections.calificaciones")} />
         <div className="mt-5">
           <PromedioCalificacionesCard usuarioId={perfil.id} />
         </div>

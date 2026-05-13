@@ -1,15 +1,16 @@
 "use client";
 
-import { RiLoader4Line, RiMessage3Line } from "@remixicon/react";
+import { RiLoader4Line, RiMessage3Line, RiStarLine } from "@remixicon/react";
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/infrastructure/auth/AuthContext";
 import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
 import { obtenerOCrearConversacion } from "@/features/chat/services/chatService";
+import { ReviewModal } from "./components/ReviewModal";
 import { getContrato, updateContratoEstado } from "./services/contractService";
 import type { Contrato } from "./models";
 
@@ -25,7 +26,8 @@ interface ContractDetailProps {
 
 export function ContractDetail({ id }: ContractDetailProps) {
   const t = useTranslations("contracts");
-  const { token } = useAuth();
+  const locale = useLocale();
+  const { token, perfil } = useAuth();
   const authFetch = useAuthFetch();
   const router = useRouter();
   const [contrato, setContrato] = useState<Contrato | null>(null);
@@ -33,6 +35,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   async function handleAbrirChat() {
     if (!token) return;
@@ -145,14 +148,14 @@ export function ContractDetail({ id }: ContractDetailProps) {
           <div>
             <p className="text-xs text-muted-foreground">{t("detail.fechaInicio")}</p>
             <p className="text-sm font-medium text-foreground">
-              {new Date(contrato.fecha_inicio).toLocaleDateString("es-CO")}
+              {new Date(contrato.fecha_inicio).toLocaleDateString(locale)}
             </p>
           </div>
           {contrato.fecha_fin && (
             <div>
               <p className="text-xs text-muted-foreground">{t("detail.fechaFin")}</p>
               <p className="text-sm font-medium text-foreground">
-                {new Date(contrato.fecha_fin).toLocaleDateString("es-CO")}
+                {new Date(contrato.fecha_fin).toLocaleDateString(locale)}
               </p>
             </div>
           )}
@@ -190,6 +193,28 @@ export function ContractDetail({ id }: ContractDetailProps) {
           </div>
         </div>
       )}
+
+      {contrato.estado === "completado" && !contrato.ya_calificado && (
+        <Button className="w-full" onClick={() => setReviewOpen(true)}>
+          <RiStarLine className="size-4" />
+          {t("detail.calificar")}
+        </Button>
+      )}
+
+      <ReviewModal
+        open={reviewOpen}
+        contractId={contrato.id}
+        reviewedName={
+          perfil?.email === contrato.cliente.email
+            ? contrato.freelancer.nombre_completo
+            : contrato.cliente.nombre_completo
+        }
+        onClose={() => setReviewOpen(false)}
+        onSubmitted={() => {
+          setContrato({ ...contrato, ya_calificado: true });
+          setReviewOpen(false);
+        }}
+      />
     </div>
   );
 }
