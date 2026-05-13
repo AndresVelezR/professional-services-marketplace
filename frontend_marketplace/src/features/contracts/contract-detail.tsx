@@ -4,6 +4,7 @@ import { RiLoader4Line, RiMessage3Line } from "@remixicon/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/infrastructure/auth/AuthContext";
@@ -18,17 +19,12 @@ const ESTADO_STYLES: Record<Contrato["estado"], string> = {
   cancelado: "bg-red-100 text-red-700",
 };
 
-const ESTADO_LABEL: Record<Contrato["estado"], string> = {
-  activo: "Activo",
-  completado: "Completado",
-  cancelado: "Cancelado",
-};
-
 interface ContractDetailProps {
   id: string;
 }
 
 export function ContractDetail({ id }: ContractDetailProps) {
+  const t = useTranslations("contracts");
   const { token } = useAuth();
   const authFetch = useAuthFetch();
   const router = useRouter();
@@ -51,11 +47,11 @@ export function ContractDetail({ id }: ContractDetailProps) {
       .then(setContrato)
       .catch((err) =>
         setError(
-          err instanceof Error ? err.message : "Error al cargar contrato",
+          err instanceof Error ? err.message : t("detail.loadError"),
         ),
       )
       .finally(() => setIsLoading(false));
-  }, [id, token, authFetch]);
+  }, [id, token, authFetch, t]);
 
   async function handleEstado(estado: "completado" | "cancelado") {
     if (!token) return;
@@ -66,7 +62,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
       setContrato(updated);
     } catch (err) {
       setActionError(
-        err instanceof Error ? err.message : "Error al actualizar contrato",
+        err instanceof Error ? err.message : t("detail.updateError"),
       );
     } finally {
       setActionLoading(false);
@@ -85,11 +81,11 @@ export function ContractDetail({ id }: ContractDetailProps) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
         <p className="text-sm text-destructive">
-          {error ?? "Contrato no encontrado"}
+          {error ?? t("detail.notFound")}
         </p>
         <Link href="/contracts">
           <Button variant="outline" size="sm">
-            Volver a contratos
+            {t("detail.backToList")}
           </Button>
         </Link>
       </div>
@@ -106,19 +102,19 @@ export function ContractDetail({ id }: ContractDetailProps) {
           href="/contracts"
           className="text-sm text-muted-foreground hover:text-foreground"
         >
-          ← Volver
+          ← {t("detail.back")}
         </Link>
         <span
           className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${ESTADO_STYLES[contrato.estado]}`}
         >
-          {ESTADO_LABEL[contrato.estado]}
+          {t(`estado.${contrato.estado}`)}
         </span>
       </div>
 
       {/* Card */}
       <div className="rounded-xl border border-border bg-white p-6 space-y-5">
         <div>
-          <p className="text-xs text-muted-foreground mb-1">Precio acordado</p>
+          <p className="text-xs text-muted-foreground mb-1">{t("detail.precioAcordado")}</p>
           <p className="text-3xl font-bold text-foreground">
             ${contrato.precio}
           </p>
@@ -126,7 +122,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
 
         {contrato.publicacion_titulo && (
           <div>
-            <p className="text-xs text-muted-foreground">Servicio</p>
+            <p className="text-xs text-muted-foreground">{t("detail.servicio")}</p>
             <p className="text-sm font-medium text-foreground">
               {contrato.publicacion_titulo}
             </p>
@@ -135,26 +131,26 @@ export function ContractDetail({ id }: ContractDetailProps) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-xs text-muted-foreground">Cliente</p>
+            <p className="text-xs text-muted-foreground">{t("detail.cliente")}</p>
             <p className="text-sm font-medium text-foreground">
               {contrato.cliente.nombre_completo}
             </p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Freelancer</p>
+            <p className="text-xs text-muted-foreground">{t("detail.freelancer")}</p>
             <p className="text-sm font-medium text-foreground">
               {contrato.freelancer.nombre_completo}
             </p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Fecha inicio</p>
+            <p className="text-xs text-muted-foreground">{t("detail.fechaInicio")}</p>
             <p className="text-sm font-medium text-foreground">
               {new Date(contrato.fecha_inicio).toLocaleDateString("es-CO")}
             </p>
           </div>
           {contrato.fecha_fin && (
             <div>
-              <p className="text-xs text-muted-foreground">Fecha fin</p>
+              <p className="text-xs text-muted-foreground">{t("detail.fechaFin")}</p>
               <p className="text-sm font-medium text-foreground">
                 {new Date(contrato.fecha_fin).toLocaleDateString("es-CO")}
               </p>
@@ -166,7 +162,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
       {/* Chat */}
       <Button variant="outline" className="w-full" onClick={handleAbrirChat}>
         <RiMessage3Line className="size-4" />
-        Abrir chat
+        {t("detail.abrirChat")}
       </Button>
 
       {/* Actions — visible only to the client */}
@@ -181,7 +177,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
               onClick={() => handleEstado("completado")}
               disabled={actionLoading}
             >
-              Marcar como completado
+              {t("detail.markCompleted")}
             </Button>
             <Button
               variant="outline"
@@ -189,7 +185,7 @@ export function ContractDetail({ id }: ContractDetailProps) {
               onClick={() => handleEstado("cancelado")}
               disabled={actionLoading}
             >
-              Cancelar contrato
+              {t("detail.cancel")}
             </Button>
           </div>
         </div>
