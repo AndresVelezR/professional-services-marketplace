@@ -338,7 +338,15 @@
     "sections": {
       "info": "Personal information",
       "skills": "Skills",
-      "experience": "Experience"
+      "experience": "Experience",
+      "calificaciones": "Ratings"
+    },
+    "calificaciones": {
+      "empty": "You don't have any ratings yet.",
+      "reviews": "{total, plural, one {# review} other {# reviews}}",
+      "calidad": "Quality",
+      "comunicacion": "Communication",
+      "puntualidad": "Punctuality"
     },
     "header": {
       "noName": "No name",
