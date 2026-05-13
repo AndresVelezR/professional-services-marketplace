@@ -1,11 +1,7 @@
 "use client";
 
-import { RiChat1Line } from "@remixicon/react";
-import { useTranslations } from "next-intl";
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface FreelancerProfileCardProps {
@@ -21,7 +17,6 @@ export function FreelancerProfileCard({
   title,
   bio,
 }: FreelancerProfileCardProps) {
-  const t = useTranslations("services.freelancer");
   return (
     <Card>
       <CardContent className="p-6">
@@ -46,10 +41,6 @@ export function FreelancerProfileCard({
           </div>
         </div>
 
-        <Button variant="outline" className="mt-4 w-full">
-          <RiChat1Line className="size-4" />
-          {t("sendMessage")}
-        </Button>
       </CardContent>
     </Card>
   );

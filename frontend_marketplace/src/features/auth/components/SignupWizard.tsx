@@ -9,7 +9,7 @@ import {
   RiSearchLine,
   RiUserLine,
 } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +20,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import type { TipoUsuario } from "@/features/auth/models";
-import { registro } from "@/features/auth/services/authService";
+import { registro, validarPassword } from "@/features/auth/services/authService";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/infrastructure/auth/AuthContext";
 
@@ -47,6 +47,7 @@ export function SignupWizard() {
     email: "",
     password: "",
   });
+  const [registrationError, setRegistrationError] = useState("");
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -65,14 +66,23 @@ export function SignupWizard() {
         {step === 0 && (
           <StepBasicData
             initial={basicData}
+            error={registrationError}
             onNext={(data) => {
+              setRegistrationError("");
               setBasicData(data);
               setStep(1);
             }}
           />
         )}
         {step === 1 && (
-          <StepAccountType basicData={basicData} onBack={() => setStep(0)} />
+          <StepAccountType
+            basicData={basicData}
+            onBack={() => setStep(0)}
+            onError={(msg) => {
+              setRegistrationError(msg);
+              setStep(0);
+            }}
+          />
         )}
       </div>
     </div>
@@ -81,16 +91,39 @@ export function SignupWizard() {
 
 function StepBasicData({
   initial,
+  error,
   onNext,
 }: {
   initial: BasicData;
+  error?: string;
   onNext: (data: BasicData) => void;
 }) {
   const t = useTranslations("auth.signup");
+  const locale = useLocale();
   const [first_name, setFirstName] = useState(initial.first_name);
   const [last_name, setLastName] = useState(initial.last_name);
   const [email, setEmail] = useState(initial.email);
   const [password, setPassword] = useState(initial.password);
+  const [passwordError, setPasswordError] = useState("");
+  const [validating, setValidating] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPasswordError("");
+    setValidating(true);
+    try {
+      const errors = await validarPassword(password, locale);
+      if (errors.length > 0) {
+        setPasswordError(errors.join(" "));
+        return;
+      }
+      onNext({ first_name, last_name, email, password });
+    } catch {
+      onNext({ first_name, last_name, email, password });
+    } finally {
+      setValidating(false);
+    }
+  }
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-8">
@@ -107,14 +140,17 @@ function StepBasicData({
         </div>
       </div>
 
+      {error && (
+        <p className="w-full rounded-md bg-destructive/10 px-4 py-2 text-sm text-destructive">
+          {error}
+        </p>
+      )}
+
       <Card className="w-full">
         <CardContent className="flex flex-col gap-5">
           <form
             className="flex flex-col gap-5"
-            onSubmit={(e) => {
-              e.preventDefault();
-              onNext({ first_name, last_name, email, password });
-            }}
+            onSubmit={handleSubmit}
           >
             <div className="grid grid-cols-2 gap-3">
               <Field>
@@ -190,15 +226,20 @@ function StepBasicData({
                   required
                 />
               </InputGroup>
-              <FieldDescription>{t("passwordHint")}</FieldDescription>
+              {passwordError ? (
+                <p className="mt-1 text-sm text-destructive">{passwordError}</p>
+              ) : (
+                <FieldDescription>{t("passwordHint")}</FieldDescription>
+              )}
             </Field>
 
             <Button
               type="submit"
               size="lg"
+              disabled={validating}
               className="w-full h-11 text-base font-semibold"
             >
-              {t("continue")}
+              {validating ? t("validating") : t("continue")}
             </Button>
           </form>
         </CardContent>
@@ -241,26 +282,25 @@ function StepBasicData({
 function StepAccountType({
   basicData,
   onBack,
+  onError,
 }: {
   basicData: BasicData;
   onBack: () => void;
+  onError: (msg: string) => void;
 }) {
   const t = useTranslations("auth.signup.accountType");
   const { login } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSelect(tipo: TipoUsuario) {
-    setError("");
     setLoading(true);
     try {
       await registro({ ...basicData, tipo_usuario: tipo });
       await login({ email: basicData.email, password: basicData.password });
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorDefault"));
-      setLoading(false);
+      onError(err instanceof Error ? err.message : t("errorDefault"));
     }
   }
 
@@ -273,11 +313,6 @@ function StepAccountType({
         <p className="mx-auto mt-3 max-w-lg text-base text-muted-foreground">
           {t("subtitle")}
         </p>
-        {error && (
-          <p className="mt-4 rounded-md bg-destructive/10 px-4 py-2 text-sm text-destructive">
-            {error}
-          </p>
-        )}
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
