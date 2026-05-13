@@ -18,11 +18,14 @@ export interface PublicacionListItem {
   precio: string;
   tiempo_entrega: string;
   creador: {
+    id: string;
     nombre_completo: string;
     iniciales: string;
   };
   imagenes: ImagenPublicacion[];
   created_at: string;
+  rating_promedio: number | null;
+  rating_total: number;
 }
 
 export interface PublicacionDetail extends PublicacionListItem {
@@ -30,6 +33,7 @@ export interface PublicacionDetail extends PublicacionListItem {
   incluye: string[];
   estado: string;
   creador: {
+    id: string;
     nombre_completo: string;
     iniciales: string;
     email: string;

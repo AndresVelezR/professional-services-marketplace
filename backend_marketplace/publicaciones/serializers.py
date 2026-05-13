@@ -1,9 +1,12 @@
 from rest_framework import serializers
 
+from calificaciones.models import Calificacion
+
 from .models import ImagenPublicacion, Publicacion
 
 
 class CreadorResumenSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
     nombre_completo = serializers.CharField(source='perfil.nombre_completo')
     iniciales = serializers.SerializerMethodField()
 
@@ -38,13 +41,29 @@ class ImagenPublicacionSerializer(serializers.ModelSerializer):
 class PublicacionListSerializer(serializers.ModelSerializer):
     creador = CreadorResumenSerializer(read_only=True)
     imagenes = ImagenPublicacionSerializer(many=True, read_only=True)
+    rating_promedio = serializers.SerializerMethodField()
+    rating_total = serializers.SerializerMethodField()
 
     class Meta:
         model = Publicacion
         fields = [
             'id', 'titulo', 'categoria', 'precio',
             'tiempo_entrega', 'creador', 'imagenes', 'created_at',
+            'rating_promedio', 'rating_total',
         ]
+
+    def _calificaciones(self, obj):
+        return Calificacion.objects.filter(contrato__propuesta__publicacion=obj)
+
+    def get_rating_promedio(self, obj):
+        qs = self._calificaciones(obj)
+        if not qs.exists():
+            return None
+        total = sum(c.promedio() for c in qs)
+        return round(total / qs.count(), 1)
+
+    def get_rating_total(self, obj):
+        return self._calificaciones(obj).count()
 
 
 class MisPublicacionesSerializer(serializers.ModelSerializer):
@@ -63,6 +82,8 @@ class PublicacionDetailSerializer(serializers.ModelSerializer):
     creador = CreadorDetalleSerializer(read_only=True)
     imagenes = ImagenPublicacionSerializer(many=True, read_only=True)
     is_owner = serializers.SerializerMethodField()
+    rating_promedio = serializers.SerializerMethodField()
+    rating_total = serializers.SerializerMethodField()
 
     class Meta:
         model = Publicacion
@@ -70,6 +91,7 @@ class PublicacionDetailSerializer(serializers.ModelSerializer):
             'id', 'titulo', 'descripcion', 'categoria', 'precio',
             'tiempo_entrega', 'incluye', 'estado',
             'creador', 'imagenes', 'created_at', 'updated_at', 'is_owner',
+            'rating_promedio', 'rating_total',
         ]
 
     def get_is_owner(self, obj):
@@ -77,6 +99,19 @@ class PublicacionDetailSerializer(serializers.ModelSerializer):
         if request and request.user and request.user.is_authenticated:
             return obj.creador_id == request.user.pk
         return False
+
+    def _calificaciones(self, obj):
+        return Calificacion.objects.filter(contrato__propuesta__publicacion=obj)
+
+    def get_rating_promedio(self, obj):
+        qs = self._calificaciones(obj)
+        if not qs.exists():
+            return None
+        total = sum(c.promedio() for c in qs)
+        return round(total / qs.count(), 1)
+
+    def get_rating_total(self, obj):
+        return self._calificaciones(obj).count()
 
 
 class PublicacionUpdateSerializer(serializers.ModelSerializer):

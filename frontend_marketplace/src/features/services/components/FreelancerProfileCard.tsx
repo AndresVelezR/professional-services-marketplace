@@ -1,5 +1,6 @@
 "use client";
 
+import { RiStarFill } from "@remixicon/react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +10,8 @@ interface FreelancerProfileCardProps {
   initials: string;
   title: string;
   bio?: string;
+  rating?: number;
+  reviews?: number;
 }
 
 export function FreelancerProfileCard({
@@ -16,6 +19,8 @@ export function FreelancerProfileCard({
   initials,
   title,
   bio,
+  rating,
+  reviews,
 }: FreelancerProfileCardProps) {
   return (
     <Card>
@@ -33,6 +38,19 @@ export function FreelancerProfileCard({
                 {title}
               </Badge>
             </div>
+            {typeof rating === "number" && rating > 0 && (
+              <div className="mt-1 flex items-center gap-1">
+                <RiStarFill className="size-3.5 text-yellow-400" />
+                <span className="text-sm font-medium text-foreground">
+                  {rating.toFixed(1)}
+                </span>
+                {typeof reviews === "number" && reviews > 0 && (
+                  <span className="text-xs text-muted-foreground">
+                    ({reviews})
+                  </span>
+                )}
+              </div>
+            )}
             {bio && (
               <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 {bio}
@@ -40,7 +58,6 @@ export function FreelancerProfileCard({
             )}
           </div>
         </div>
-
       </CardContent>
     </Card>
   );

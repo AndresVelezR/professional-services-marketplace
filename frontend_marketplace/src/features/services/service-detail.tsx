@@ -128,6 +128,8 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
             initials={s.freelancer.initials}
             title={s.freelancer.title}
             bio={s.freelancer.bio}
+            rating={s.rating}
+            reviews={s.reviews}
           />
         </div>
 

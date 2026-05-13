@@ -22,8 +22,8 @@ export function toServiceCardProps(
     title: item.titulo,
     category: item.categoria,
     price: parseFloat(item.precio),
-    rating: 0,
-    reviews: 0,
+    rating: item.rating_promedio ?? 0,
+    reviews: item.rating_total,
     freelancer: {
       name: item.creador.nombre_completo,
       initials: item.creador.iniciales,
@@ -41,6 +41,8 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     includes: detail.incluye,
     description: detail.descripcion,
     images: detail.imagenes.map((img) => img.url),
+    rating: detail.rating_promedio ?? 0,
+    reviews: detail.rating_total,
     freelancer: {
       name: detail.creador.nombre_completo,
       initials: detail.creador.iniciales,
