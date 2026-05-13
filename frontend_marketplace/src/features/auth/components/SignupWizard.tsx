@@ -289,6 +289,7 @@ function StepAccountType({
   onError: (msg: string) => void;
 }) {
   const t = useTranslations("auth.signup.accountType");
+  const locale = useLocale();
   const { login } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -296,8 +297,8 @@ function StepAccountType({
   async function handleSelect(tipo: TipoUsuario) {
     setLoading(true);
     try {
-      await registro({ ...basicData, tipo_usuario: tipo });
-      await login({ email: basicData.email, password: basicData.password });
+      await registro({ ...basicData, tipo_usuario: tipo }, locale);
+      await login({ email: basicData.email, password: basicData.password }, locale);
       router.push("/dashboard");
     } catch (err) {
       onError(err instanceof Error ? err.message : t("errorDefault"));

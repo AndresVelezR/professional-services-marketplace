@@ -19,7 +19,7 @@ interface AuthState {
   token: string | null;
   perfil: Perfil | null;
   isLoading: boolean;
-  login: (payload: LoginPayload) => Promise<void>;
+  login: (payload: LoginPayload, locale: string) => Promise<void>;
   logout: () => void;
   refreshPerfil: () => Promise<void>;
   refreshToken: () => Promise<string>;
@@ -99,8 +99,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return access;
   }, [logout]);
 
-  const login = useCallback(async (payload: LoginPayload) => {
-    const { access, refresh } = await apiLogin(payload);
+  const login = useCallback(async (payload: LoginPayload, locale: string) => {
+    const { access, refresh } = await apiLogin(payload, locale);
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
     setToken(access);
