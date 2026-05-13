@@ -76,11 +76,13 @@ export function ServicePricingCard({
         </div>
 
         {/* CTAs */}
-        <div className="space-y-2">
-          <Button className="w-full font-semibold" onClick={onContratar}>
-            {t("hire")}
-          </Button>
-        </div>
+        {onContratar && (
+          <div className="space-y-2">
+            <Button className="w-full font-semibold" onClick={onContratar}>
+              {t("hire")}
+            </Button>
+          </div>
+        )}
 
         <Separator className="my-4" />
 

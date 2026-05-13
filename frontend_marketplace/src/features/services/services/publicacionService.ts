@@ -1,9 +1,11 @@
 import type {
   CreatePublicacionPayload,
+  MisPublicacionesItem,
   PaginatedResponse,
   PublicacionDetail,
   PublicacionFilters,
   PublicacionListItem,
+  UpdatePublicacionPayload,
 } from "../models";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -51,11 +53,52 @@ export async function getPublicaciones(
   return handleResponse<PaginatedResponse<PublicacionListItem>>(res);
 }
 
-export async function getPublicacion(id: string): Promise<PublicacionDetail> {
-  const res = await fetch(`${API_URL}/api/publicaciones/${id}/`, {
+export async function getPublicacion(
+  id: string,
+  fetcher: typeof fetch = fetch,
+): Promise<PublicacionDetail> {
+  const res = await fetcher(`${API_URL}/api/publicaciones/${id}/`, {
     headers: JSON_HEADERS,
   });
   return handleResponse<PublicacionDetail>(res);
+}
+
+export async function getMisPublicaciones(
+  fetcher: typeof fetch,
+): Promise<PaginatedResponse<MisPublicacionesItem>> {
+  const res = await fetcher(`${API_URL}/api/publicaciones/mias/`, {
+    headers: JSON_HEADERS,
+  });
+  return handleResponse<PaginatedResponse<MisPublicacionesItem>>(res);
+}
+
+export async function updatePublicacion(
+  id: string,
+  payload: UpdatePublicacionPayload,
+  fetcher: typeof fetch,
+): Promise<PublicacionDetail> {
+  const res = await fetcher(`${API_URL}/api/publicaciones/${id}/`, {
+    method: "PATCH",
+    headers: {
+      ...JSON_HEADERS,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  return handleResponse<PublicacionDetail>(res);
+}
+
+export async function closePublicacion(
+  id: string,
+  fetcher: typeof fetch,
+): Promise<void> {
+  const res = await fetcher(`${API_URL}/api/publicaciones/${id}/`, {
+    method: "DELETE",
+    headers: JSON_HEADERS,
+  });
+  if (!res.ok) {
+    await handleResponse(res);
+  }
 }
 
 export async function createPublicacion(

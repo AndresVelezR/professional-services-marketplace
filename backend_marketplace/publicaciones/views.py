@@ -8,9 +8,11 @@ from rest_framework.response import Response
 from .models import Publicacion
 from .services import aplicar_filtros_publicaciones, cerrar_publicacion, crear_publicacion
 from .serializers import (
+    MisPublicacionesSerializer,
     PublicacionCreateSerializer,
     PublicacionDetailSerializer,
     PublicacionListSerializer,
+    PublicacionUpdateSerializer,
 )
 
 
@@ -54,6 +56,21 @@ class PublicacionListCreateView(generics.ListCreateAPIView):
         return aplicar_filtros_publicaciones(qs, self.request.query_params)
 
 
+class MisPublicacionesView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = MisPublicacionesSerializer
+    pagination_class = PublicacionPagination
+
+    def get_queryset(self):
+        return (
+            Publicacion.objects
+            .filter(creador=self.request.user)
+            .select_related('creador__perfil')
+            .prefetch_related('imagenes')
+            .order_by('-created_at')
+        )
+
+
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Publicacion.objects.select_related('creador__perfil').prefetch_related('imagenes')
     lookup_field = 'id'
@@ -64,9 +81,20 @@ class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
         return [permissions.IsAuthenticated(), EsCreadorOSoloLectura()]
 
     def get_serializer_class(self):
-        if self.request.method in ('PUT', 'PATCH'):
+        if self.request.method == 'PATCH':
+            return PublicacionUpdateSerializer
+        if self.request.method == 'PUT':
             return PublicacionCreateSerializer
         return PublicacionDetailSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        publicacion = self.get_object()
+        serializer = PublicacionUpdateSerializer(publicacion, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            PublicacionDetailSerializer(publicacion, context={'request': request}).data
+        )
 
     def destroy(self, request, *args, **kwargs):
         publicacion = self.get_object()

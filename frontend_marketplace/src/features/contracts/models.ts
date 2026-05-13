@@ -33,6 +33,8 @@ export interface Contrato {
   fecha_fin: string | null;
   estado: "activo" | "completado" | "cancelado";
   created_at: string;
+  is_client?: boolean;
+  is_freelancer?: boolean;
 }
 
 export interface ReviewCreate {

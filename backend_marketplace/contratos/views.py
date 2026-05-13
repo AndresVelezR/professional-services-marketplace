@@ -116,6 +116,6 @@ class ContratoDetailView(generics.RetrieveUpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         contrato = self.get_object()
-        contrato = actualizar_contrato(contrato, request.data.get('estado'))
-        serializer = ContratoDetailSerializer(contrato)
+        contrato = actualizar_contrato(contrato, request.user, request.data.get('estado'))
+        serializer = ContratoDetailSerializer(contrato, context={'request': request})
         return Response(serializer.data)

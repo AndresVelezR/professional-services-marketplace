@@ -230,6 +230,40 @@
       "loadError": "Error loading the service: {error}",
       "back": "Back to services"
     },
+    "my": {
+      "title": "My publications",
+      "subtitle": "Manage the services you have published.",
+      "new": "New publication",
+      "loadError": "Error loading publications: {error}",
+      "retry": "Retry",
+      "empty": "You haven't published any services yet.",
+      "emptyAction": "Publish a service",
+      "view": "View",
+      "edit": "Edit",
+      "close": "Close",
+      "closing": "Closing...",
+      "confirmClose": "Confirm close?",
+      "cancel": "Cancel",
+      "closeError": "Error closing the publication",
+      "ownerBanner": "You are the creator of this service.",
+      "estado": {
+        "publicado": "Published",
+        "borrador": "Draft",
+        "cerrado": "Closed"
+      }
+    },
+    "edit": {
+      "title": "Edit publication",
+      "subtitle": "Update the basic fields of your service.",
+      "back": "My publications",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "submitError": "Error saving changes",
+      "notFound": "Publication not found",
+      "forbidden": "You don't have permission to edit this publication.",
+      "imagesNote": "Image editing is not available in this version. To update images, create a new publication."
+    },
     "create": {
       "title": "Publish your service",
       "subtitle": "Describe your offering so potential clients can find and hire you.",

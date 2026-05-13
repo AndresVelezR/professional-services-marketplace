@@ -230,6 +230,40 @@
       "loadError": "Error al cargar el servicio: {error}",
       "back": "Volver a servicios"
     },
+    "my": {
+      "title": "Mis publicaciones",
+      "subtitle": "Gestiona los servicios que has publicado.",
+      "new": "Nueva publicación",
+      "loadError": "Error al cargar publicaciones: {error}",
+      "retry": "Reintentar",
+      "empty": "Aún no has publicado ningún servicio.",
+      "emptyAction": "Publicar servicio",
+      "view": "Ver",
+      "edit": "Editar",
+      "close": "Cerrar",
+      "closing": "Cerrando...",
+      "confirmClose": "¿Confirmar cierre?",
+      "cancel": "Cancelar",
+      "closeError": "Error al cerrar la publicación",
+      "ownerBanner": "Eres el creador de este servicio.",
+      "estado": {
+        "publicado": "Publicado",
+        "borrador": "Borrador",
+        "cerrado": "Cerrado"
+      }
+    },
+    "edit": {
+      "title": "Editar publicación",
+      "subtitle": "Actualiza los campos básicos de tu servicio.",
+      "back": "Mis publicaciones",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "submitError": "Error al guardar cambios",
+      "notFound": "Publicación no encontrada",
+      "forbidden": "No tienes permiso para editar esta publicación.",
+      "imagesNote": "La edición de imágenes no está disponible en esta versión. Para actualizar las imágenes, crea una nueva publicación."
+    },
     "create": {
       "title": "Publica tu servicio",
       "subtitle": "Describe tu oferta para que clientes potenciales puedan encontrarte y contratarte.",
