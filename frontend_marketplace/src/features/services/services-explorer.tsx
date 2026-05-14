@@ -32,7 +32,6 @@ import { usePublicaciones } from "./hooks/usePublicaciones"
 const ORDERING_MAP: Record<string, string> = {
   relevancia: "",
   "precio-bajo": "precio",
-  "mejor-calificados": "-created_at",
   nuevos: "-created_at",
 }
 
@@ -105,7 +104,6 @@ export function ServicesExplorer() {
                 <SelectGroup>
                   <SelectItem value="relevancia">{t("ordering.relevancia")}</SelectItem>
                   <SelectItem value="precio-bajo">{t("ordering.precioBajo")}</SelectItem>
-                  <SelectItem value="mejor-calificados">{t("ordering.mejorCalificados")}</SelectItem>
                   <SelectItem value="nuevos">{t("ordering.nuevos")}</SelectItem>
                 </SelectGroup>
               </SelectContent>
