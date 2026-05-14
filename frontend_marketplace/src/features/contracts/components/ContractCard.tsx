@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 import { useAuth } from "@/infrastructure/auth/AuthContext";
@@ -18,6 +18,7 @@ const ESTADO_STYLES: Record<Contrato["estado"], string> = {
 
 export function ContractCard({ contract }: ContractCardProps) {
   const t = useTranslations("contracts");
+  const locale = useLocale();
   const { perfil } = useAuth();
 
   const isCliente = perfil?.email === contract.cliente.email;
@@ -46,9 +47,9 @@ export function ContractCard({ contract }: ContractCardProps) {
       {/* Dates */}
       <p className="mb-4 text-xs text-muted-foreground">
         {t("card.inicio")}:{" "}
-        {new Date(contract.fecha_inicio).toLocaleDateString("es-CO")}
+        {new Date(contract.fecha_inicio).toLocaleDateString(locale)}
         {contract.fecha_fin &&
-          ` · ${t("card.fin")}: ${new Date(contract.fecha_fin).toLocaleDateString("es-CO")}`}
+          ` · ${t("card.fin")}: ${new Date(contract.fecha_fin).toLocaleDateString(locale)}`}
       </p>
 
       {/* Bottom row: other party + button */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { RiCheckLine, RiCloseLine, RiLoader4Line } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -10,6 +10,7 @@ import { usePropuestasRecibidas } from "@/features/contracts/hooks/usePropuestas
 
 export function PropuestasRecibidas() {
   const t = useTranslations("dashboard.propuestasRecibidas");
+  const locale = useLocale();
   const { propuestas, isLoading, error, responder } = usePropuestasRecibidas();
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -94,7 +95,7 @@ export function PropuestasRecibidas() {
                         {t("fechaLimite")}
                       </span>
                       <p className="font-medium text-foreground">
-                        {new Date(p.fecha_limite).toLocaleDateString("es-CO")}
+                        {new Date(p.fecha_limite).toLocaleDateString(locale)}
                       </p>
                     </div>
                   )}
