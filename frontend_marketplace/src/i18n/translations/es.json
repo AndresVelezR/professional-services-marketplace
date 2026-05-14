@@ -398,7 +398,8 @@
       "reviews": "{total, plural, one {# reseña} other {# reseñas}}",
       "calidad": "Calidad",
       "comunicacion": "Comunicación",
-      "puntualidad": "Puntualidad"
+      "puntualidad": "Puntualidad",
+      "noComment": "Sin comentario."
     },
     "header": {
       "noName": "Sin nombre",

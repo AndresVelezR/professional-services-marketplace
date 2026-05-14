@@ -1,5 +1,16 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export interface CalificacionItem {
+  id: string;
+  calificador_nombre: string;
+  calidad: number;
+  comunicacion: number;
+  puntualidad: number;
+  promedio: number;
+  comentario: string;
+  created_at: string;
+}
+
 export interface PromedioCalificaciones {
   total: number;
   promedios: {
@@ -8,6 +19,7 @@ export interface PromedioCalificaciones {
     puntualidad: number;
     general: number;
   };
+  calificaciones: CalificacionItem[];
 }
 
 async function handleResponse<T>(res: Response): Promise<T> {

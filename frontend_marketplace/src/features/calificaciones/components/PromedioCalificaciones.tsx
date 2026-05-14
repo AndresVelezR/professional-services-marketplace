@@ -3,6 +3,7 @@
 import { RiStarFill } from "@remixicon/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { ReviewCard } from "@/features/services/components/ReviewCard";
 import {
   getCalificacionesUsuario,
   type PromedioCalificaciones,
@@ -79,6 +80,27 @@ export function PromedioCalificacionesCard({
           </div>
         ))}
       </div>
+
+      {/* Reseñas individuales */}
+      {data.calificaciones.length > 0 && (
+        <div className="space-y-3 pt-2">
+          {data.calificaciones.map((c) => (
+            <ReviewCard
+              key={c.id}
+              name={c.calificador_nombre}
+              initials={c.calificador_nombre
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}
+              date={new Date(c.created_at).toLocaleDateString()}
+              rating={Math.round(c.promedio)}
+              comment={c.comentario || t("noComment")}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
