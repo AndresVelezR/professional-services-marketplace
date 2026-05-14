@@ -21,6 +21,7 @@ export interface ServiceCardProps {
     id?: string;
   };
   imageUrl?: string;
+  from?: string;
 }
 
 export function ServiceCard({
@@ -32,6 +33,7 @@ export function ServiceCard({
   reviews,
   freelancer,
   imageUrl,
+  from,
 }: ServiceCardProps) {
   const t = useTranslations("services.card");
   const tCat = useTranslations("services.form.categorias");
@@ -115,7 +117,7 @@ export function ServiceCard({
           </p>
         </div>
         <Button asChild size="sm" className="text-xs font-bold">
-          <Link href={`/services/${id}`}>{t("viewMore")}</Link>
+          <Link href={`/services/${id}${from ? `?from=${from}` : ""}`}>{t("viewMore")}</Link>
         </Button>
       </div>
     </div>
