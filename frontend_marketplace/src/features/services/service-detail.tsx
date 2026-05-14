@@ -9,9 +9,12 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
 import { toServiceDetailProps } from "./adapters";
 import { FreelancerProfileCard } from "./components/FreelancerProfileCard";
+import { ReviewCard } from "./components/ReviewCard";
+import { ReviewsSummary } from "./components/ReviewsSummary";
 import { ServiceDescription } from "./components/ServiceDescription";
 import { ServiceGallery } from "./components/ServiceGallery";
 import { ServicePricingCard } from "./components/ServicePricingCard";
+import { useCalificaciones } from "./hooks/useCalificaciones";
 import { usePublicacion } from "./hooks/usePublicacion";
 import { closePublicacion } from "./services/publicacionService";
 
@@ -22,9 +25,11 @@ interface ServiceDetailProps {
 export function ServiceDetail({ id }: ServiceDetailProps) {
   const t = useTranslations("services.detail");
   const tMy = useTranslations("services.my");
+  const tReviews = useTranslations("services.reviews");
   const authFetch = useAuthFetch();
   const router = useRouter();
   const { data, isLoading, error } = usePublicacion(id);
+  const { data: calificaciones } = useCalificaciones(data?.creador.id);
   const [modalOpen, setModalOpen] = useState(false);
   const [closeLoading, setCloseLoading] = useState(false);
   const [closeError, setCloseError] = useState<string | null>(null);
@@ -131,6 +136,55 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
             rating={s.rating}
             reviews={s.reviews}
           />
+
+          {/* Reviews section */}
+          <section className="space-y-6">
+            <h2 className="text-lg font-semibold text-foreground">
+              {tReviews("title")}
+            </h2>
+
+            {calificaciones && calificaciones.total > 0 ? (
+              <>
+                <ReviewsSummary
+                  averageRating={calificaciones.promedios.general}
+                  totalReviews={calificaciones.total}
+                  breakdown={[5, 4, 3, 2, 1].map((stars) => {
+                    const count = calificaciones.calificaciones.filter(
+                      (c) => Math.round(c.promedio) === stars,
+                    ).length;
+                    return {
+                      stars,
+                      percentage:
+                        calificaciones.total > 0
+                          ? Math.round((count / calificaciones.total) * 100)
+                          : 0,
+                    };
+                  })}
+                />
+                <div className="space-y-4">
+                  {calificaciones.calificaciones.map((c) => (
+                    <ReviewCard
+                      key={c.id}
+                      name={c.calificador_nombre}
+                      initials={c.calificador_nombre
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()}
+                      date={new Date(c.created_at).toLocaleDateString()}
+                      rating={Math.round(c.promedio)}
+                      comment={c.comentario || tReviews("noComment")}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                {tReviews("empty")}
+              </p>
+            )}
+          </section>
         </div>
 
         {/* Right column - sticky pricing */}

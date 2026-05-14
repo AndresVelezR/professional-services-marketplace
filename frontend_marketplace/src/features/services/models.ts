@@ -78,3 +78,26 @@ export interface PublicacionFilters {
   ordering?: string;
   page?: number;
 }
+
+export interface Calificacion {
+  id: string;
+  contrato: string;
+  calificador_nombre: string;
+  calidad: number;
+  comunicacion: number;
+  puntualidad: number;
+  promedio: number;
+  comentario: string;
+  created_at: string;
+}
+
+export interface CalificacionesResponse {
+  total: number;
+  promedios: {
+    calidad: number;
+    comunicacion: number;
+    puntualidad: number;
+    general: number;
+  };
+  calificaciones: Calificacion[];
+}

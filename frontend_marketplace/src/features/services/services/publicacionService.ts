@@ -1,4 +1,5 @@
 import type {
+  CalificacionesResponse,
   CreatePublicacionPayload,
   MisPublicacionesItem,
   PaginatedResponse,
@@ -99,6 +100,15 @@ export async function closePublicacion(
   if (!res.ok) {
     await handleResponse(res);
   }
+}
+
+export async function getCalificacionesUsuario(
+  usuarioId: string,
+): Promise<CalificacionesResponse> {
+  const res = await fetch(`${API_URL}/api/calificaciones/usuario/${usuarioId}/`, {
+    headers: JSON_HEADERS,
+  });
+  return handleResponse<CalificacionesResponse>(res);
 }
 
 export async function createPublicacion(

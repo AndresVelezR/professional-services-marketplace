@@ -236,7 +236,10 @@
       "thumbAlt": "Miniatura {index}"
     },
     "reviews": {
-      "total": "{count, plural, one {# reseña} other {# reseñas}}"
+      "total": "{count, plural, one {# reseña} other {# reseñas}}",
+      "title": "Reseñas",
+      "empty": "Este freelancer aún no tiene reseñas.",
+      "noComment": "Sin comentario."
     },
     "freelancer": {
       "sendMessage": "Enviar mensaje"

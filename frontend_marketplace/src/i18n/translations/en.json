@@ -236,7 +236,10 @@
       "thumbAlt": "Thumbnail {index}"
     },
     "reviews": {
-      "total": "{count, plural, one {# review} other {# reviews}}"
+      "total": "{count, plural, one {# review} other {# reviews}}",
+      "title": "Reviews",
+      "empty": "This freelancer has no reviews yet.",
+      "noComment": "No comment."
     },
     "freelancer": {
       "sendMessage": "Send message"
