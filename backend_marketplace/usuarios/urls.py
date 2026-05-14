@@ -4,6 +4,7 @@ from .views import (
     ExperienciaDetailView,
     ExperienciaListCreateView,
     HabilidadListView,
+    PerfilPublicoView,
     PerfilView,
     RegistroView,
     ValidarPasswordView,
@@ -16,4 +17,5 @@ urlpatterns = [
     path('habilidades/', HabilidadListView.as_view(), name='habilidades'),
     path('experiencias/', ExperienciaListCreateView.as_view(), name='experiencias'),
     path('experiencias/<uuid:pk>/', ExperienciaDetailView.as_view(), name='experiencia-detail'),
+    path('<uuid:usuario_id>/perfil-publico/', PerfilPublicoView.as_view(), name='perfil-publico'),
 ]

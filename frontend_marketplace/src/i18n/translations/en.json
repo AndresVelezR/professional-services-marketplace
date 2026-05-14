@@ -449,6 +449,27 @@
       "submitEdit": "Save changes",
       "submitAdd": "Add",
       "cancel": "Cancel"
+    },
+    "public": {
+      "title": "Profile",
+      "skills": "Skills",
+      "experience": "Experience",
+      "portfolio": "Portfolio",
+      "activeServices": "Active services",
+      "reviews": "Reviews",
+      "loadError": "Error loading profile: {error}",
+      "notFound": "This profile does not exist.",
+      "noBio": "No description.",
+      "noSkills": "No skills registered.",
+      "noExperience": "No experience registered.",
+      "noPortfolio": "No portfolio registered.",
+      "noServices": "No active services.",
+      "backToServices": "Back to services",
+      "tipo": {
+        "freelancer": "Freelancer",
+        "cliente": "Client",
+        "ambos": "Freelancer & Client"
+      }
     }
   }
 }

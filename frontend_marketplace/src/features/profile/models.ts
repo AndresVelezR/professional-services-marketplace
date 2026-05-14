@@ -47,3 +47,24 @@ export interface CreateExperienciaPayload {
   fecha_fin?: string | null;
   ubicacion?: string;
 }
+
+export interface PublicacionResumen {
+  id: string;
+  titulo: string;
+  categoria: string;
+  precio: string;
+  tiempo_entrega: string;
+  imagenes: Array<{ id: string; url: string; orden: number }>;
+}
+
+export interface PerfilPublico {
+  usuario_id: string;
+  nombre_completo: string;
+  bio: string;
+  url_portafolio: string;
+  tipo_usuario: string;
+  foto_perfil_url: string | null;
+  habilidades: Habilidad[];
+  experiencias: Experiencia[];
+  publicaciones: PublicacionResumen[];
+}

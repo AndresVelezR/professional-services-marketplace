@@ -1,6 +1,6 @@
 "use client";
 
-import { RiEditLine, RiLoader4Line } from "@remixicon/react";
+import { RiArrowLeftLine, RiEditLine, RiLoader4Line } from "@remixicon/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,19 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
 
   return (
     <div className="space-y-4">
+      <div>
+        <Link href="/services">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-1.5 text-muted-foreground hover:text-foreground"
+          >
+            <RiArrowLeftLine className="size-4" />
+            {t("back")}
+          </Button>
+        </Link>
+      </div>
+
       {data.is_owner && (
         <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 px-4 py-3">
           <p className="flex-1 text-sm text-muted-foreground">{tMy("ownerBanner")}</p>
@@ -135,6 +148,7 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
             bio={s.freelancer.bio}
             rating={s.rating}
             reviews={s.reviews}
+            creatorId={s.creatorId}
           />
 
           {/* Reviews section */}

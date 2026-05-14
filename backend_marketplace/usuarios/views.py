@@ -1,5 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.db.models import Prefetch
 from rest_framework import generics, status
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,12 +8,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from infrastructure.emails.email_service import EmailService
+from publicaciones.models import Publicacion
 
-from .models import Experiencia, Habilidad
+from .models import Experiencia, Habilidad, Perfil
 from .services import actualizar_perfil, crear_experiencia, crear_usuario_con_perfil
 from .serializers import (
     ExperienciaSerializer,
     HabilidadSerializer,
+    PerfilPublicoSerializer,
     PerfilSerializer,
     RegistroSerializer,
 )
@@ -95,3 +98,34 @@ class ExperienciaDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Experiencia.objects.filter(perfil=self.request.user.perfil)
+
+
+class PerfilPublicoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, usuario_id):
+        try:
+            perfil = (
+                Perfil.objects
+                .select_related('usuario')
+                .prefetch_related(
+                    'habilidades',
+                    'experiencias',
+                    Prefetch(
+                        'usuario__publicaciones',
+                        queryset=Publicacion.objects.filter(
+                            estado=Publicacion.Estado.PUBLICADO,
+                        ).prefetch_related('imagenes'),
+                        to_attr='publicaciones_publicas',
+                    ),
+                )
+                .get(usuario_id=usuario_id)
+            )
+        except Perfil.DoesNotExist:
+            return Response(
+                {'detail': 'Perfil no encontrado.'},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serializer = PerfilPublicoSerializer(perfil, context={'request': request})
+        return Response(serializer.data)

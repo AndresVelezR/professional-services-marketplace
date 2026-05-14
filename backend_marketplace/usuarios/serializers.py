@@ -111,3 +111,57 @@ class PerfilSerializer(serializers.ModelSerializer):
             instance.habilidades.set(habilidades)
 
         return instance
+
+
+class PerfilPublicoSerializer(serializers.ModelSerializer):
+    usuario_id = serializers.UUIDField(source='usuario.id', read_only=True)
+    nombre_completo = serializers.CharField(read_only=True)
+    foto_perfil_url = serializers.SerializerMethodField()
+    habilidades = HabilidadSerializer(many=True, read_only=True)
+    experiencias = ExperienciaSerializer(many=True, read_only=True)
+    publicaciones = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Perfil
+        fields = [
+            'usuario_id', 'nombre_completo',
+            'bio', 'url_portafolio', 'tipo_usuario',
+            'foto_perfil_url',
+            'habilidades', 'experiencias',
+            'publicaciones',
+        ]
+
+    def get_foto_perfil_url(self, obj):
+        request = self.context.get('request')
+        if obj.foto_perfil:
+            if request:
+                return request.build_absolute_uri(obj.foto_perfil.url)
+            return None
+        return dicebear_avatar_url(str(obj.id))
+
+    def get_publicaciones(self, obj):
+        request = self.context.get('request')
+        pubs = getattr(obj.usuario, 'publicaciones_publicas', None)
+        if pubs is None:
+            from publicaciones.models import Publicacion
+            pubs = obj.usuario.publicaciones.filter(
+                estado=Publicacion.Estado.PUBLICADO
+            ).prefetch_related('imagenes')
+
+        result = []
+        for pub in pubs:
+            imagenes = []
+            for img in pub.imagenes.all():
+                url = ''
+                if request and img.imagen:
+                    url = request.build_absolute_uri(img.imagen.url)
+                imagenes.append({'id': str(img.id), 'url': url, 'orden': img.orden})
+            result.append({
+                'id': str(pub.id),
+                'titulo': pub.titulo,
+                'categoria': pub.categoria,
+                'precio': str(pub.precio),
+                'tiempo_entrega': pub.tiempo_entrega,
+                'imagenes': imagenes,
+            })
+        return result

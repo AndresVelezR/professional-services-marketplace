@@ -31,6 +31,7 @@ export function toServiceCardProps(
     freelancer: {
       name: item.creador.nombre_completo,
       initials: item.creador.iniciales,
+      id: item.creador.id,
     },
     imageUrl: item.imagenes?.[0]?.url || serviceImageFallback(item.id),
   };
@@ -48,6 +49,7 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     images: realImages.length > 0 ? realImages : [serviceImageFallback(detail.id)],
     rating: detail.rating_promedio ?? 0,
     reviews: detail.rating_total,
+    creatorId: detail.creador.id,
     freelancer: {
       name: detail.creador.nombre_completo,
       initials: detail.creador.iniciales,
