@@ -6,7 +6,7 @@ import {
   RiEditLine,
   RiLoader4Line,
 } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ const ESTADO_STYLES: Record<string, string> = {
 
 export function MyServices() {
   const t = useTranslations("services.my");
+  const locale = useLocale();
   const authFetch = useAuthFetch();
   const router = useRouter();
   const { results, isLoading, error, reload } = useMisPublicaciones();
@@ -102,7 +103,7 @@ export function MyServices() {
               <div className="flex-1 min-w-0">
                 <p className="truncate font-medium text-foreground">{pub.titulo}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  {new Date(pub.created_at).toLocaleDateString("es-CO")} ·{" "}
+                  {new Date(pub.created_at).toLocaleDateString(locale)} ·{" "}
                   <span className="font-medium">${pub.precio}</span>
                 </p>
               </div>

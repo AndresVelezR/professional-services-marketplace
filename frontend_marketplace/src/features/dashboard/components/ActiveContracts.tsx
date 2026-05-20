@@ -1,7 +1,7 @@
 "use client";
 
 import { RiLoader4Line } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useContratos } from "@/features/contracts/hooks/useContratos";
@@ -17,6 +17,7 @@ const ESTADO_STYLES = {
 export function ActiveContracts() {
   const t = useTranslations("dashboard.activeContracts");
   const tEstado = useTranslations("contracts.estado");
+  const locale = useLocale();
   const { perfil } = useAuth();
   const { contratos, isLoading } = useContratos();
 
@@ -85,9 +86,7 @@ export function ActiveContracts() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {t("from", {
-                          date: new Date(c.fecha_inicio).toLocaleDateString(
-                            "es-CO",
-                          ),
+                          date: new Date(c.fecha_inicio).toLocaleDateString(locale),
                         })}
                       </p>
                     </td>

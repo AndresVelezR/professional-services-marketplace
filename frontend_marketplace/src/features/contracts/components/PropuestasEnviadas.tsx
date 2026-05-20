@@ -1,7 +1,7 @@
 "use client";
 
 import { RiLoader4Line } from "@remixicon/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 import { usePropuestasEnviadas } from "../hooks/usePropuestasEnviadas";
@@ -14,6 +14,7 @@ const ESTADO_STYLES = {
 
 export function PropuestasEnviadas() {
   const t = useTranslations("contracts.propuestasEnviadas");
+  const locale = useLocale();
   const { propuestas, isLoading, error } = usePropuestasEnviadas();
 
   if (isLoading) {
@@ -70,13 +71,13 @@ export function PropuestasEnviadas() {
               {p.fecha_limite && (
                 <span>
                   {t("limite", {
-                    date: new Date(p.fecha_limite).toLocaleDateString("es-CO"),
+                    date: new Date(p.fecha_limite).toLocaleDateString(locale),
                   })}
                 </span>
               )}
               <span>
                 {t("enviada", {
-                  date: new Date(p.created_at).toLocaleDateString("es-CO"),
+                  date: new Date(p.created_at).toLocaleDateString(locale),
                 })}
               </span>
             </div>

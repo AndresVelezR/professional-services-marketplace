@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import type { Mensaje } from "../models";
@@ -14,9 +14,10 @@ interface MessageBubbleProps {
 
 export function MessageBubble({ mensaje, isOwn }: MessageBubbleProps) {
   const t = useTranslations("chat");
+  const locale = useLocale();
   const [expanded, setExpanded] = useState(false);
 
-  const time = new Date(mensaje.created_at).toLocaleTimeString("es-CO", {
+  const time = new Date(mensaje.created_at).toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
   });

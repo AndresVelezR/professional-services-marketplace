@@ -8,12 +8,12 @@ import {
   RiStackLine,
 } from "@remixicon/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { avatarImageFallback, serviceImageFallback } from "@/features/services/adapters";
 import { ReviewCard } from "@/features/services/components/ReviewCard";
 import { ReviewsSummary } from "@/features/services/components/ReviewsSummary";
 import { ServiceCard } from "@/features/services/components/ServiceCard";
@@ -24,10 +24,6 @@ import { usePerfilPublico } from "./hooks/usePerfilPublico";
 
 interface PublicProfileProps {
   userId: string;
-}
-
-function serviceImageFallback(id: string): string {
-  return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(id)}&backgroundColor=f1f5f9`;
 }
 
 export function PublicProfile({ userId }: PublicProfileProps) {
@@ -103,12 +99,10 @@ export function PublicProfile({ userId }: PublicProfileProps) {
         <CardContent className="p-6">
           <div className="flex items-center gap-5">
             <Avatar className="size-16">
-              {data.foto_perfil_url && (
-                <AvatarImage
-                  src={data.foto_perfil_url}
-                  alt={data.nombre_completo}
-                />
-              )}
+              <AvatarImage
+                src={data.foto_perfil_url || avatarImageFallback(userId)}
+                alt={data.nombre_completo}
+              />
               <AvatarFallback className="bg-primary/10 text-xl font-semibold text-primary">
                 {initials}
               </AvatarFallback>

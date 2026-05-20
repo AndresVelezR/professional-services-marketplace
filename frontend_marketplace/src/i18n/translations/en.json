@@ -12,6 +12,7 @@
     "avatarAltFallback": "User avatar",
     "greeting": "Hi, {name} 👋",
     "settings": "Settings",
+    "goToDashboard": "Go to dashboard",
     "userType": {
       "freelancer": "Freelancer",
       "cliente": "Client",
@@ -196,7 +197,6 @@
       "ordering": {
         "relevancia": "Relevance",
         "precioBajo": "Lowest price",
-        "mejorCalificados": "Top rated",
         "nuevos": "Newest services"
       },
       "heading": "Services",
@@ -207,6 +207,9 @@
     },
     "filters": {
       "price": "Price range",
+      "custom": "Custom",
+      "min": "Min",
+      "max": "Max",
       "delivery": "Delivery time",
       "delivery13": "1-3 days",
       "delivery37": "3-7 days",
@@ -382,6 +385,10 @@
       "price": "Price",
       "open": "Open service"
     }
+  },
+  "footer": {
+    "name": "Professional Services Marketplace",
+    "credits": "EAFIT · 2026"
   },
   "profile": {
     "loadError": "Error loading profile",

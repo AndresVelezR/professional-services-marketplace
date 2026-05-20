@@ -6,6 +6,7 @@ from publicaciones.models import Publicacion
 from usuarios.models import Perfil, Usuario
 from usuarios.serializers import PerfilSerializer
 
+from .adapters.dicebear_avatar_provider import dicebear_avatar_url
 from .adapters.gemini_marketplace_assistant import GeminiMarketplaceAssistantAdapter
 from .adapters.local_marketplace_assistant import LocalMarketplaceAssistantAdapter
 from .ports import MarketplaceAssistantError
@@ -324,7 +325,7 @@ class DiceBearAvatarFallbackTests(TestCase):
         second = PerfilSerializer(profile).data['foto_perfil_url']
 
         self.assertEqual(first, second)
-        self.assertIn('https://api.dicebear.com/9.x/initials/svg', first)
+        self.assertIn('https://api.dicebear.com/9.x/shapes/svg', first)
         self.assertIn(f'seed={profile.id}', first)
         self.assertNotIn(user.email, first)
 
@@ -351,3 +352,18 @@ class DiceBearAvatarFallbackTests(TestCase):
             'http://testserver/media/perfiles/avatar.png',
         )
         self.assertIsNone(without_request)
+
+
+class DiceBearProviderUnitTests(TestCase):
+    def test_url_is_deterministic_for_same_seed(self):
+        url1 = dicebear_avatar_url('user-uuid-abc123')
+        url2 = dicebear_avatar_url('user-uuid-abc123')
+        self.assertEqual(url1, url2)
+        self.assertIn('https://api.dicebear.com/9.x/shapes/svg', url1)
+        self.assertIn('seed=user-uuid-abc123', url1)
+
+    def test_empty_seed_uses_safe_default(self):
+        url = dicebear_avatar_url('')
+        self.assertIn('https://api.dicebear.com/9.x/shapes/svg', url)
+        self.assertIn('seed=profile', url)
+        self.assertNotIn('@', url)

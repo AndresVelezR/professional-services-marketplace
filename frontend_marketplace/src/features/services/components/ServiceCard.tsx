@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { serviceImageFallback } from "@/features/services/adapters";
 import { Link } from "@/i18n/navigation";
 
 export interface ServiceCardProps {
@@ -21,6 +22,7 @@ export interface ServiceCardProps {
     id?: string;
   };
   imageUrl?: string;
+  from?: string;
 }
 
 export function ServiceCard({
@@ -32,6 +34,7 @@ export function ServiceCard({
   reviews,
   freelancer,
   imageUrl,
+  from,
 }: ServiceCardProps) {
   const t = useTranslations("services.card");
   const tCat = useTranslations("services.form.categorias");
@@ -62,9 +65,11 @@ export function ServiceCard({
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/30">
-            <span className="text-4xl font-bold">{category[0]?.toUpperCase()}</span>
-          </div>
+          <img
+            src={serviceImageFallback(id)}
+            alt={title}
+            className="h-full w-full object-cover"
+          />
         )}
         <Badge
           variant="secondary"
@@ -115,7 +120,7 @@ export function ServiceCard({
           </p>
         </div>
         <Button asChild size="sm" className="text-xs font-bold">
-          <Link href={`/services/${id}`}>{t("viewMore")}</Link>
+          <Link href={`/services/${id}${from ? `?from=${from}` : ""}`}>{t("viewMore")}</Link>
         </Button>
       </div>
     </div>

@@ -24,7 +24,7 @@ services:
     ports:
       - "${BACKEND_PORT}:8000"
     environment:
-      - DEBUG=True
+      - DEBUG=${DEBUG:-False}
       - PYTHONUNBUFFERED=1
       - SECRET_KEY=${SECRET_KEY}
       - DB_HOST=db

@@ -71,7 +71,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
                 htmlFor={range.id}
                 className="cursor-pointer text-sm font-normal text-muted-foreground transition-colors group-hover:text-primary"
               >
-                {range.label}
+                {range.id === "price-custom" ? t("custom") : range.label}
               </Label>
             </div>
           ))}
@@ -81,7 +81,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
               <Input
                 type="number"
                 min={0}
-                placeholder="Min"
+                placeholder={t("min")}
                 value={customMin}
                 onChange={(e) => {
                   setCustomMin(e.target.value)
@@ -93,7 +93,7 @@ export function ServiceFilters({ onFilterChange }: ServiceFiltersProps) {
               <Input
                 type="number"
                 min={0}
-                placeholder="Max"
+                placeholder={t("max")}
                 value={customMax}
                 onChange={(e) => {
                   setCustomMax(e.target.value)

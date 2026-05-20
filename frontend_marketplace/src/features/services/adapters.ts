@@ -14,8 +14,12 @@ export function categoriaLabel(key: string): string {
   return CATEGORIA_LABELS[key] ?? key;
 }
 
-function serviceImageFallback(id: string): string {
+export function serviceImageFallback(id: string): string {
   return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(id)}&backgroundColor=f1f5f9`;
+}
+
+export function avatarImageFallback(seed: string): string {
+  return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(seed)}&backgroundColor=f1f5f9`;
 }
 
 export function toServiceCardProps(
@@ -46,7 +50,8 @@ export function toServiceDetailProps(detail: PublicacionDetail) {
     deliveryTime: detail.tiempo_entrega,
     includes: detail.incluye,
     description: detail.descripcion,
-    images: realImages.length > 0 ? realImages : [serviceImageFallback(detail.id)],
+    images:
+      realImages.length > 0 ? realImages : [serviceImageFallback(detail.id)],
     rating: detail.rating_promedio ?? 0,
     reviews: detail.rating_total,
     creatorId: detail.creador.id,

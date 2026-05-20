@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 
 import { useAuth } from "@/infrastructure/auth/AuthContext";
+import { Footer } from "@/shared/components/Footer";
 import { Sidebar } from "@/shared/components/Sidebar";
 import { TopBar } from "@/shared/components/TopBar";
 
@@ -28,7 +29,12 @@ export default function ProtectedLayout({
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <TopBar />
-        <main className="flex-1 overflow-y-auto p-8">{children}</main>
+        <main className="flex-1 overflow-y-auto">
+          <div className="flex min-h-full flex-col">
+            <div className="flex-1 p-8">{children}</div>
+            <Footer />
+          </div>
+        </main>
       </div>
     </div>
   );

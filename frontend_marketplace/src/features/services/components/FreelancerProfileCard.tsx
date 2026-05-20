@@ -1,9 +1,10 @@
 "use client";
 
 import { RiStarFill } from "@remixicon/react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { avatarImageFallback } from "@/features/services/adapters";
 import { Link } from "@/i18n/navigation";
 
 interface FreelancerProfileCardProps {
@@ -25,8 +26,10 @@ export function FreelancerProfileCard({
   reviews,
   creatorId,
 }: FreelancerProfileCardProps) {
+  const avatarSeed = creatorId || name;
   const avatar = (
     <Avatar className="size-14">
+      <AvatarImage src={avatarImageFallback(avatarSeed)} alt={name} />
       <AvatarFallback className="bg-primary/10 text-lg font-semibold text-primary">
         {initials}
       </AvatarFallback>

@@ -2,6 +2,7 @@
 
 import { RiArrowLeftLine, RiEditLine, RiLoader4Line } from "@remixicon/react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PropuestaModal } from "@/features/contracts/components/PropuestaModal";
@@ -28,6 +29,8 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
   const tReviews = useTranslations("services.reviews");
   const authFetch = useAuthFetch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const backHref = searchParams.get("from") === "dashboard" ? "/dashboard" : "/services";
   const { data, isLoading, error } = usePublicacion(id);
   const { data: calificaciones } = useCalificaciones(data?.creador.id);
   const [modalOpen, setModalOpen] = useState(false);
@@ -65,7 +68,7 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
         <p className="text-sm text-destructive">{t("loadError", { error })}</p>
-        <Link href="/services">
+        <Link href={backHref}>
           <Button variant="outline" size="sm">
             {t("back")}
           </Button>
@@ -81,7 +84,7 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
   return (
     <div className="space-y-4">
       <div>
-        <Link href="/services">
+        <Link href={backHref}>
           <Button
             variant="ghost"
             size="sm"
