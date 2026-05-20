@@ -388,11 +388,7 @@
   },
   "footer": {
     "name": "Professional Services Marketplace",
-    "aboutTitle": "Quiénes somos",
-    "aboutText": "Somos estudiantes de Arquitectura de Software en EAFIT. Desarrollamos este marketplace con el objetivo de aplicar buenas prácticas de arquitectura, usabilidad, servicios, integración de APIs, Docker y diseño mantenible.",
-    "tagline": "Proyecto académico desarrollado con enfoque en claridad, rigurosidad y aprendizaje.",
-    "credits": "EAFIT · Arquitectura de Software · 2026",
-    "navTitle": "Navegación"
+    "credits": "EAFIT · 2026"
   },
   "profile": {
     "loadError": "Error al cargar perfil",
