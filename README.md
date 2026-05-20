@@ -17,13 +17,14 @@ Plataforma web para el intercambio de servicios profesionales y freelance. Proye
 
 ## Arquitectura
 
-```
-┌─────────────┐     HTTP/JSON      ┌─────────────┐      SQL       ┌─────────────┐
-│  Frontend   │ ──────────────────▶ │   Backend   │ ─────────────▶ │ PostgreSQL  │
-│  (Next.js)  │ ◀────────────────── │   (Django)  │ ◀───────────── │    (db)     │
-│  :3000      │                     │   :8000     │                │  :5432      │
-└─────────────┘                     └─────────────┘                └─────────────┘
-```
+El sistema sigue una arquitectura de tres capas con servicios externos para IA, email y avatares. Los usuarios acceden al frontend (Next.js) a través de un CDN/DNS, el backend (Django) gestiona la lógica de negocio y persiste en PostgreSQL. Aplicaciones externas (partners) consumen el feed público directamente del backend.
+
+![Diagrama de Arquitectura](docs/diagrama_arquitectura.png)
+
+## Diagrama de Clases — Modelo de Dominio
+
+![Diagrama de Clases](docs/diagrama_clases.png)
+
 
 ## Requisitos
 
@@ -173,7 +174,11 @@ professional-services-marketplace/
 │   ├── core/                   # Settings, URLs
 │   ├── usuarios/               # Auth, perfiles, habilidades, experiencia
 │   ├── publicaciones/          # Servicios publicados
+│   ├── contratos/              # Propuestas y contratos
+│   ├── chat/                   # Mensajería en tiempo real (WebSocket)
+│   ├── calificaciones/         # Reseñas y ratings
 │   ├── integrations/           # Integraciones externas y fallback local
+│   ├── infrastructure/         # Email service (Resend)
 │   ├── entrypoint.sh           # Arranque del backend en Docker
 │   └── demo_data.sql           # Datos ficticios exportados
 ├── frontend_marketplace/
@@ -182,10 +187,15 @@ professional-services-marketplace/
 │       ├── features/           # Features de negocio
 │       │   ├── auth/
 │       │   ├── services/
-│       │   └── profile/
+│       │   ├── profile/
+│       │   ├── contracts/
+│       │   └── messages/
 │       ├── shared/             # Componentes compartidos
 │       ├── components/ui/      # shadcn/ui
 │       └── infrastructure/     # Auth context, API
+├── docs/
+│   ├── diagrama_arquitectura.png
+│   └── diagrama_clases.png
 ├── docker-compose.yml
 └── README.md
 ```
