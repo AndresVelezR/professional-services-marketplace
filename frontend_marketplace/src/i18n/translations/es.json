@@ -12,6 +12,7 @@
     "avatarAltFallback": "Avatar del usuario",
     "greeting": "Hola, {name} 👋",
     "settings": "Configuración",
+    "goToDashboard": "Ir al dashboard",
     "userType": {
       "freelancer": "Freelancer",
       "cliente": "Cliente",
@@ -384,6 +385,14 @@
       "price": "Precio",
       "open": "Abrir servicio"
     }
+  },
+  "footer": {
+    "name": "Professional Services Marketplace",
+    "aboutTitle": "Quiénes somos",
+    "aboutText": "Somos estudiantes de Arquitectura de Software en EAFIT. Desarrollamos este marketplace con el objetivo de aplicar buenas prácticas de arquitectura, usabilidad, servicios, integración de APIs, Docker y diseño mantenible.",
+    "tagline": "Proyecto académico desarrollado con enfoque en claridad, rigurosidad y aprendizaje.",
+    "credits": "EAFIT · Arquitectura de Software · 2026",
+    "navTitle": "Navegación"
   },
   "profile": {
     "loadError": "Error al cargar perfil",

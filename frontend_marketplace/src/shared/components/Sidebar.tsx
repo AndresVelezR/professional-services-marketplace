@@ -52,14 +52,18 @@ export function Sidebar() {
   return (
     <aside className="flex h-screen w-56 flex-col bg-[#1f2937] text-white">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-5 py-5">
+      <Link
+        href="/dashboard"
+        aria-label={t("goToDashboard")}
+        className="flex items-center gap-2.5 px-5 py-5 transition-opacity hover:opacity-80"
+      >
         <div className="flex size-9 items-center justify-center rounded-lg bg-blue-500 text-white">
           <RiFlashlightLine className="size-5" />
         </div>
         <span className="text-base font-bold tracking-tight text-white">
           FreelanceHub
         </span>
-      </div>
+      </Link>
 
       {/* Main nav */}
       <nav className="flex-1 space-y-1 px-3 pt-4">
