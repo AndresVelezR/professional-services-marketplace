@@ -8,7 +8,7 @@ __pycache__/
 # Virtual environments
 venv/
 .env/
-.env.*
+.env.production
 .venv/
 
 # ==========================
@@ -26,7 +26,7 @@ media/
 # Environment variables
 # ==========================
 .env
-.env.*
+.env.production
 
 # ==========================
 # PostgreSQL
@@ -58,9 +58,8 @@ Thumbs.db
 .coverage
 htmlcov/
 
-# ==========================
-# Migrations (opcional)
-# ==========================
-# Si el profe quiere ver migraciones, COMENTA estas líneas
-**/migrations/__pycache__/
-**/migrations/*.pyc
+
+schema.dbml
+
+# Core dumps
+core.[0-9]*

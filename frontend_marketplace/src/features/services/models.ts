@@ -1,0 +1,103 @@
+export interface ImagenPublicacion {
+  id: string;
+  url: string;
+  orden: number;
+}
+
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+export interface PublicacionListItem {
+  id: string;
+  titulo: string;
+  categoria: string;
+  precio: string;
+  tiempo_entrega: string;
+  creador: {
+    id: string;
+    nombre_completo: string;
+    iniciales: string;
+  };
+  imagenes: ImagenPublicacion[];
+  created_at: string;
+  rating_promedio: number | null;
+  rating_total: number;
+}
+
+export interface PublicacionDetail extends PublicacionListItem {
+  descripcion: string;
+  incluye: string[];
+  estado: string;
+  creador: {
+    id: string;
+    nombre_completo: string;
+    iniciales: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    bio: string;
+    tipo_usuario: string;
+  };
+  updated_at: string;
+  is_owner: boolean;
+}
+
+export interface MisPublicacionesItem extends PublicacionListItem {
+  estado: string;
+}
+
+export interface UpdatePublicacionPayload {
+  titulo?: string;
+  descripcion?: string;
+  categoria?: string;
+  precio?: number;
+  tiempo_entrega?: string;
+  incluye?: string[];
+}
+
+export interface CreatePublicacionPayload {
+  titulo: string;
+  descripcion: string;
+  categoria: string;
+  precio: number;
+  tiempo_entrega: string;
+  incluye: string[];
+  estado?: string;
+  imagenes?: File[];
+}
+
+export interface PublicacionFilters {
+  q?: string;
+  categoria?: string;
+  precio_min?: number;
+  precio_max?: number;
+  ordering?: string;
+  page?: number;
+}
+
+export interface Calificacion {
+  id: string;
+  contrato: string;
+  calificador_nombre: string;
+  calidad: number;
+  comunicacion: number;
+  puntualidad: number;
+  promedio: number;
+  comentario: string;
+  created_at: string;
+}
+
+export interface CalificacionesResponse {
+  total: number;
+  promedios: {
+    calidad: number;
+    comunicacion: number;
+    puntualidad: number;
+    general: number;
+  };
+  calificaciones: Calificacion[];
+}

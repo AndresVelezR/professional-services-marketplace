@@ -1,0 +1,483 @@
+{
+  "common": {},
+  "nav": {
+    "dashboard": "Dashboard",
+    "search": "Buscar",
+    "publish": "Publicar",
+    "contracts": "Contratos",
+    "messages": "Mensajes",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "avatarAlt": "Avatar de {name}",
+    "avatarAltFallback": "Avatar del usuario",
+    "greeting": "Hola, {name} 👋",
+    "settings": "Configuración",
+    "goToDashboard": "Ir al dashboard",
+    "userType": {
+      "freelancer": "Freelancer",
+      "cliente": "Cliente",
+      "ambos": "Ambos"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Bienvenido de nuevo a la plataforma",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ejemplo@correo.com",
+      "passwordLabel": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "rememberMe": "Recordar mi sesión",
+      "submit": "Ingresar",
+      "submitting": "Ingresando...",
+      "divider": "O continuar con",
+      "noAccount": "¿No tienes cuenta?",
+      "signupLink": "Regístrate",
+      "errorDefault": "Credenciales inválidas",
+      "terms": "Al ingresar, aceptas nuestros <terms>Términos de Servicio</terms> y <privacy>Política de Privacidad</privacy>."
+    },
+    "signup": {
+      "title": "Crear Cuenta",
+      "stepSubtitle": "Paso 1 de 2 — Información básica",
+      "firstNameLabel": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastNameLabel": "Apellido",
+      "lastNamePlaceholder": "Pérez",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordHint": "Mínimo 8 caracteres",
+      "validating": "Verificando...",
+      "continue": "Continuar →",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Iniciar sesión",
+      "terms": "Al unirte, aceptas nuestros <terms>Términos de Servicio</terms> y <privacy>Política de Privacidad</privacy>.",
+      "accountType": {
+        "title": "¿Cómo quieres usar la plataforma?",
+        "subtitle": "Personaliza tu experiencia seleccionando el perfil que mejor se adapte a tus necesidades. Podrás cambiar esto más adelante.",
+        "select": "Seleccionar",
+        "creating": "Creando cuenta...",
+        "back": "Volver",
+        "errorDefault": "Error al crear la cuenta",
+        "freelancer": {
+          "title": "Freelancer",
+          "description": "Busco proyectos emocionantes y quiero ofrecer mis servicios profesionales al mundo."
+        },
+        "cliente": {
+          "title": "Cliente",
+          "description": "Busco el mejor talento para realizar mis proyectos y contratar servicios especializados."
+        },
+        "ambos": {
+          "title": "Ambos",
+          "description": "Quiero tanto contratar como ofrecer mis servicios en la plataforma sin limitaciones."
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "searchPlaceholder": "Buscar servicios...",
+    "filters": "Filtros",
+    "propuestasRecibidas": {
+      "title": "Propuestas Recibidas",
+      "for": "Para:",
+      "precioPropuesto": "Precio propuesto",
+      "fechaLimite": "Fecha límite",
+      "aceptar": "Aceptar",
+      "rechazar": "Rechazar"
+    },
+    "activeContracts": {
+      "title": "Mis Contratos Activos",
+      "viewAll": "Ver todos",
+      "empty": "No tienes contratos activos.",
+      "headerServicio": "Servicio",
+      "headerCliente": "Cliente",
+      "headerFreelancer": "Freelancer",
+      "headerEstado": "Estado",
+      "headerPrecio": "Precio",
+      "headerAcciones": "Acciones",
+      "from": "Desde {date}",
+      "viewDetails": "Ver detalles"
+    },
+    "recommendedServices": {
+      "title": "Servicios Recomendados",
+      "viewAll": "Ver todos",
+      "empty": "No hay servicios disponibles.",
+      "from": "Desde ${price}",
+      "viewService": "Ver servicio"
+    }
+  },
+  "contracts": {
+    "estado": {
+      "activo": "Activo",
+      "completado": "Completado",
+      "cancelado": "Cancelado"
+    },
+    "title": "Contratos activos",
+    "subtitle": "Revisa y gestiona tus compromisos profesionales en curso.",
+    "postJob": "+ Publicar trabajo",
+    "tabs": {
+      "contratos": "Contratos",
+      "propuestas": "Propuestas enviadas"
+    },
+    "filters": {
+      "searchPlaceholder": "Buscar por servicio o persona...",
+      "todos": "Todos"
+    },
+    "list": {
+      "empty": "No tienes contratos aún."
+    },
+    "card": {
+      "inicio": "Inicio",
+      "fin": "Fin",
+      "cliente": "Cliente",
+      "freelancer": "Freelancer",
+      "viewDetails": "Ver detalles"
+    },
+    "detail": {
+      "back": "Volver",
+      "notFound": "Contrato no encontrado",
+      "loadError": "Error al cargar contrato",
+      "updateError": "Error al actualizar contrato",
+      "backToList": "Volver a contratos",
+      "precioAcordado": "Precio acordado",
+      "servicio": "Servicio",
+      "cliente": "Cliente",
+      "freelancer": "Freelancer",
+      "fechaInicio": "Fecha inicio",
+      "fechaFin": "Fecha fin",
+      "abrirChat": "Abrir chat",
+      "markCompleted": "Marcar como completado",
+      "cancel": "Cancelar contrato",
+      "calificar": "Calificar"
+    },
+    "review": {
+      "title": "Calificar contrato",
+      "description": "Evalúa tu experiencia con {name}. Esta calificación será visible en su perfil.",
+      "calidad": "Calidad del trabajo",
+      "comunicacion": "Comunicación",
+      "puntualidad": "Puntualidad",
+      "unselected": "Sin seleccionar",
+      "commentLabel": "Comentario (opcional)",
+      "commentPlaceholder": "Comparte cómo fue trabajar con esta persona",
+      "cancel": "Cancelar",
+      "submit": "Enviar calificación",
+      "submitting": "Enviando...",
+      "error": "Error al enviar calificación"
+    },
+    "propuestaModal": {
+      "title": "Enviar propuesta",
+      "description": "El freelancer revisará tu propuesta y la aceptará o rechazará.",
+      "success": "¡Propuesta enviada con éxito! El freelancer te responderá pronto.",
+      "close": "Cerrar",
+      "mensajeLabel": "Mensaje",
+      "mensajePlaceholder": "Describe tu proyecto y qué necesitas...",
+      "precioLabel": "Precio propuesto (USD)",
+      "fechaLimiteLabel": "Fecha límite (opcional)",
+      "cancel": "Cancelar",
+      "submit": "Enviar propuesta",
+      "submitting": "Enviando...",
+      "errorDefault": "Error al enviar propuesta"
+    },
+    "propuestasEnviadas": {
+      "empty": "No has enviado propuestas aún.",
+      "estado": {
+        "pendiente": "PENDIENTE",
+        "aceptada": "ACEPTADA",
+        "rechazada": "RECHAZADA"
+      },
+      "limite": "Límite: {date}",
+      "enviada": "Enviada: {date}",
+      "contratoCreado": "Contrato creado"
+    }
+  },
+  "services": {
+    "explorer": {
+      "searchPlaceholder": "Buscar servicios...",
+      "filters": "Filtros",
+      "ordering": {
+        "relevancia": "Relevancia",
+        "precioBajo": "Precio más bajo",
+        "nuevos": "Nuevos servicios"
+      },
+      "heading": "Servicios",
+      "count": "{count, plural, =0 {No hay servicios disponibles} one {# servicio disponible} other {# servicios disponibles}}",
+      "loadError": "Error al cargar servicios: {error}",
+      "emptyTitle": "No se encontraron servicios",
+      "emptyHint": "Intenta con otros filtros o términos de búsqueda"
+    },
+    "filters": {
+      "price": "Rango de precio",
+      "custom": "Personalizado",
+      "min": "Mín",
+      "max": "Máx",
+      "delivery": "Tiempo de entrega",
+      "delivery13": "1-3 días",
+      "delivery37": "3-7 días",
+      "rating": "Calificación",
+      "rating4": "4+ estrellas",
+      "rating45": "4.5+ estrellas",
+      "apply": "Aplicar filtros"
+    },
+    "card": {
+      "from": "Desde",
+      "viewMore": "Ver más"
+    },
+    "pricing": {
+      "by": "por {author}",
+      "includesTitle": "¿Qué incluye?",
+      "deliveryIn": "Entrega en <b>{deliveryTime}</b>",
+      "hire": "Contratar ahora",
+      "favorite": "Agregar a favoritos",
+      "guarantee": "Garantía de satisfacción. Si no estás conforme, te devolvemos tu dinero."
+    },
+    "description": {
+      "title": "Acerca de este servicio",
+      "includesTitle": "¿Qué incluye?"
+    },
+    "gallery": {
+      "imageAlt": "{category} — imagen {index}",
+      "thumbAlt": "Miniatura {index}"
+    },
+    "reviews": {
+      "total": "{count, plural, one {# reseña} other {# reseñas}}",
+      "title": "Reseñas",
+      "empty": "Este freelancer aún no tiene reseñas.",
+      "noComment": "Sin comentario."
+    },
+    "freelancer": {
+      "sendMessage": "Enviar mensaje"
+    },
+    "detail": {
+      "loadError": "Error al cargar el servicio: {error}",
+      "back": "Volver a servicios"
+    },
+    "my": {
+      "title": "Mis publicaciones",
+      "subtitle": "Gestiona los servicios que has publicado.",
+      "new": "Nueva publicación",
+      "loadError": "Error al cargar publicaciones: {error}",
+      "retry": "Reintentar",
+      "empty": "Aún no has publicado ningún servicio.",
+      "emptyAction": "Publicar servicio",
+      "view": "Ver",
+      "edit": "Editar",
+      "close": "Cerrar",
+      "closing": "Cerrando...",
+      "confirmClose": "¿Confirmar cierre?",
+      "cancel": "Cancelar",
+      "closeError": "Error al cerrar la publicación",
+      "ownerBanner": "Eres el creador de este servicio.",
+      "estado": {
+        "publicado": "Publicado",
+        "borrador": "Borrador",
+        "cerrado": "Cerrado"
+      }
+    },
+    "edit": {
+      "title": "Editar publicación",
+      "subtitle": "Actualiza los campos básicos de tu servicio.",
+      "back": "Mis publicaciones",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "submitError": "Error al guardar cambios",
+      "notFound": "Publicación no encontrada",
+      "forbidden": "No tienes permiso para editar esta publicación.",
+      "imagesNote": "La edición de imágenes no está disponible en esta versión. Para actualizar las imágenes, crea una nueva publicación."
+    },
+    "create": {
+      "title": "Publica tu servicio",
+      "subtitle": "Describe tu oferta para que clientes potenciales puedan encontrarte y contratarte.",
+      "cardTitle": "Detalles del servicio",
+      "cardSubtitle": "Los campos marcados son obligatorios",
+      "authError": "Debes iniciar sesión para publicar un servicio",
+      "submitError": "Error al crear el servicio"
+    },
+    "form": {
+      "errorTitle": "No se pudo publicar el servicio",
+      "section1Title": "Información básica",
+      "section1Description": "El título y la descripción son lo primero que verán los clientes",
+      "titulo": "Título del servicio",
+      "tituloPlaceholder": "Ej: Diseño de logo profesional para startups",
+      "tituloHint": "Sé específico — los títulos claros reciben más clics",
+      "descripcion": "Descripción",
+      "descripcionPlaceholder": "Describe tu servicio, tu experiencia y proceso de trabajo...",
+      "descripcionHint": "Incluye tu experiencia, proceso y qué te diferencia",
+      "assistant": {
+        "title": "Sugerencia del asistente",
+        "description": "Genera un resumen breve y sugerencias prácticas a partir del título y la descripción.",
+        "button": "Resumir con asistente",
+        "loading": "Generando resumen...",
+        "resultTitle": "Sugerencia del asistente",
+        "summaryLabel": "Resumen",
+        "suggestionsLabel": "Sugerencias",
+        "providerGemini": "Proveedor: Gemini",
+        "providerLocal": "Proveedor: modo local",
+        "providerOther": "Proveedor: {provider}",
+        "disclaimer": "Esta es una sugerencia generada por el asistente. Revísala antes de usarla.",
+        "emptyHint": "Escribe un título y una descripción para usar el asistente.",
+        "titleTooLong": "El título no puede superar 200 caracteres.",
+        "descriptionTooLong": "La descripción no puede superar 3000 caracteres.",
+        "error": "No se pudo generar el resumen. Inténtalo nuevamente.",
+        "emptySummary": "No se recibió resumen.",
+        "emptySuggestions": "No se recibieron sugerencias.",
+        "copySummary": "Copiar resumen",
+        "copied": "Resumen copiado"
+      },
+      "section2Title": "Categoría y precio",
+      "section2Description": "Ayuda a los clientes a encontrar tu servicio",
+      "categoria": "Categoría",
+      "categoriaPlaceholder": "Selecciona categoría",
+      "categorias": {
+        "diseno": "Diseño gráfico",
+        "desarrollo": "Desarrollo web",
+        "marketing": "Marketing digital",
+        "redaccion": "Redacción",
+        "video": "Video y animación",
+        "otro": "Otro"
+      },
+      "precio": "Precio (USD)",
+      "tiempoEntrega": "Tiempo de entrega",
+      "tiempoEntregaPlaceholder": "Ej: 3-5 días",
+      "section3Title": "Detalles adicionales",
+      "section3Description": "Estos campos son opcionales pero mejoran tu publicación",
+      "imagenes": "Imágenes del servicio",
+      "imagenesOpcional": "(opcional, máx. 3)",
+      "imagenesAgregar": "Agregar",
+      "imagenesHint": "JPG, PNG o WebP. Se mostrarán como galería del servicio.",
+      "imagenAlt": "Vista previa {index}",
+      "incluye": "¿Qué incluye?",
+      "incluyeOpcional": "(opcional)",
+      "incluyePlaceholder": "Ej: Revisiones ilimitadas",
+      "incluyeAgregar": "Agregar",
+      "incluyeHint": "Presiona Enter o haz clic en Agregar para añadir ítems",
+      "submitNote": "Al publicar, aceptas los términos de servicio de FreelanceHub.",
+      "submit": "Publicar servicio",
+      "submitting": "Publicando..."
+    }
+  },
+  "chat": {
+    "title": "Mensajes",
+    "empty": "No tienes conversaciones aún. Se crean al abrir un contrato activo.",
+    "selectConversation": "Selecciona una conversación",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "loading": "Cargando mensajes...",
+    "emptyMessages": "Aún no hay mensajes. ¡Inicia la conversación!",
+    "inputPlaceholder": "Escribe un mensaje...",
+    "waitingConnection": "Esperando conexión...",
+    "seeMore": "ver más",
+    "seeLess": "ver menos"
+  },
+  "partners": {
+    "eyebrow": "Servicios aliados",
+    "title": "Servicios de equipos aliados",
+    "description": "Explora servicios publicados por otro equipo desde su API pública. La información se normaliza antes de mostrarse para evitar fallos por formatos inesperados.",
+    "loading": "Cargando servicios aliados...",
+    "missingConfigTitle": "API aliada no configurada",
+    "missingConfigDescription": "Configura NEXT_PUBLIC_PARTNER_API_URL en el entorno del frontend y reinicia la aplicación para consultar servicios aliados.",
+    "errorTitle": "No se pudieron cargar los servicios aliados",
+    "errorDescription": "La API respondió con un error o no está disponible. Detalle: {message}",
+    "emptyTitle": "No hay servicios aliados para mostrar",
+    "emptyDescription": "La API respondió sin servicios compatibles. Puedes revisar que entregue un arreglo, results o data.",
+    "card": {
+      "source": "Origen",
+      "price": "Precio",
+      "open": "Abrir servicio"
+    }
+  },
+  "footer": {
+    "name": "Professional Services Marketplace",
+    "credits": "EAFIT · 2026"
+  },
+  "profile": {
+    "loadError": "Error al cargar perfil",
+    "photoPending": "Foto seleccionada — se guardará al hacer clic en \"Guardar cambios\"",
+    "photoAlt": "Foto de perfil",
+    "sections": {
+      "info": "Información personal",
+      "skills": "Habilidades",
+      "experience": "Experiencia",
+      "calificaciones": "Calificaciones"
+    },
+    "calificaciones": {
+      "empty": "Aún no tienes calificaciones.",
+      "reviews": "{total, plural, one {# reseña} other {# reseñas}}",
+      "calidad": "Calidad",
+      "comunicacion": "Comunicación",
+      "puntualidad": "Puntualidad",
+      "noComment": "Sin comentario."
+    },
+    "header": {
+      "noName": "Sin nombre",
+      "tipo": {
+        "freelancer": "Freelancer",
+        "cliente": "Cliente",
+        "ambos": "Freelancer & Cliente"
+      }
+    },
+    "info": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "bio": "Biografía",
+      "bioPlaceholder": "Cuéntanos sobre ti, tu experiencia y qué te apasiona...",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+57 300 123 4567",
+      "userType": "Tipo de usuario",
+      "userTypeOptions": {
+        "freelancer": "Freelancer",
+        "cliente": "Cliente",
+        "ambos": "Ambos"
+      },
+      "portfolioUrl": "URL del portafolio",
+      "portfolioPlaceholder": "https://miportafolio.com",
+      "save": "Guardar cambios",
+      "saving": "Guardando..."
+    },
+    "skills": {
+      "searchPlaceholder": "Buscar habilidad...",
+      "notFound": "No se encontraron habilidades",
+      "hint": "Busca y agrega tus habilidades profesionales"
+    },
+    "experience": {
+      "present": "Actual",
+      "add": "Agregar experiencia",
+      "edit": "Editar experiencia",
+      "company": "Empresa",
+      "companyPlaceholder": "Google, Meta, Startup XYZ...",
+      "role": "Cargo",
+      "rolePlaceholder": "Desarrollador Frontend Senior",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Describe tus responsabilidades y logros...",
+      "startDate": "Fecha inicio",
+      "endDate": "Fecha fin",
+      "endDateHint": "Vacío = actual",
+      "location": "Ubicación",
+      "locationPlaceholder": "Medellín, Colombia",
+      "submitEdit": "Guardar cambios",
+      "submitAdd": "Agregar",
+      "cancel": "Cancelar"
+    },
+    "public": {
+      "title": "Perfil",
+      "skills": "Habilidades",
+      "experience": "Experiencia",
+      "portfolio": "Portafolio",
+      "activeServices": "Servicios activos",
+      "reviews": "Reseñas",
+      "loadError": "Error al cargar el perfil: {error}",
+      "notFound": "Este perfil no existe.",
+      "noBio": "Sin descripción.",
+      "noSkills": "Sin habilidades registradas.",
+      "noExperience": "Sin experiencia registrada.",
+      "noPortfolio": "Sin portafolio registrado.",
+      "noServices": "Sin servicios activos.",
+      "backToServices": "Volver a servicios",
+      "tipo": {
+        "freelancer": "Freelancer",
+        "cliente": "Cliente",
+        "ambos": "Freelancer & Cliente"
+      }
+    }
+  }
+}

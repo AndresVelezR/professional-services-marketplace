@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: marketplace-db
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - marketplace
+
+  backend:
+    build:
+      context: ./backend_marketplace
+      dockerfile: Dockerfile
+    container_name: marketplace-backend
+    ports:
+      - "${BACKEND_PORT}:8000"
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - PYTHONUNBUFFERED=1
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL}
+      - USE_GEMINI=${USE_GEMINI}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
+      - GEMINI_TIMEOUT_SECONDS=${GEMINI_TIMEOUT_SECONDS}
+    command: bash /app/entrypoint.sh
+    volumes:
+      - media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - marketplace
+
+  frontend:
+    build:
+      context: ./frontend_marketplace
+      dockerfile: Dockerfile
+    container_name: marketplace-frontend
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    command: sh -c "bun run build && bun run start"
+    depends_on:
+      - backend
+    networks:
+      - marketplace
+
+volumes:
+  pgdata:
+  media:
+
+networks:
+  marketplace:
+    driver: bridge

@@ -1,0 +1,133 @@
+{
+  "project_name": "Professional Services Marketplace",
+  "student_email": "avelezr8@eafit.edu.co",
+  "analysis": {
+    "has_readme": true,
+    "has_dockerfile": true,
+    "has_docker_compose": true,
+    "has_requirements": true,
+    "has_manage_py": true,
+    "has_models": true,
+    "has_views": true,
+    "has_templates": false,
+    "folder_structure": [],
+    "files_found": [
+      "README.md",
+      "docker-compose.yml",
+      "backend_marketplace/Dockerfile",
+      "frontend_marketplace/Dockerfile",
+      "backend_marketplace/pyproject.toml",
+      "backend_marketplace/manage.py",
+      "backend_marketplace/usuarios/models.py",
+      "backend_marketplace/usuarios/views.py",
+      "backend_marketplace/usuarios/serializers.py",
+      "backend_marketplace/publicaciones/models.py",
+      "backend_marketplace/publicaciones/views.py",
+      "backend_marketplace/publicaciones/serializers.py",
+      "backend_marketplace/core/settings.py",
+      "backend_marketplace/core/urls.py"
+    ]
+  },
+  "scores": {
+    "Implementación": 40
+  },
+  "nota_tecnica": 58.18,
+  "nota_subjetiva": 16,
+  "nota_sobre_100": 74.18,
+  "nota_final": 3.71,
+  "code_analysis": {
+    "models_analysis": [
+      {
+        "file": "backend_marketplace/usuarios/models.py",
+        "classes": 4,
+        "has_validators": false,
+        "has_properties": true,
+        "has_methods": true,
+        "has_relationships": true,
+        "lines": 113
+      },
+      {
+        "file": "backend_marketplace/publicaciones/models.py",
+        "classes": 3,
+        "has_validators": false,
+        "has_properties": false,
+        "has_methods": true,
+        "has_relationships": true,
+        "lines": 84
+      }
+    ],
+    "views_analysis": [
+      {
+        "file": "backend_marketplace/usuarios/views.py",
+        "has_api_views": true,
+        "has_permissions": true,
+        "has_serializers": true,
+        "has_transactions": false,
+        "function_count": 7,
+        "lines": 100
+      },
+      {
+        "file": "backend_marketplace/publicaciones/views.py",
+        "has_api_views": true,
+        "has_permissions": true,
+        "has_serializers": true,
+        "has_transactions": false,
+        "function_count": 6,
+        "lines": 86
+      }
+    ],
+    "docker_analysis": [
+      {
+        "file": "docker-compose.yml",
+        "has_database": true,
+        "has_volumes": true,
+        "has_healthcheck": true,
+        "has_depends_on": true
+      }
+    ],
+    "architecture_notes": [
+      "Feature-based frontend architecture (auth, services, profile, contracts, dashboard)",
+      "Adapter pattern in frontend to decouple API from UI",
+      "Custom hooks for data fetching",
+      "Differentiated serializers (list/detail/create)",
+      "Custom Django manager for publications",
+      "Soft deletes pattern",
+      "JWT auth with SimpleJWT",
+      "Next.js App Router with protected route groups"
+    ],
+    "code_improvements": [
+      "Merge feat/chat-contratos branch with contracts, proposals and chat",
+      "Replace mock data in contracts and dashboard with real API calls",
+      "Implement reviews/ratings system",
+      "Use refresh token for automatic token renewal",
+      "Replace root page scaffolding with landing or redirect",
+      "Add price filter validation (try/except for non-numeric params)",
+      "Set DEFAULT_PERMISSION_CLASSES to IsAuthenticated",
+      "Use Next.js Image component instead of raw img tags",
+      "Translate contracts section to Spanish for consistency"
+    ]
+  },
+  "commit_analysis": {
+    "has_git": true,
+    "total_commits": 87,
+    "commit_quality_score": 6,
+    "good_practices": [
+      "87 commits (buen historial)",
+      "Uso de Conventional Commits (feat, fix, chore, refactor, docs)",
+      "Uso de ramas feature y Pull Requests",
+      "Mensajes descriptivos con scope: feat(contratos), feat(chat)"
+    ],
+    "issues": [
+      "Distribución muy desigual: Tomás Ramírez 72 commits (82.7%), Andrés Vélez 15 commits (17.3%), Felipe Gómez 0 commits (0%)",
+      "Rama feat/chat-contratos con funcionalidad core (contratos, chat) nunca mergeada a main",
+      "Un miembro del equipo sin evidencia de contribución en el repositorio"
+    ],
+    "sample_messages": [
+      "feat(infra): migrate from SQLite to PostgreSQL with Docker",
+      "feat(profile): add profile editor with portfolio UI",
+      "feat(services): add create service form with image upload",
+      "feat(publicaciones): add image upload and improve API",
+      "refactor(services): update service detail to use real API data"
+    ]
+  }
+}
