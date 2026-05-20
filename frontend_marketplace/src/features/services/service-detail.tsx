@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PropuestaModal } from "@/features/contracts/components/PropuestaModal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuthFetch } from "@/infrastructure/auth/useAuthFetch";
-import { toServiceDetailProps } from "./adapters";
+import { serviceImageFallback, toServiceDetailProps } from "./adapters";
 import { FreelancerProfileCard } from "./components/FreelancerProfileCard";
 import { ReviewCard } from "./components/ReviewCard";
 import { ReviewsSummary } from "./components/ReviewsSummary";
@@ -137,7 +137,7 @@ export function ServiceDetail({ id }: ServiceDetailProps) {
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Left column */}
         <div className="flex-[3] space-y-8">
-          <ServiceGallery category={s.category} images={s.images} />
+          <ServiceGallery category={s.category} images={s.images} fallbackSrc={serviceImageFallback(id)} />
 
           <ServiceDescription
             description={s.description}

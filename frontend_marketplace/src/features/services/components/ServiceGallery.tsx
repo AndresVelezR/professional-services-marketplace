@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 interface ServiceGalleryProps {
   category: string;
   images?: string[];
+  fallbackSrc?: string;
 }
 
-export function ServiceGallery({ category, images }: ServiceGalleryProps) {
+export function ServiceGallery({ category, images, fallbackSrc }: ServiceGalleryProps) {
   const t = useTranslations("services.gallery");
   const tCat = useTranslations("services.form.categorias");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -38,6 +39,12 @@ export function ServiceGallery({ category, images }: ServiceGalleryProps) {
             alt={t("imageAlt", { category, index: selectedIndex + 1 })}
             className="h-full w-full object-cover"
             onError={() => handleImgError(currentSrc)}
+          />
+        ) : fallbackSrc ? (
+          <img
+            src={fallbackSrc}
+            alt={tCat(category)}
+            className="h-full w-full object-cover"
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-primary/5 text-primary/30">
