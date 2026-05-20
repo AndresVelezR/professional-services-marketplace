@@ -8,12 +8,12 @@ import {
   RiStackLine,
 } from "@remixicon/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { serviceImageFallback } from "@/features/services/adapters";
 import { ReviewCard } from "@/features/services/components/ReviewCard";
 import { ReviewsSummary } from "@/features/services/components/ReviewsSummary";
 import { ServiceCard } from "@/features/services/components/ServiceCard";
@@ -24,10 +24,6 @@ import { usePerfilPublico } from "./hooks/usePerfilPublico";
 
 interface PublicProfileProps {
   userId: string;
-}
-
-function serviceImageFallback(id: string): string {
-  return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(id)}&backgroundColor=f1f5f9`;
 }
 
 export function PublicProfile({ userId }: PublicProfileProps) {
