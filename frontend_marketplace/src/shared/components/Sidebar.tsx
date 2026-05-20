@@ -92,7 +92,7 @@ export function Sidebar() {
         <div className="flex items-center gap-3">
           <ProfileAvatar
             src={perfil?.foto_perfil_url}
-            seed={perfil?.id}
+            seed={perfil?.nombre_completo}
             initials={initials}
             alt={
               perfil?.nombre_completo
