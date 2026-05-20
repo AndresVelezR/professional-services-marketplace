@@ -18,6 +18,10 @@ export function serviceImageFallback(id: string): string {
   return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(id)}&backgroundColor=f1f5f9`;
 }
 
+export function avatarImageFallback(seed: string): string {
+  return `https://api.dicebear.com/9.x/shapes/svg?seed=${encodeURIComponent(seed)}&backgroundColor=f1f5f9`;
+}
+
 export function toServiceCardProps(
   item: PublicacionListItem,
 ): ServiceCardProps {
